@@ -1,0 +1,8 @@
+Integrantes del grupo:
+Gonzalo Bellino. Legajo: 39174750
+Eduardo Nahuel Ferré Valderrama. Legajo: 45690467
+Francisco Navarro. Legajo: 45694524
+
+Descripcion del funcionamiento del ejercicio:
+
+En este ejercicio, tenemos un auto azul en medio de la calle frente a un semáforo. El cual le podemos cambiar el color con la tecla 'w'.

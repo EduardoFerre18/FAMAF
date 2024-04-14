@@ -1,0 +1,8 @@
+Integrantes del grupo:
+Gonzalo Bellino. Legajo: 39174750
+Eduardo Nahuel Ferré Valderrama. Legajo: 45690467
+Francisco Navarro. Legajo: 45694524
+
+Descripcion del funcionamiento del ejercicio:
+
+En este ejercicio, un auto azul en medio de la calle con un semaforo adelante. El cual podremos avanzar con la tecla 'd', retroceder con la tecla 'a', cambiar de color con la tecla 's' y volver al color anterior con la tecla 'w'. Y con la barra espaciadora podemos cambiar de estar de dia a la noche.
