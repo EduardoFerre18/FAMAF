@@ -1,7 +1,7 @@
 Integrantes del grupo:
-Gonzalo Bellino. Legajo: 39174750
-Eduardo Nahuel Ferré Valderrama. Legajo: 45690467
-Francisco Navarro. Legajo: 45694524
+Gonzalo Bellino. 
+Eduardo Nahuel Ferré Valderrama. 
+Francisco Navarro. 
 
 Descripcion del funcionamiento del ejercicio:
 
