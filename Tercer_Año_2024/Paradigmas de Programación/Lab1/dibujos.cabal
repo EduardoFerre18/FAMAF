@@ -63,6 +63,7 @@ executable dibujos
                       --Dibujos.Ejemplo,
                       Dibujos.Feo,
                       Dibujos.Grilla,
+                      Dibujos.Escher
                       --Dibujos.Cuadrados
     exposed-modules:  Dibujo, Pred, Interp
     build-depends:    base ^>=4.17.2.1,
@@ -81,6 +82,16 @@ test-suite predicados
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test src
     main-is:          TestPred.hs
+    build-depends:    base ^>=4.17.2.1,
+                      HUnit ^>=1.6.2.0
+
+test-suite dibujo
+    import:           warnings
+    default-language: Haskell2010
+    other-modules:    Dibujo
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test src
+    main-is:          TestDibujo.hs
     build-depends:    base ^>=4.17.2.1,
                       HUnit ^>=1.6.2.0
 

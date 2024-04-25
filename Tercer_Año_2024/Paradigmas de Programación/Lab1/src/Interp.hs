@@ -6,9 +6,8 @@ where
 
 import Dibujo
 import FloatingPic
-import Graphics.Gloss (Display (InWindow), color, display, makeColorI, pictures, translate, white, Picture)
+import Graphics.Gloss (Display (InWindow), color, display, makeColorI, pictures, translate, white)
 import qualified Graphics.Gloss.Data.Point.Arithmetic as V
-import GHC.IO.Handle (hClose)
 
 -- Dada una computación que construye una configuración, mostramos por
 -- pantalla la figura de la misma de acuerdo a la interpretación para
@@ -22,10 +21,6 @@ initial (Conf n dib intBas) size = display win white $ withGrid fig size
     desp = -(size / 2)
     withGrid p x = translate desp desp $ pictures [p, color grey $ grid (ceiling $ size / 10) (0, 0) x 10]
     grey = makeColorI 100 100 100 100
-
--- Interpretación de (^^^)
-ov :: Picture -> Picture -> Picture
-ov p q = pictures[p, q]
 
 r45 :: FloatingPic -> FloatingPic
 r45 f = g
@@ -56,4 +51,4 @@ api m n f g = t
         r = m/(m+n)
 
 interp :: Output a -> Output (Dibujo a)
-interp b = undefined
+interp f = foldDib f rot  esp r45 api jun  sup
