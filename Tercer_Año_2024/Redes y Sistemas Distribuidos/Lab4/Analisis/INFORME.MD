@@ -21,7 +21,7 @@ Las métricas que consideramos en este análisis incluyen la demora en la entreg
 ## Tarea Análisis
 En esta sección se analiza el rendimiento del sistema de enrutamiento bajo diferentes condiciones de tráfico utilizando el modelo de red en anillo con 8 nodos.
 
-![network](/graficos/Network.png)
+![network](graficos/Network.png)
 
 ![node](/graficos/Node.png)
 
