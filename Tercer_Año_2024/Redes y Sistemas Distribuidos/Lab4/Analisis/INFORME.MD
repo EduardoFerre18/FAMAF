@@ -23,7 +23,7 @@ En esta sección se analiza el rendimiento del sistema de enrutamiento bajo dife
 
 ![network](graficos/Network.png)
 
-![node](/graficos/Node.png)
+![node](graficos/Node.png)
 
 Cada nodo cuenta dos interfaces de comunicación full-duplex, una para establecer conexión con el nodo de la izquierda y otra para comunicarse con el nodo de la derecha.
 
@@ -38,8 +38,8 @@ En este caso de estudio, podemos ver como se hace un uso excesivo aumenta del bu
 
 Observemos las siguientes gráficas que muestra la cantidad de paquetes en los buffers de los nodos en función del tiempo:
 
-![buffer1](/graficos/Analisis/c1_buffer_nodes1.png)
-![buffer2](/graficos/Analisis/c1_buffer_nodes2.png)
+![buffer1](graficos/Analisis/c1_buffer_nodes1.png)
+![buffer2](graficos/Analisis/c1_buffer_nodes2.png)
 
 En particular, podemos ver como el buffer del _node[0]_ se llena rápidamente, puesto que _node[2]_ produce una congestión que se podria evitar si no mandar los paquetes para el lado derecho.
 
@@ -62,9 +62,9 @@ interArrivalTime = exponential(1);
 como valor por defecto proporcionado por la cátedra, obtenemos las siguientes métricas para los buffers:
 
 
-![buffer1](/graficos/Analisis/c2_buffer_nodes1.png)
-![buffer2](/graficos/Analisis/c2_buffer_nodes2.png)
-![buffer3](/graficos/Analisis/c2_buffer_nodes3.png)
+![buffer1](graficos/Analisis/c2_buffer_nodes1.png)
+![buffer2](graficos/Analisis/c2_buffer_nodes2.png)
+![buffer3](graficos/Analisis/c2_buffer_nodes3.png)
 
 
 Observando estos graficos notamos que los buffers de todos los nodos aumentan constantemente durante toda la simulacion, excepto por el buffer del nodo 4, el cual no aumenta de esa forma ya que solo llegan a ese buffer los paquetes que genera su aplicacion, en cambio en los demas buffers llegan paquetes tanto de su respectiva aplicacion como los generados por los nodos anteriores.
@@ -100,9 +100,9 @@ interArrivalTime = exponential(7)
 ``` 
 obtenemos los siguientes graficos para los buffers:
 
-![buffer1i7](/graficos/Analisis/c2_buffer_nodes1_i7.png)
-![buffer2i7](/graficos/Analisis/c2_buffer_nodes2_i7.png)
-![buffer3i7](/graficos/Analisis/c2_buffer_nodes3_i7.png)
+![buffer1i7](graficos/Analisis/c2_buffer_nodes1_i7.png)
+![buffer2i7](graficos/Analisis/c2_buffer_nodes2_i7.png)
+![buffer3i7](graficos/Analisis/c2_buffer_nodes3_i7.png)
 
 
 Observando los graficos es facil notar que los buffers son mas estables, aunque con algunos picos, pero no crecen constantemente.
@@ -113,9 +113,9 @@ interArrivalTime = exponential(6.5)
 ```  
 y obtendriamos lo siguiente en los buffers:
 
-![buffer1i65](/graficos/Analisis/c2_buffer_nodes1_i65.png)
-![buffer2i65](/graficos/Analisis/c2_buffer_nodes2_i65.png)
-![buffer3i65](/graficos/Analisis/c2_buffer_nodes3_i65.png)
+![buffer1i65](graficos/Analisis/c2_buffer_nodes1_i65.png)
+![buffer2i65](graficos/Analisis/c2_buffer_nodes2_i65.png)
+![buffer3i65](graficos/Analisis/c2_buffer_nodes3_i65.png)
 
 Podemos ver que usando un interArrivalTime < 7 no es suficiente, ya que si bien los nodos 0, 1, 2, 3, 4 y 7 tienen buffers estables, el _node[6]_ crece constantemente a medida que avanza el tiempo.
 
@@ -213,8 +213,8 @@ else if(pkt->arrivedOn("toLnk$i", 0)){
 #### Primer caso de estudio
 Con nuestro nuevo algoritmo ahora analizamos los mismos buffers que analizamos inicialmente:
 
-![buffer1](/graficos/Diseño/c1_buffer_nodes1.png)
-![buffer2](/graficos/Diseño/c1_buffer_nodes2.png)
+![buffer1](graficos/Diseño/c1_buffer_nodes1.png)
+![buffer2](graficos/Diseño/c1_buffer_nodes2.png)
 
 Podemos ver una clara mejora en la carga en los buffers de los nodos analizados anteriormente, es más, ahora absolutamente ninguno de los buffers de la red crece continuamente y el buffer que alcanza el pico de mayor valor es el de _lnk[1]_ de _node[2]_, con un valor de 17 paquetes en buffer, por lo tanto nuestro algoritmo mejora en gran medida la carga de los buffers de cada nodo, siendo este nuestro enfoque de mejora.
 
@@ -233,9 +233,9 @@ Notemos que en este caso de estudio, el promedio de saltos con nuestro algoritmo
 ### Segundo caso de estudio
 Pongamos el foco en los buffers que analizamos anteriormente para ver la mejora que se obtiene con nuestro algoritmo:
 
-![buffer1i65](/graficos/Diseño/c2_buffer_nodes1_i1.png)
-![buffer2i65](/graficos/Diseño/c2_buffer_nodes2_i1.png)
-![buffer3i65](/graficos/Diseño/c2_buffer_nodes3_i1.png)
+![buffer1i65](graficos/Diseño/c2_buffer_nodes1_i1.png)
+![buffer2i65](graficos/Diseño/c2_buffer_nodes2_i1.png)
+![buffer3i65](graficos/Diseño/c2_buffer_nodes3_i1.png)
 
 Podemos ver que a diferencia del algoritmo provisto por la cátedra, nuestro algoritmo logra que la carga de los buffers de algunos nodos, sea mas estable con 
 ```cpp 
@@ -245,9 +245,9 @@ en particular, notemos que los buffers de los nodos 0, 1, 6 y 7, se asemejan a l
 
 Ahora notemos que mientras mas aumentemos **interArrivalTime**, se reduce la generación de paquetes, ahora bien, con el algoritmo anterior tuvimos que aumentar signficativamente el intervalo de **1** a **7**, sin embargo con nuestro algoritmo basta con aumentar el intervalo por ejemplo a **4**, para obtener una mejora significativa en la carga de los buffers, como se puede ver en las siguientes gráficas:
 
-![buffer1i4](/graficos/Diseño/c2_buffer_nodes1_i4.png)
-![buffer2i4](/graficos/Diseño/c2_buffer_nodes2_i4.png)
-![buffer3i4](/graficos/Diseño/c2_buffer_nodes3_i4.png)
+![buffer1i4](graficos/Diseño/c2_buffer_nodes1_i4.png)
+![buffer2i4](graficos/Diseño/c2_buffer_nodes2_i4.png)
+![buffer3i4](graficos/Diseño/c2_buffer_nodes3_i4.png)
 
 Es notoria la mejora en la carga de los buffers de todos los nodos. En particular _node[6]_, que era uno de los nodos que más carga presentaba su buffer con el algoritmo anterior.
 
