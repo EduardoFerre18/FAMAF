@@ -1,0 +1,11 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}¿Cuál es la complejidad de Edmons-Karp?}{2}{section.1}%
+\contentsline {section}{\numberline {2}Probar que, si dados vértices $x,z$ y flujo $f$ definimos la distancia entre $x$ y $z$ relativa a $f$ como la longitud del menor $f$-camino aumentante entre $x$ y $z$, si es que existe tal camino, o infinito si no existe o 0 si $x=z$, denotándola por $d_f(x,z)$, y definimos $d_k(x)=d_{f_k}(s,x)$, donde $f_k$ es el $k$-ésimo flujo en una corrida de Edmonds-Karp, entonces $d_k(x)$ $\leq $ $d_{k+1}(x)$.}{4}{section.2}%
+\contentsline {section}{\numberline {3}Probar que, si dados vértices $x,z$ y flujo $f$ definimos la distancia entre $x$ y $z$ relativa a $f$ como la longitud del menor $f$-camino aumentante entre $x$ y $z$, si es que existe tal camino, o infinito si no existe o 0 si $x=z$, denotándola por $d_f(x,z)$, y definimos $b_k(x)=b_{f_k}(x,t)$, donde $f_k$ es el $k$-ésimo flujo en una corrida de Edmonds-Karp, entonces $b_k(x)$ $\leq $ $b_{k+1}(x)$.}{6}{section.3}%
+\contentsline {section}{\numberline {4}¿Cual es la complejidad del algoritmo de Dinic? Probarla en ambas versiones: Dinitz original y Dinic-Even. (no hace falta probar que la distancia en networks auxiliares sucesivos aumenta).}{7}{section.4}%
+\contentsline {section}{\numberline {5}¿Cual es la complejidad del algoritmo de Wave? Probarla.}{10}{section.5}%
+\contentsline {section}{\numberline {6}Probar que la distancia en networks auxiliares sucesivos aumenta.}{12}{section.6}%
+\contentsline {section}{\numberline {7}Probar que el valor de todo flujo es menor o igual que la capacidad de todo corte y que si $f$ es un flujo, entonces $f$ es maximal si y solo si existe un corte $S$ tal que $v(f )=cap(S)$. (y en este caso, S es minimal) (puede usar sin necesidad de probarlo que si $f$ es flujo y $S$ es corte entonces $v(f )=f(S,\overline {S})-f(\overline {S}, S)$)}{12}{section.7}%
+\contentsline {section}{\numberline {8}Probar que si $G$ es conexo no regular, entonces $\chi (G)\leq \Delta (G)$.}{14}{section.8}%
+\contentsline {section}{\numberline {9}Probar que 2-COLOR es polinomial}{14}{section.9}%
+\contentsline {section}{\numberline {10}Enunciar y probar el Teorema de Hall.}{16}{section.10}%

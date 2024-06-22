@@ -1,0 +1,524 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{textcomp}
+\usepackage{placeins}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+
+\spanishdecimal{.}
+\graphicspath{{images/}}
+%COMILLAS “”
+\title{Resumen Teórico Matemática Discreta II}
+\author{Ferré Valderrama, Eduardo}
+\date{\today}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem*{demostracion}{Demostración}
+\newtheorem{corollary}{Corolario}
+\newtheorem{proposition}{Proposición}
+\newtheorem{example}{Ejemplo}
+\newtheorem{exercise}{Ejercicio}
+\newtheorem*{remark}{Observación}
+\newtheorem{notation}{Notación}
+
+%\qed(cuadradito vacio de que termino la demostración%
+%\blacksquare(cuadradito lleno de que termino la demostración%
+
+\begin{document}
+\maketitle
+Matemática Discreta II
+\tableofcontents
+
+\section{¿Cuál es la complejidad de Edmons-Karp?}
+
+La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$
+
+\begin{demostracion}
+    
+    Para facilitar la prueba, supondremos que sí en el network está el lado $\overrightarrow{xy}$, 
+    entonces no está el lado $\overrightarrow{yx}$.\\ \\
+    Si $f_0, f_1, f_2, \ldots$ son los flujos parciales producidos al correr EK, entonces queremos ver que hay una cantidad finita de ellos y dar
+    una cota para ese número. Como la búsqueda y construcción de cada camino aumentante se hace con \textbf{BFS}, cada incremento del flujo tiene 
+    complejidad $O(m)$. \\ \\
+    Así, que si probamos que sólo puede haber $O(nm)$ flujos aumentantes, tendremos la prueba de que la complejidad de EK es $O(nm^2)$.\\ \\
+    Primero, decimos que un lado se vuelve crítico al pasar de $f_k$ a $f_{k+1}$ si se \textbf{satura} o \textbf{vacía}.\\ \\
+    En cada construcción de un camino aumentante al menos un lado se vuelve crítico, el problema es que un lado puede volverse crítico muchas veces.
+    Veamos cuantas veces puede pasar.\\ \\
+    Supongamos que $\overrightarrow{xy}$ se vuelve crítico en el paso $k$, y luego en el paso $r$, con $r>k$. Tenemos que analizar dos casos:
+    se vuelve crítico en el paso $k$ porque se saturó (llamemosle \textbf{Caso 1}), 
+    o se vuelve crítico en el paso $k$ porque se vació, (a este caso lo llamamos \textbf{Caso 2}).\\ \\
+    \begin{itemize}
+        \item \textbf{Caso 1. En el que se satura (forward)}: Como se saturó en el paso $k$ entonces:
+            \begin{itemize}
+                \item Para construir $f_{k+1}$ se debe usar un $f_k$ camino aumentante de la forma $s \ldots \overrightarrow{xy} \ldots t$.
+                \item Como estamos usando EK ese camino es de longitud mínima, por lo tanto: 
+            \end{itemize}
+                \begin{center}
+                    $d_k(y)=d_k(x)+1$. \textbf{(1)}
+                \end{center}
+            Para que se vuelva crítico en el paso $r$, debe pasar una de estas dos cosas:
+            \begin{itemize}
+                \item Se vuelve crítico en el paso $r$ porque se vacía.
+                \item Se vuelve crítico en el paso $r$ porque vuelve a saturarse.
+            \end{itemize}
+            Para que ocurra lo segundo, debe haberse vaciado antes aunque sea un poco, sino es imposible que vuelva a saturarse.\\ \\
+            Entonces en cualquiera de estos dos casos, deducimos que existe $l$ tal que $k<l\leq r$ tal que el flujo en $\overrightarrow{xy}$ 
+            disminuye al pasar de $f_l$ a $f_{l+1}$ ya sea vaciándose completamente o un poco.\\ \\
+            Esto implica que para construir $f_{l+1}$ se usa un $f_l-$camino aumentante de la forma $s \ldots \overleftarrow{yx} \ldots t$.
+            Como estamos usando EK, ese camino es de longitud mínima, por lo tanto:
+                \begin{center}
+                    $d_l(x)=d_l(y)+1$. \textbf{(2)}
+                \end{center}
+            Entonces:
+            \begin{align*}
+                d_l(t) &= d_l(x) + b_l(x). \\[6pt]
+                &= d_l(y) + 1 + b_l(x) \quad \text{Por \textbf{(2)}} \\[6pt]
+                &\geq d_k(y) + 1 + b_k(x) \quad \text{Porque las distancias no disminuyen} \\[6pt]
+                &= d_k(x) + 1 + 1 + b_k(x) \quad \text{Por \textbf{(1)}} \\[6pt]
+                &= d_k(t) + 2
+                \end{align*}
+                
+                Este fue el análisis de si el lado $\overrightarrow{xy}$ se volvía crítico en el paso $k$ porque se saturaba. Ahora vamos con el 
+                \textbf{Caso 2.}
+            
+        \item \textbf{Caso 2. En el que se vacía (backward)}: Como se vacía, existe un camino (de longitud mínima) de la forma 
+                $s \ldots \overleftarrow{yx} \ldots t$ que se usa para pasar de $f_k$ a $f_{k+1}$. Por lo tanto:
+                \begin{center}
+                    $d_k(x)=d_k(y)+1$. \textbf{(3)}
+                \end{center}
+                Para que se vuelva crítico en el paso $r$, debe o bien volverse a vaciar, o bien saturarse, en el segundo de esos casos estamos 
+                obviamente mandando más flujo en el paso $r$, pero en el primero si estamos diciendo que debe vaciarse de vuelta, entonces antes 
+                debe haberse llenado aunque sea un poco. \\ \\ 
+                Así que en cualquier caso debe haber un $l$ tal que $k<l\leq r$ para el cual se manda flujo a través de él. Entonces, existe un camino 
+                (de longitud mínima) de la forma $s \ldots \overrightarrow{xy} \ldots t$ que se usa para pasar de $f_l$ a $f_{l+1}$. Por lo tanto:
+                \begin{center}
+                    $d_l(y)=d_l(x)+1$. \textbf{(4)}
+                \end{center}
+                Notemos que \textbf{(3)} y \textbf{(4)} son análogos a \textbf{(1)} y \textbf{(2)}, solo que con $x$ e $y$ intercambiados. 
+                Entonces podemos deducir que $d_l(t) \geq d_k(t) + 2$ de la misma forma que en el \textbf{Caso 1}, simplemente intercambiando $x$ e $y$
+                en la prueba. Así que también en este caso deducimos que $d_r \geq d_l(t) \geq d_k(t)+2$.\\ \\
+                Entonces tanto como para el \textbf{Caso 1} como para el \textbf{Caso 2}, luego de que un lado se vuelva crítico, para que se vuelva 
+                crítico otra vez, la distancia entre $s$ y $t$ debe aumentar al menos en 2. 
+                
+                Como la distancia entre $s$ y $t$ puede ir desde mínimo de $1$ hasta un máximo de $n-1$, entonces un lado puede volverse crítico 
+                un máximo de \textbf{$O(\frac{n}{2}) = O(n)$ veces}.\\ \\
+                Como cada camino aumentante que se usa en EK tiene al menos un lado que se vuelve crítico, entonces el total de flujos intermedios está
+                acotado por $O(nm)$, puesto que hay $m$ lados y cada uno se puede volver crítico a lo sumo $O(n)$ veces.\\ \\
+                Finalmente como cada construcción de un flujo tiene complejidad $O(m)$, entonces concluimos que la complejidad total de EK es 
+                \begin{center}
+                    $O(m)*O(nm) = O(nm^2)$ $\blacksquare$
+                \end{center}     
+    \end{itemize}
+\end{demostracion}
+\section{Probar que, si dados vértices $x,z$ y flujo $f$ definimos la distancia entre $x$ y $z$ relativa a $f$ como la longitud del menor
+        $f$-camino aumentante entre $x$ y $z$, si es que existe tal camino, o infinito si no existe o 0 si $x=z$, denotándola por $d_f(x,z)$,
+        y definimos $d_k(x)=d_{f_k}(s,x)$, donde $f_k$ es el $k$-ésimo flujo en una corrida de Edmonds-Karp, entonces $d_k(x)$ $\leq$ $d_{k+1}(x)$.}
+
+\begin{demostracion}
+    Vamos a demostrar que $d_k(x) \leq d_{k+1}(x)$.\\ \\
+    Sea $A=\{y: d_{k+1}(y)<d_k(y)\}$. Queremos ver que $A=\emptyset$, supongamos que no.\\ \\
+    Sea $x \in A$ tal que
+    \begin{equation}
+        d_{k+1}(x)=min\{d_{k+1}(y): y \in A\}
+    \end{equation}
+    Observemos que $x \in A$, entonces $d_{k+1}(x)<d_k(x) \leq \infty  \Rightarrow d_{k+1} < \infty$. Entonces existe un $f_{k+1}$-camino aumentante
+    entre $s$ y $x$. 
+    \begin{remark}
+        $x \neq s$, pues $s\notin A$, pues $d_k(s)=d_{k+1}(s)=0$.
+    \end{remark}
+    Sea entonces $p_{k+1}:=s \ldots x$ un $f_{k+1}$-camino aumentante de longitud mínima entre $s$ y $x$, es decir, de longitud $d_{k+1}(x)$. Como 
+    $x\neq s$ en ese camino existe un vertice inmediatamente anterior a $x$, llamemosle $z$. Entonces, $p_{k+1}=s \ldots zx$.\\
+    Como $p_{k+1}$ es de longitud mínima entre $s$ y $x$, entonces es de longitud mínima entre $s$ y cualquier otro vertice intermedio como pej $z$. Por 
+    lo tanto:
+    \begin{equation}
+        d_{k+1}(z)=d_{k+1}(x)-1
+    \end{equation}
+    Como $p_{k+1} = s \ldots zx$ es un $f_{k+1}$-camino aumentante, entonces existe el lado $\overrightarrow{zx}$ o existe el lado 
+    $\overrightarrow{xz}$. Analicemos los dos casos.
+    \begin{itemize}
+        \item \textbf{Caso 1.} Si $\overrightarrow{zx}$ es un lado, tenemos que $d_{k+1}(z) < d_{k+1}(x)$. Pero
+         
+        \[ z \notin A \implies d_k(z) \leq d_{k+1}(z) < d_{k+1}(x) < \infty \]
+        
+        Como $d_k(z) < \infty$, existe un $f_k$-camino aumentante entre $s$ y $z$. 
+        Lo denominamos $p_k$. Como $\overrightarrow{zx}$ es un lado, podría, en principio, agregar $x$ al final de $p_k$, 
+        obteniendo un $f_k$-c.a. entre $s$ y $x$ que pasa por $z$. Pero entonces tendríamos 
+        $d_k(x) \leq d_k(z) + 1 \leq d_{k+1}(z) + 1 \leq d_{k+1}(x)$. 
+        Pero esto implica $x \notin A$. 
+        
+        Por lo tanto, no puedo agregar $x$ al final de $p_k$. 
+        Entonces, o bien el lado $\overrightarrow{zx}$ está saturado en el paso $k$, o bien $f_k(\overrightarrow{zx}) = c(\overrightarrow{zx})$. 
+        Pero $p_{k+1}$ era aumentante; es decir, sus lados no pueden estar saturados; 
+        lo cual implica que $f_{k+1}(\overrightarrow{zx}) < c(\overrightarrow{zx})$ en el paso $k + 1$. 
+        Luego, para pasar de $f_k$ a $f_{k+1}$, se usó el lado $\overrightarrow{xz}$ y se usó backwards en el camino
+        
+        \[ \tilde{p}_k : s \ldots \tilde{z} \ldots t \]
+        
+        Como este camino se usa en Edmonds-Karp, es de longitud mínima. Por lo tanto,
+        
+        \[ d_k(z) = d_k(x) + 1 \]
+        \textbf{Completar, falta determinar el absurdo.}
+
+
+        \item \textbf{Caso 2.} Si $\overrightarrow{zx}$ es un lado, tenemos que $p_{k+1}$ es de la forma $s \ldots zx$. Como antes, 
+        \[ d_{k+1}(z) < d_{k+1}(x) \implies z \in A \implies d_k(z) \leq d_{k+1}(z) \]
+        lo cual a su vez implica que existe un $f_k$-camino aumentante entre $s$ y $z$:
+        \begin{center}
+            $p_k: s \ldots z$
+        \end{center}
+        Podríamos agregar a $x$ en el final de este camino usando $\overrightarrow{xz}$ backward: llegaríamos a la misma contradicción que antes, en 
+        que no podríamos agregar $x$. En este caso, si no lo podemos agregar, es porque $f_k(\overrightarrow{xz})=0$. Pero $p_{k+1}$ es 
+        $f_{k+1}$-aumentante, lo cual implica que $f_{k+1}(\overrightarrow{xz})>0$. Luego debimos haber usado $\overrightarrow{xz}$ en modo forward al 
+        pasar de $f_k$ a $f_{k+1}$. Por lo tanto existe un $f$-camino aumentante de la forma:
+        \begin{center}
+            $\tilde{p}_k: s \ldots \overrightarrow{xz} \ldots t$
+        \end{center}
+        Y luego como usamos Edmonds-Karp, este camino aumentante es de longitud mínima.\\
+        Luego $d_k(z) = d_k(x) + 1$.\\
+        \textbf{Completar, falta determinar el absurdo.}
+    \end{itemize}
+    Finalmente concluimos $A=\emptyset$, es decir, que $d_k(x) \leq d_{k+1}(x)$. $\blacksquare$
+\end{demostracion}
+
+\section{Probar que, si dados vértices $x,z$ y flujo $f$ definimos la distancia entre $x$ y $z$ relativa a $f$ como la longitud del menor
+        $f$-camino aumentante entre $x$ y $z$, si es que existe tal camino, o infinito si no existe o 0 si $x=z$, denotándola por $d_f(x,z)$,
+        y definimos $b_k(x)=b_{f_k}(x,t)$, donde $f_k$ es el $k$-ésimo flujo en una corrida de Edmonds-Karp, entonces $b_k(x)$ $\leq$ $b_{k+1}(x)$.}
+
+\begin{demostracion}
+    \textbf{Se evalúa en diciembre de 2024.}
+\end{demostracion}
+
+\section{¿Cual es la complejidad del algoritmo de Dinic? Probarla en ambas versiones: Dinitz original y Dinic-Even. 
+(no hace falta probar que la distancia en networks auxiliares sucesivos aumenta).}
+La complejidad de Dinitz, en su versión original como occidental, es $O(n^2m)$.
+
+\begin{demostracion}
+    Como el nivel de $t$ en los networks auxiliares aumenta, solo puede haber $O(n)$ networks auxiliares. 
+    \(\therefore\)La complejidad de Dinitz es igual a la complejidad de hallar un flujo bloqueante en un network auxiliar, 
+    más la complejidad de construir un network auxiliar, 
+    por la cantidad de networks auxiliares---que es $O(n)$. 
+    Porque usamos DFS, la complejidad de construir un network auxiliar es $O(m)$. 
+    Entonces basta probar que la complejidad de hallar un flujo bloqueante es $O(nm)$, porque tendremos
+    \[ O(n) \cdot (O(m) + O(nm)) = O(n^2m) \]
+
+    \newpage
+
+    \begin{itemize}
+        \item \textbf{Versión Original: } \\ \\
+        En la versión original del algoritmo, el n.a. es tal que no hay vértices sin lado de salida. Esto implica que DFS siempre llega a $t$ sin hacer backtracking. Entonces, DFS no es $O(m)$ sino $O$(cantidad de niveles) que podemos simplificar como $O(n)$. Como cada camino borra al menos un lado del n.a. hay $O(m)$ caminos. Luego la complejidad de hallar los caminos y aumentar el flujo por ellos es $O(nm)$. Pero debemos calcular el costo de que el n.a. satisfaga la propiedad de que no hay vértices sin lados de salida.
+
+        Para esto, luego de cada camino hay que hacer algo para mantener esa propiedad como invariante. Dinitz llamó a la operación que logra esto \textbf{``podar''}. La operación consiste en recorrer los vértices desde los niveles más altos a los más bajos, chequea si el vértice tiene lados de salida; si tiene no hace nada, si no lo tiene lo borra.
+        
+        Chequear si el lado tiene lados de salida es $O(1)$; hay $O(n)$ vértices, y hay un ``podar'' por cada camino y hay $O(m)$ caminos. Esto entonces también es $O(nm)$.
+        
+        Nos queda analizar la complejidad de borrar el vértice y sus lados; esto se hace a lo sumo una vez por vértice, y una vez que podamos un vértice es probable que podar los siguientes requiera una complejidad menor (porque estamos quitando lados). Esto nos dice que podemos pensar en la complejidad promedio del problema, y no en la complejidad límite (es decir como cota).
+        
+        Borrar un vértice $x$ y sus lados es $O(d(x))$; sobre todos los vértices, esto da $\sum O(d(x)) = O(m)$ (por la propiedad del apretón de manos). Luego la complejidad de hallar un flujo bloqueante es:
+        
+        \[
+        O(nm) + O(nm) + O(m) = O(nm) \blacksquare
+        \]
+        \item \textbf{Versión Dinic-Even: } \\
+        Ahora consideremos la versión occidental. Lo más cómodo es dar el pseudocódigo. Estamos hablando del network auxiliar y el problema de hallar un flujo bloqueante en él.
+
+        Para hallar flujo bloqueante $g$ en un n.a:
+        \begin{algorithm}[!ht]
+            \caption{Algoritmo}
+            \begin{algorithmic}[1]
+            \State $g := 0$
+            \State $bool\ flag := true$
+            \While{$flag$}
+               \State type $path := [s]$
+               \State $int\ x := s$
+               \While{$x \neq t$}
+                   \If{$\Gamma^+(x) \neq 0$}
+                       \State tomar $y \in \Gamma^+(x)$
+                       \State agregar $y$ a $path$
+                       \State $x := y$ \Comment{Esta línea y la anterior son la parte (A) de avanzar}
+                   \Else
+                       \If{$x \neq s$}
+                           \State $z :=$ elemento anterior a $x$ en $path$ \Comment{(R) Retroceder}
+                           \State borro $x$ de $path$
+                           \State borro $\overrightarrow{zx}$ de la n.a.
+                           \State $x := z$
+                       \Else
+                           \State $flag := 0$
+                       \EndIf
+                   \EndIf
+               \EndWhile
+               \If{$x = t$}
+                   \State aumentar flujo $g$ a lo largo de $path$ \Comment{(I) Incrementar}
+                   \State borrar lados saturados
+               \EndIf
+            \EndWhile
+            \State \textbf{return} $g$
+            \end{algorithmic}
+            \end{algorithm}
+            \FloatBarrier
+
+            Entonces, una corrida de Dinitz occidental es una palabra $AAAIAAARARRAA\ldots$
+            Miraremos subpalabras de la forma $A\ldots AX$ con $X \in \{I, R\}$. 
+            \begin{itemize}[noitemsep, nolistsep]
+                \item Cada $A$ es $O(1)$;
+                \item Cada $R$ es $O(1)$;
+                \item Cada $I$ es recorrer un camino dos veces (una para incrementar el flujo, otra para borrar los lados), y resulta ser $O(n)$.
+            \end{itemize}
+            La cantidad de A's en $A\ldots AX$ se calcula como sigue. Cada avanzar, mueve el pivote
+            $x$ de un nivel al siguiente. $\therefore$ Hay $O(n)$ letras A.
+            \begin{itemize}[noitemsep, nolistsep]
+                \item Cada avanzar, mueve el pivote $x$ de un nivel al siguiente. $\therefore$ Hay $O(n)$ letras A.
+                \item $\therefore O(A\ldots AR) = O(n) + O(1) + O(n)$
+                \item y $O(A\ldots AI) = O(n)(\#A) + O(n)(\#I) = O(n)$
+            \end{itemize}
+            Donde $\#Z$ es la cantidad de veces que ocurre la letra $Z$ en la palabra en cuestión. En
+            resumen, $O(A\ldots AX) = O(n)$. Y la cantidad de palabras $A\ldots AX$ en una corrida se
+            calcula así: 
+            \begin{itemize}[noitemsep, nolistsep]
+                \item Cada $R$ borra un lado, 
+                \item y cada $I$ borra \textit{al menos} un lado;
+                \item luego hay $O(m)$ palabras $A\ldots AX$.
+            \end{itemize}
+              Luego la complejidad total es $O(nm)$. $\blacksquare$
+    \end{itemize}
+\end{demostracion}
+
+
+\section{¿Cual es la complejidad del algoritmo de Wave? Probarla.}
+La complejidad de Wave es $O(n^3)$.
+
+\begin{demostracion}
+    Como es un algoritmo de tipo Dinitz, la distancia en n.a aumenta. Por lo tanto hay $O(n)$ networks auxiliares. Basta probar que la complejidad de 
+    hallar un flujo bloqueante en Wave es $O(n^2)$.\\
+    Dividiremos la complejidad en varias partes. 
+
+    \begin{itemize}
+        \item Los \textbf{“Los balanceos hacia adelante”} de los vertices.\\
+                Cuando un vertice $x$ manda flujo a $z$, puede pasar que $\overrightarrow{xz}$ se sature o no. Sea entonces:
+                \begin{itemize}
+                    \item $S=$ Todos los pasos donde se satura un lado.
+                    \item $P=$ Todos los pasos donde no se satura un lado.
+                \end{itemize}
+        \item Los \textbf{“Los balanceos hacia atrás”} el razonamiento es análogo.\\
+                Cuando devolvemos flujo, podemos devolverlo todo o solo un poco. Sea entonces:
+                \begin{itemize}
+                    \item $V=$ La parte donde se vacían los lados.
+                    \item $Q=$ La parte donde se devuelve flujo parcialmente.
+                \end{itemize}
+    \end{itemize}
+    Entonces la complejidad de hallar un flujo bloqueante en Wave es 
+    \begin{center}
+        $S+P+V+Q$
+    \end{center} 
+    Analicemos cada una en detalle.
+
+    \begin{itemize}
+        \item \textbf{Análisis de $S$}\\
+        Como habíamos mencionado, cuando un vertice $x$ manda flujo a $z$, puede pasar que $\overrightarrow{xz}$ se sature o no. Supongamos que 
+        $\overrightarrow{xz}$ se saturó. La pregunta es si puede volver a saturarse en alguna ola hacia adelante. Para volver a saturarse, debe primero
+        des-saturarse.
+        \begin{center}
+            Por lo tanto, $z$ debe devolverle flujo a $x$ $\Rightarrow$ $z$ debe estar “bloqueado”.
+        \end{center} 
+        Pero, en las olas hacia adelante, cuando un vértice chequea sus vecinos, solo se manda flujo a vertices no bloqueados. Entonces si $z$ le 
+        devuelve flujo a $x$, $x$ no le puede volver a mandar flujo a $z$, por lo tanto:
+        \begin{itemize}
+            \item $\overrightarrow{xz}$ no se puede volver a saturar otra vez.
+            \item Entonces cada lado se satura a lo sumo una vez.
+        \end{itemize}
+        Entonces concluimos que la complejidad de $S$ es $O(m)$.
+        \item \textbf{Análisis de $V$}\\
+        La pregunta es cuantas veces puede vaciarse un lado. La respuesta es muy similar al caso de $S$. 
+        Si $x$ devuelve flujo a un vertice $u$ y se vacía $\overrightarrow{ux}$, entonces $x$ debe estar bloqueado, por lo tanto:
+        \begin{itemize}
+            \item $u$ nunca puede volver a enviar flujo.
+            \item Por lo tanto, $\overrightarrow{ux}$ no puede volver a vaciarse (porque no se puede volver a enviar nada).
+            \item Entonces cada lado se vacía a lo sumo una vez.
+        \end{itemize}
+        Entonces concluimos que la complejidad de $V$ es $O(m)$.
+        \item \textbf{Análisis de $P$ y $Q$}\\
+        Cuando intentamos balancear hacia adelante desde un vértice,
+        todos los lados excepto quizas el ultimo se saturan. Es decir, en cada vértice de
+        cada ola hacia adelante, hay a lo sumo un lado que no se satura, y "cuenta" para la
+        complejidad de $P$. 
+        \begin{itemize}
+            \item Enviar flujo por ese lado es $O(1)$. 
+            \item Luego la complejidad de $P$ es $O(n)$$*$$(\#$olas hacia adelante$)$.
+        \end{itemize}
+        Similar en $Q$.
+
+        Al balancear hacia atras, en cada vértice se vacían todos los lados excepto a lo sumo uno. 
+        \begin{itemize}
+            \item Luego la complejidad de $Q$ es $O(n)$$*$$(\#$olas hacia atrás$)$.
+        \end{itemize}
+        Luego tenemos que:
+        \begin{center}
+            $\#$olas hacia adelante $=$ $\#$olas hacia atrás
+        \end{center}
+        Pues a cada ola hacia adelante corresponde una ola hacia atras. Ahora bien tenemos que calcular la cantidad de olas.
+
+        En cada ola hacia adelante excepto la ultima (cuando se logra el balanceo), algun vertice queda desbalanceado. 
+        Pero entonces la ola debio de bloquearlo. Por lo tanto, en cada ola hacia adelante excepto tal vez la ultima, 
+        se bloquea al menos un vertice. Los vertices nunca se desbloquean.
+        \begin{itemize}
+            \item Luego hay $O(n)$ olas.
+            \item Entonces la complejidad de $P$ es igual a la de $Q$
+            \item Esto es $O(n)*O(n) = O(n^2)$
+        \end{itemize}
+        Finalmente tenemos que la complejidad de hallar un flujo bloqueante en Wave es:
+        \begin{align*}
+            S+P+V+Q &= O(m) + O(n^2) + O(m) + O(n^2) \\[6pt]
+            &= O(n^2) + O(n^2) + O(m) + O(m) \\[6pt]
+            &= O(n^2) + O(m) \quad \text{y} \quad m=O(n^2) \\[6pt]
+            &= O(n^2) \blacksquare \\[6pt]
+        \end{align*}    
+    \end{itemize}
+\end{demostracion}
+
+\section{Probar que la distancia en networks auxiliares sucesivos aumenta.}
+\textbf{Se evalúa en diciembre de 2024.}
+
+\section{Probar que el valor de todo flujo es menor o igual que la capacidad de todo corte y que si $f$ es un flujo, entonces $f$ es
+maximal si y solo si existe un corte $S$ tal que $v(f )=cap(S)$. (y en este caso, S es minimal)
+(puede usar sin necesidad de probarlo que si $f$ es flujo y $S$ es corte entonces $v(f )=f(S,\overline{S})-f(\overline{S}, S)$)}
+
+
+\textbf{Demostración.}
+    \begin{enumerate}
+        \item Probaremos que $f\leq Cap(S)$ para un corte $S$ y un flujo $f$ arbitrarios. Por lema sabemos que:
+        \begin{center}
+            $v(f)=f(S,\overline{S})-f(\overline{S},S)$
+        \end{center}
+        Observemos que el término $f(\overline{S},S)$ es de la forma $\sum f(\overrightarrow{xy})$. Por definición, cada término en esa sumatoria
+        es mayor o igual a cero, y por lo tanto la sumatoria es positiva. Entonces tenemos que $-f(\overline{S},S) \leq 0$. Luego
+        \begin{center}
+            $v(f)=f(S,\overline{S})-f(\overline{S},S) \leq f(S,\overline{S})$
+        \end{center}
+        El primer término:$f(S,\overline{S})$, también es una sumatoria de términos positivos y es por lo tanto mayor a cero, pero cada término es 
+        a su vez menor a la capacidad de cada lado, es decir $f(S,\overline{S})\leq c(S,\overline{S})=Cap(S)$. Por lo tanto:
+        \begin{center}
+            $v(f)\leq f(S,\overline{S})\leq Cap(S)$ $\blacksquare$
+        \end{center}
+        \item Ahora probemos que $f$ es maximal $\Longleftrightarrow$ existe un corte minimal $S$ tal que $v(f)=Cap(S)$.
+        \begin{itemize}
+            \item \textbf{($\Leftarrow$)} Sea ahora $f$ un flujo y $S$ un corte con $v(f)=Cap(S)$. Sea $g$ cualquier otro flujo. Entonces, por la 
+                propiedad recien demostrada, $v(g)\leq Cap(S)$. Pues $Cap(S)=v(f)$, tenemos $v(g)\leq v(f)$. Por lo tanto $f$ es maximal. Como 
+                detalle si $T$ es un corte, $Cap(T)\geq v(f)=Cap(S)$, lo cual implica que $S$ es minimal.
+            \item \textbf{($\Rightarrow$)} Asumimos que \( f \) es maximal. Probaremos que existe un corte \( S \) con \( v(f) = C a p(S) \). 
+            Para esto, debemos construir \( S \) a partir \( f \). Definiremos
+
+            \[ S = \{s\} \cup \{ x \in V : \exists f\text{-camino aumentante entre } s \text{ y } x \} \]
+            
+            Que \( S \) es un corte se sigue por contradicción. Si \( S \) no es corte, debe contener a \( t \). 
+            Luego existe un \( f\text{-camino aumentante desde } s \text{ a } t \). 
+            Esto implica que puedo aumentar el flujo \( f \), lo cual contradice que \( f \) es maximal. 
+            
+            Sabiendo que \( S \) es un corte, tenemos
+            
+            \[ v(f) = f(S, \overline{S}) - f(\overline{S}, S) \tag{1} \]
+            
+            Consideremos el primer término en la resta de (1):
+            
+            \[ f(S, \overline{S}) = \sum_{\substack{x \in S \\ z \notin S \\ \overrightarrow{xz} \in E}} f(\overrightarrow{xz}) \]
+            
+            Sea \(\overrightarrow{xz}\) un par dentro del rango de la suma de arriba. 
+            Pues \( x \in S \), existe un \( f\text{-camino aumentante de } s \text{ a } x \). 
+            Pues \( z \notin S \), no existe un \( f\text{-camino aumentante de } s \text{ a } z \). 
+            Pero el lado \(\overrightarrow{xz}\) sí existe. Así que \( s \ldots xz \) podría ser un \( f\text{-camino aumentante} \); 
+            como tal camino no existe por hipótesis, no es aumentante. 
+            Esto implica que \( f(\overrightarrow{xz}) = c(\overrightarrow{xz}) \). 
+            La conclusión es que \( f(\overrightarrow{xz}) = c(\overrightarrow{xz}) \) para todo \( x \in S, z \notin S, \overrightarrow{xz} \in E \). 
+            Entonces
+
+            \[ f(S, \overline{S}) = \sum_{\substack{x \in S \\ z \notin S \\ \overrightarrow{xz} \in E}} f(\overrightarrow{xz}) = \sum_{\substack{x \in S \\ z \notin S \\ \overrightarrow{xz} \in E}} c(\overrightarrow{xz}) = Cap(S) \]
+
+            Ahora consideremos el segundo término de la ecuación (1).
+
+            \[ f(\overline{S}, S) = \sum_{\substack{w \notin S \\ x \in S \\ \overrightarrow{wx} \in E}} f(\overrightarrow{wx}) \]
+
+            Sea \(\overrightarrow{wx}\) un par arbitrario en el rango de la suma. Como antes, \( x \in S \Rightarrow \) que hay un camino aumentante de \( s \) a \( x \); pero no existe camino aumentante entre \( s \) y \( w \); pero \(\overrightarrow{wx}\) es un lado. Es decir, \( s \ldots \overleftarrow{wx} \) podría ser un \( f\text{-camino aumentante}\); y como no lo es sucede que \( f(\overrightarrow{wx}) = 0 \). Luego
+
+            \[ f(\overline{S}, S) = \sum_{\substack{w \notin S \\ x \in S \\ \overrightarrow{wx} \in E}} f(\overrightarrow{wx}) = 0 \]
+
+            Luego \( v(f) = Cap(S) - 0 = Cap(S) \). \(\blacksquare\)
+        \end{itemize}
+
+    \end{enumerate}
+
+
+\section{Probar que si $G$ es conexo no regular, entonces $\chi(G)\leq \Delta(G)$.}
+
+Sea \( x \) tal que \( d(x) = \delta(G) \). Corro BFS empezando por \( x \) y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el \( x \)). Esto significa que para cada vértice \( y \), en el peor caso va a tener \( d(y) - 1 < \Delta \) vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en \(\{1, \cdots, \Delta\}\). Finalmente, cuando llego a \( x \), como \( d(x) = \delta < \Delta \), podré elegir algún color de \(\{1, \cdots, \Delta\}\) que no está usado por ningún vecino de \( x \) para colorearlo. De esta forma tengo un coloreo propio de \( G \) que usa (a lo sumo) \(\Delta\) colores, entonces \(\chi(G) \leq \Delta(G)\).
+
+\section{Probar que 2-COLOR es polinomial}
+
+\begin{demostracion}
+    
+    \textbf{Problema: "k-color":} 
+    
+    Dado $G$ ¿Es $\chi(G) \leq k$?, en particular $k=2$. 
+    
+    \begin{itemize}
+        \item 1-color es trivial (no es polinomial).
+        \item 2-color es polinomial (hay algún algoritmo que corre en tiempo polinomial en un rango de la entrada). 
+        \item Entonces la idea de la demostración es correr un algoritmo en tiempo polinomial, en particular solo nos basta con correrlo en grafos conexos
+    \end{itemize}
+    Tomamos un $x \in V$, corremos BFS empezando en $x$. Si:
+    \begin{align*}
+        N(z) &= \text{nivel } z \text{ en el árbol BFS} \\[6pt]
+             &= \text{distancia entre } z \text{ y } x \quad  \text{ en el árbol BFS} \\[6pt]
+             &= \text{distancia entre } z \text{ y } x \quad  \text{ en } G \\[6pt]
+    \end{align*}
+    Sea:
+    \begin{itemize}
+        \item $C(z) = (N(z) \mod 2)$
+        \item \textbf{If} ($C$ es propio, return si, es 2-colorable).
+        \item \textbf{Else} (return no, no es 2-colorable).
+    \end{itemize}
+    El algoritmo es polinomial porque BFS es $O(m)$ y chequear que es propio es $O(m)$, lo que hay que probar es si es correcto. Entonces supongamos que la respuesta es \textbf{"no es 2-colorable"}.    
+    \[
+    \Rightarrow \exists v, z : c(v) = c(z) \land vz \in E
+    \]
+
+    Entonces $d(x, v) = d(x, z) \mod 2$\\
+    Tomamos un camino entre $x$ y $v$ en BFS y un camino entre $x$ y $z$ en BFS y sea $w$ el único vértice en común (como lo muestra la siguiente figura).
+    \begin{figure}[!ht]
+        \centering 
+        \includegraphics[height=6cm]{Figure 1 2-color.png} 
+    \end{figure}
+
+    Miramos el ciclo en $G$: $w \ldots \underset{\text{cruzo a }z}{\underbrace{vz}} \ldots \underset{\text{vuelvo a }x}{\underbrace{w}}$ (como lo muestra la siguiente imagen).
+
+    \begin{figure}[!ht]
+        \centering 
+        \includegraphics[height=6cm]{Figura 2 2-color.png} 
+    \end{figure}
+    Calculamos la longitud de este ciclo:
+    \begin{align*}
+    \text{longitud} &= 1 + d(v, w) + d(z, w) \\
+    \text{longitud mod 2} &= (1 + d(v, w) + \ldots + d(z, w)) \text{ mod } 2 \\
+    &= (1 + d(v, w) + d(z, w) + 2d(x, w)) \text{ mod } 2 \\
+    &= (1 + d(x, v) + d(x, z)) \text{ mod } 2 = (1 + \overbrace{c(x) + c(z)}^{=0}) \text{ mod } 2 \\
+    &= 1
+    \end{align*}
+    Es un ciclo impar, entonces no se puede colorear con 2 colores $\Rightarrow \chi(G)\geq 3. \blacksquare$
+\end{demostracion}
+
+\section{Enunciar y probar el Teorema de Hall.}
+
+
+
+\end{document}
