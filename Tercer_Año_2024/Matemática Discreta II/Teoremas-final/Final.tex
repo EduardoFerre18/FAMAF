@@ -519,6 +519,79 @@ Sea \( x \) tal que \( d(x) = \delta(G) \). Corro BFS empezando por \( x \) y gu
 
 \section{Enunciar y probar el Teorema de Hall.}
 
-
-
+Sea $G=(V,E)$ bipartito con partes $X$ e $Y$. Existe un matching completo de $X$ a $Y$ si y solo si 
+\begin{center}
+    $|\Gamma(S)| \geq |S| \quad \forall S \subseteq X$
+\end{center}
+Notemos que un matching $M$ de $X$ a $Y$ es completo si y solo si $|M|=|X|$.
+\textbf{Demostración.}\\
+\textbf{($\Rightarrow$)}\\  
+Sea $M$ un matching completo de $X$ a $Y$, este matching nos induce a una función inyectiva
+\begin{center}
+    $f: X \rightarrow Y$
+\end{center}
+tal que 
+\begin{center}
+    $f(x)\in \Gamma(x)$
+\end{center}
+Como $f$ es inyectiva tenemos que:
+\begin{center}
+    $|f(S)|=|S| \quad \forall S \subseteq X$
+\end{center}
+Finalmente 
+\begin{center}
+    $f(S) \subseteq \Gamma(S) \Rightarrow |S| \leq |\Gamma(S)| \quad \forall S \subseteq X$
+\end{center}
+\textbf{($\Leftarrow$)}\\ 
+Supongamos que se cumple la condición de Hall, es decir: 
+\begin{center}
+    $|\Gamma(S)| \geq |S| \quad \forall S \subseteq X$
+\end{center}
+Y también asumamos que al correr el algoritmo para hallar un matching maximal, llegamos a un matching maximal $M$ tal que
+$|E(M)| < |X|$. Es decir, un matching incompleto en $X$ (podría ser en $Y$). Construiremos un $S \subseteq X$ que viola la condición de Hall, es decir tal que
+\begin{center}
+    $|\Gamma(S)| < |S|$
+\end{center}
+llegando a un absurdo.\\
+Corramos el algoritmo de extensión de matching sobre el ultimo matching $M$. Como esta matching no cubre a $X$, existen filas sin matchear, más otras filas etiquetadas.
+Entonces sean:
+\begin{align*}
+    S & = \{\text{\small filas etiquetadas}\} \\
+    T & = \{\text{\small columnas etiquetadas}\} \\
+    S_0 & = \{\text{\small filas etiquetadas con }*\} \\
+    T_1 & = \{\text{\small columnas etiquetadas por }S_0\} \\
+    S_1 & = \{\text{\small filas etiquetadas por } T_1\}
+ \end{align*}
+Y en general:
+\begin{align*}
+    T_{i+1} & = \{\text{\small columnas etiquetadas por }S_i\} \\
+    S_i & = \{\text{\small filas etiquetadas por } T_i\}.
+    \end{align*}
+Notemos que como $M$ no es completo, tenemos algunas filas sin matchear, es decir que
+\[S_0 \ne \emptyset \tag{0}\]
+Las sucesiones son finitas y $S=S_0 \cup S_1 \cup \ldots$ con uniones disjuntas, y $T=T_1 \cup T_2 \cup \ldots$ con uniones disjuntas.\\
+Cuando revisamos una columna pueden pasar dos cosas:
+\begin{itemize}
+    \item La columna está libre, entonces la matcheamos y extendemos el matching. Esto no pasa porque $M$ es maximal.
+    \item La columna está matcheada con una fila, entonces etiquetamos únicamente esa fila.
+\end{itemize}
+Por lo tanto, el algoritmo nunca se detiene cuando pasa de algún $T_i$ a $S_i$. Es decir que el algoritmo se detiene solamente al pasar de un $S_k$ a un $T_{k+1}=\emptyset$\\
+Observemos que, como cada columna etiqueta a la fila con la cual está matcheada, cada columna etiquetada etiqueta a una sola fila, entonces tenemos que:
+\[|T_i|=|S_i| \tag{1}\]
+Porque el $T_i$ crea al $S_i$\\ 
+Y tambíen\\ 
+$S=S_0 \cup S_1 \cup \ldots S_k$ con uniones disjuntas, y $T=T_1 \cup T_2 \cup \ldots T_k$ con uniones disjuntas.\\ 
+Entonces finalmente tenemos que:
+\begin{align*}
+    |S| & = |S_0| + |S_1| + \cdots + |S_k| \\
+        & = |S_0| + |T_1| + \cdots + |T_k| \quad\text{por (1)} \\
+        & = |S_0| + |T| > |T| \quad\text{por (0)} 
+\end{align*}
+Por lo tanto $|S| > |T|$. Ahora demostremos que $T=\Gamma(S)$.
+\begin{itemize}
+    \item \(T \subseteq \Gamma(S)\): sea \(y \in T\), \(y\) tuvo que ser etiquetado por una fila de S, y como cada fila etiqueta a sus columnas vecinas es claro que \({y \in \Gamma(S).}\)
+    \item \(\Gamma(S) \subseteq T\): Supongamos que existe un \(y \in \Gamma(S)\) que no está en T. Existe un \({x \in S}\) que es vecino de \(y\). Pero cuando revisamos \(x\), habríamos visto que \(y\) era vecino suyo, y por lo tanto lo habríamos etiquetado. Absurdo pues habíamos supueto \({y \not\in T}\), luego, \({\Gamma(S) \subseteq T.}\)
+\end{itemize}
+    
+Finalmente, construimos un \(S \subseteq X\) tal que no se cumple la condición de Hall. Lo que es un absurdo pues habiamos supuesto que era cierta. Entonces este absurdo viene de suponer que el matching maximal no es completo.
 \end{document}
