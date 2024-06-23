@@ -593,5 +593,106 @@ Por lo tanto $|S| > |T|$. Ahora demostremos que $T=\Gamma(S)$.
     \item \(\Gamma(S) \subseteq T\): Supongamos que existe un \(y \in \Gamma(S)\) que no está en T. Existe un \({x \in S}\) que es vecino de \(y\). Pero cuando revisamos \(x\), habríamos visto que \(y\) era vecino suyo, y por lo tanto lo habríamos etiquetado. Absurdo pues habíamos supueto \({y \not\in T}\), luego, \({\Gamma(S) \subseteq T.}\)
 \end{itemize}
     
-Finalmente, construimos un \(S \subseteq X\) tal que no se cumple la condición de Hall. Lo que es un absurdo pues habiamos supuesto que era cierta. Entonces este absurdo viene de suponer que el matching maximal no es completo.
+Finalmente, construimos un \(S \subseteq X\) tal que no se cumple la condición de Hall. Lo que es un absurdo pues habiamos supuesto que era cierta. Entonces este absurdo viene de suponer que el matching maximal no es completo.$\blacksquare$
+
+\section{Enunciar y probar el teorema del matrimonio de Koenig}
+
+Todo grafo bipartito regular tiene matching perfecto.
+
+\begin{demostracion}
+Dado $W \subseteq V$, definimos
+\[
+E_W = \{wu : w \in W\}
+\]
+Sean $X, Y$ las partes de $G$. Sea $S \subseteq X$. Sea $l \in E_S$. Se sigue que
+\[
+\exists x \in S, y \in Y : l = xy = yx
+\]
+Es decir que $y \in \Gamma(x)$. Pero $x \in S$. Entonces $y \in \Gamma(S)$. Entonces $l \in E_{\Gamma(S)}$. $\therefore E_S \subseteq E_{\Gamma(S)}$. Por lo tanto
+\[
+|E_S| \leq |E_{\Gamma(S)}| \tag{1}
+\]
+Calculemos en general $|E_W|$ cuando $W \subseteq X$ o $W\subseteq Y$. Si $wu \in E_W$, entonces $v \notin W$, pues $W \subseteq X \Rightarrow v \in Y$, $W \subseteq Y \Rightarrow v \in X$.\\
+De lo anterior se sigue que
+\[
+E_W = \bigcup_{w \in W} \{wv : v \in \Gamma(w)\} \tag{2}
+\]
+donde la unión es disjunta. Luego
+\[
+|E_W| = \sum_{w \in W} |\Gamma(w)| = \sum_{w \in W} d(w) \tag{3}
+\]
+Como $G$ es regular, $d(w) = \delta = \Delta$. Luego
+\[
+|E_W| = \Delta |W| \tag{4}
+\]
+Usando (1) y (4) tenemos que
+\[
+|S| \Delta \leq |\Gamma(S)| \Delta \Rightarrow |S| \leq |\Gamma(S)| \tag{5}
+\]
+Como esto vale para todo $S \subseteq X$, el teorema de Hall implica que existe un matching completo de $X$ a $Y$. Si demostramos que $|X| = |Y|$, se seguirá que ese matching será perfecto.\\ \\
+La primera forma de probar esto es ver que como $X, Y$ son las partes de $G, E = E_X = E_Y$. Entonces $|E_X| = |E_Y|$, de lo cual se sigue que $\Delta |X| = |Y| \delta \Rightarrow |X| = |Y|$.\\ \\
+Otra forma de verlo es observar que, dado que existe un matching completo de $X$ a $Y, |X| \leq |Y|$. Pero la elección de $X$ sobre $Y$ en la prueba fue arbitraria. Por lo tanto vale lo mismo para $Y$. Luego $|X| = |Y|$.\\ \\
+En ambos casos, el matching es perfecto. $\blacksquare$
+\end{demostracion}
+
+\section{Probar que si $G$ es bipartito entonces $\chi'(G) = \Delta(G)$.}
+\textbf{Se evalua en diciemre de 2024}
+
+\section{Probar la complejidad $O(n^4)$ del algoritmo Hungaro y dar una idea de como se la puede reducir a $O(n^3)$}
+\textbf{Se evalua en diciemre de 2024}
+
+\section{Enunciar y probar el teorema de la cota de Hamming}
+
+Para todo código $C \in \{0,1\}^n$ con $\delta(c)=\delta$ y $t=\left\lfloor\frac{\delta-1}{2}\right\rfloor$ entonces:
+\[
+|C| \leq \frac{2^n}{1 + n + \binom{n}{2} + \cdots + \binom{n}{t}}
+\]
+\begin{demostracion}
+Sea
+\[
+A = \bigcup_{v \in C} D_t(v)
+\]
+Buscamos $|A|$.\\ \\
+Como $C$ corrige $t$ errores tenemos que
+\[
+D_t(v) \cap D_t(w) = \emptyset, \forall v, w \in C \text{ tales que } v \neq w
+\]
+Es claro que $A$ es unión disjunta\\
+Ahora definimos
+\[
+S_r(v) = \{w \in C : d_H(v, w) = r\}
+\]
+De esta forma es claro que:
+\[
+D_t(v) = \bigcup_{r=0}^t S_r(v) \quad \text{unión disjunta}
+\]
+Sea $w \in S_r(v)$, hay un subconjunto de los $n$ bits de las palabras que tiene $r$ elementos tal que $w$ difiere de $v$ en esos $r$ bits. Entonces tenemos:
+\begin{itemize}
+    \item Dado $w \in S_r(v)$, podemos obtener $r$ bits en los que $v$ y $w$ difieren.
+    \item Dado un conjunto de $r$ bits, podemos obtener un $w$ tal que $d_H(v,w) = r$
+\end{itemize}
+Así, existe una biyección entre $S_r(v)$ y el conjunto de subconjuntos de $r$ bits. Entonces la cardinalidad de estos conjuntos es la misma. Luego
+\[
+|S_r(v)| = \binom{n}{r} \implies |D_t(v)| = \sum_{r=0}^t \binom{n}{r}
+\]
+Finalmente tenemos:
+\begin{align*}
+    |A| & = \sum_{v\in C} |D_t(v)| \\
+        & = \sum_{v\in C} \sum_{r=0}^t \binom{n}{r} \\
+        & = |C| \sum_{r=0}^t \binom{n}{r} \\
+        & \leq 2^n \quad \text{pues } A \subseteq \{0,1\}^n \implies |C| \leq \frac{2^n}{\sum_{r=0}^t \binom{n}{r}} \blacksquare
+\end{align*}
+\end{demostracion}
+\section{Sea $C$ un código lineal con matriz de chequeo $H$. Entonces $\delta(C)$ es el mínimo número de columnas LD de $H$}
+
+\textbf{Demostración.}\\
+Sea
+\(m = \min \{r : \exists r \text{ columnas LD de } H\}\).
+Probaremos \(m = \delta(C)\).\\
+Para ello probaremos que \(m \geq \delta(C)\) y \(m \leq \delta(C)\).\\
+\subsubsection*{$m \leq \delta$}
+
+\subsubsection*{$m \geq \delta$}
+
+
 \end{document}

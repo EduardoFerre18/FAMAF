@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.3.31) (preloaded format=pdflatex 2024.5.13)  22 JUN 2024 14:15
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (MiKTeX 24.3.31) (preloaded format=pdflatex 2024.5.13)  22 JUN 2024 21:10
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -751,12 +751,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 78--83
 
  []
 
-
+[3]
 Underfull \hbox (badness 10000) in paragraph at lines 103--108
 
  []
 
-[3]
+
 Underfull \hbox (badness 10000) in paragraph at lines 111--116
 
  []
@@ -1213,17 +1213,132 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `math shift' on input line 462.
 
 [14]
-<images/Figure 1 2-color.png, id=162, 569.12625pt x 283.0575pt>
+<images/Figure 1 2-color.png, id=189, 569.12625pt x 283.0575pt>
 File: images/Figure 1 2-color.png Graphic file (type png)
 <use images/Figure 1 2-color.png>
 Package pdftex.def Info: images/Figure 1 2-color.png  used on input line 500.
 (pdftex.def)             Requested size: 343.25864pt x 170.71652pt.
-<images/Figura 2 2-color.png, id=164, 583.17876pt x 305.14pt>
+<images/Figura 2 2-color.png, id=191, 583.17876pt x 305.14pt>
 File: images/Figura 2 2-color.png Graphic file (type png)
 <use images/Figura 2 2-color.png>
 Package pdftex.def Info: images/Figura 2 2-color.png  used on input line 507.
 (pdftex.def)             Requested size: 326.28423pt x 170.71652pt.
- [15 <./images/Figure 1 2-color.png>] [16 <./images/Figura 2 2-color.png>] [17] [18] (c:\Users\Freddy\Desktop\GitHub UNC\FAMAF\Tercer_Año_2024\Matemática Discreta II\Teoremas-final\build\Final.aux
+ [15 <./images/Figure 1 2-color.png>] [16 <./images/Figura 2 2-color.png>] [17] [18]
+Underfull \hbox (badness 10000) in paragraph at lines 631--636
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 631--636
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 631--636
+
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 638.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 638.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 638.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\chi' on input line 638.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\Delta' on input line 638.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 638.
+
+
+Overfull \hbox (5.76659pt too wide) in paragraph at lines 641--641
+[]\OT1/cmr/bx/n/14.4 Probar la com-ple-ji-dad $\OML/cmm/m/it/14.4 O\OT1/cmr/m/n/14.4 (\OML/cmm/m/it/14.4 n[]\OT1/cmr/m/n/14.4 )$ \OT1/cmr/bx/n/14.4 del al-go-rit-mo Hun-
+ []
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `superscript' on input line 641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `superscript' on input line 641.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 641.
+
+[19]
+Underfull \hbox (badness 10000) in paragraph at lines 654--657
+
+ []
+
+[20]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\delta' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 686.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 688--693
+
+ []
+
+[21] (c:\Users\Freddy\Desktop\GitHub UNC\FAMAF\Tercer_Año_2024\Matemática Discreta II\Teoremas-final\build\Final.aux
 LaTeX Info: Redefining \. on input line 12.
 LaTeX Info: Redefining \% on input line 12.
 )
@@ -1232,20 +1347,20 @@ LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-03-14>
  ***********
 Package rerunfilecheck Info: File `Final.out' has not changed.
-(rerunfilecheck)             Checksum: 9577FB43EC122855A58457C18ACE2FC8;8828.
+(rerunfilecheck)             Checksum: CE9F7D0FFBC032F22AAEC6AD2FDB91D6;11044.
  ) 
 Here is how much of TeX's memory you used:
- 24178 strings out of 474424
- 452408 string characters out of 5751551
+ 24198 strings out of 474424
+ 452586 string characters out of 5751551
  1947496 words of memory out of 5000000
- 46060 multiletter control sequences out of 15000+600000
+ 46065 multiletter control sequences out of 15000+600000
  569382 words of font info for 79 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,19n,93p,2191b,808s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\Freddy\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1095.pk><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on "c:\Users\Freddy\Desktop\GitHub UNC\FAMAF\Tercer_Año_2024\Matemática Discreta II\Teoremas-final\build\Final.pdf" (18 pages, 324802 bytes).
+Output written on "c:\Users\Freddy\Desktop\GitHub UNC\FAMAF\Tercer_Año_2024\Matemática Discreta II\Teoremas-final\build\Final.pdf" (21 pages, 346684 bytes).
 PDF statistics:
- 271 PDF objects out of 1000 (max. 8388607)
- 38 named destinations out of 1000 (max. 500000)
- 103 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 320 PDF objects out of 1000 (max. 8388607)
+ 53 named destinations out of 1000 (max. 500000)
+ 143 words of extra memory for PDF output out of 10000 (max. 10000000)
 
