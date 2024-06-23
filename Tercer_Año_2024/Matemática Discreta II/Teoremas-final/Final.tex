@@ -1,6 +1,6 @@
 \documentclass[11pt, a4paper]{article}
 \usepackage[utf8]{inputenc}
-\usepackage[spanish]{babel}
+\usepackage[spanish,es-lcroman]{babel} 
 \usepackage{graphicx}
 \usepackage{mdframed}
 \usepackage{enumitem}
@@ -14,6 +14,7 @@
 \usepackage{placeins}
 \usepackage{etoolbox}
 \usepackage{tikz}
+
 \usetikzlibrary{decorations.pathreplacing}
 
 \spanishdecimal{.}
@@ -684,15 +685,171 @@ Finalmente tenemos:
 \end{align*}
 \end{demostracion}
 \section{Sea $C$ un código lineal con matriz de chequeo $H$. Entonces $\delta(C)$ es el mínimo número de columnas LD de $H$}
-
 \textbf{Demostración.}\\
 Sea
 \(m = \min \{r : \exists r \text{ columnas LD de } H\}\).
 Probaremos \(m = \delta(C)\).\\
-Para ello probaremos que \(m \geq \delta(C)\) y \(m \leq \delta(C)\).\\
-\subsubsection*{$m \leq \delta$}
+Para ello probaremos que $\delta(C) \leq m$ y $\delta(C) \geq m$.\\
+Denotaremos la $j$-ésima columna de $H$ como $H^(j)$.\\ \\
+Por definición de $m$ existe $j_1, j_2, \ldots, j_r$ tal que $H^{(j_1)}, H^{(j_2)}, \ldots, H^{(j_r)}$ son LD.\\ \\
+Entonces existen $c_1, c_2, \ldots, c_r$ no todos 0 tales que:
+\[
+c_1H^{(j_1)} + c_2H^{(j_2)} + \cdots + c_rH^{(j_r)} = 0
+\]
+Sea $e_i = (0, 0, \ldots, 1, \ldots, 0)$ con 1 en la posición $i$. Entonces: 
+\[
+    He_i^t = \left[
+        \begin{array}{c}
+        \hspace{8mm} i \hspace{8mm} \\
+        \vdots \\
+        \hspace{8mm} i \hspace{8mm} \\
+        \vdots \\
+        \hspace{8mm} i \hspace{8mm}
+        \end{array}
+        \right]
+        \begin{bmatrix}
+        0 \\
+        \vdots \\
+        1 \\
+        \vdots \\
+        0
+        \end{bmatrix} = H^{(i)}
+\]
+Es la columna $i-$ésima de $H$.
+\newpage
+Sea $x = c_1e_{j_1} + c_2e_{j_2} + \cdots + c_re_{j_r}$, como no todos los $c_j$ son 0 entonces $x \neq 0$, por lo que:
+\begin{align*}
+    H x^t &= H(c_1 e_{j_1}^t + c_2 e_{j_2}^t + \cdots + c_r e_{j_r}^t) \\
+          &= c_1 H e_{j_1}^t + c_2 H e_{j_2}^t + \cdots + c_r H e_{j_r}^t \\
+          &= c_1 H^{(j_1)} + c_2 H^{(j_2)} + \cdots + c_r H^{(j_r)} = 0 \\
+          &\Rightarrow H x^t = 0
+\end{align*}
 
-\subsubsection*{$m \geq \delta$}
+$\Rightarrow x \in C$ pues $C = Nu(H)$, pero su peso es $\leq m$, pues es suma de a lo sumo $m$ vectores de peso 1.
+y vimos que $x \neq 0$ entonces sabemos que:
+\[
+\delta(C) = \min \{ |v| : v \in C, v \neq 0 \}
+\]
 
+\[
+\text{Por lo tanto como } x \in C \text{ y } x \neq 0, \text{ entonces } x \text{ está en ese conjunto, así que tenemos:}
+\]
+
+\[
+\delta(C) = \min \{ |v| : v \in C, v \neq 0 \} \leq |x|
+\]
+Pero su peso es $\leq m$, entonces:
+\[
+\delta(C) = \min \{ |v| : v \in C, v \neq 0 \} \leq |x| \leq m
+\]
+Entonces, $\delta(C) \leq m$.\\ \\
+Ahora probaremos que $\delta(C) \geq m$.\\
+Sea $x \neq 0 : \delta(C) = |x|$ entonces:
+\begin{align*}
+    x &= c_1 e_{i_1} + \ldots + c_{\delta(C)} e_{i_{\delta(C)}} \\
+      &= 0 \quad \{\text{como} \text{ } x \in C, \text{entonces} \text{ } x \neq 0\} \\
+      &= H x^t = H^{(i_1)} + \ldots + H^{(i_{\delta(C)})} \\
+      &\Rightarrow \{H^j, \ldots H^{i_{\delta(C)}}\} \text{son LD} \implies \delta(C) \geq m 
+\end{align*}
+$\blacksquare$
+
+\section{Sea $C$ un código cíclico de dimensión $k$ y longitud $n$ y sea $g(x)$ su polinomio generador. Probar i, ii, iii y iv}
+\begin{enumerate}[label=\roman*.]
+    \item $C$ está formado por los multiplos de $g(x)$ de grado menor que $n$:
+    \[
+    C = \{p(x) : gr(p) < n\&g(x)|p(x)\}
+    \]
+    \item $C = \{v(x) \odot g(x): v \text{ } \text{es un polinomio cualquiera} \}$ 
+    \item $gr(g(x)) = n - k$
+    \item $g(x)$ divide a $1 + x^n$
+\end{enumerate}
+\textbf{Demostración}
+\subsubsection*{Prueba de i. y ii.}
+
+Sea $C_1 = \{p(x) : gr(p) < n\&g(x)|p(x)\}$ y $C_2 = \{v(x) \odot g(x): v \text{ } \text{es un polinomio cualquiera} \}$.\\ 
+Vamos a demostrar que $C \subseteq C_1$, $C_2 \subseteq C$ y $C_1 \subseteq C_2$.\\ \\
+$\boldsymbol{C_1 \subseteq C_2}$\\ \\
+Sea $p(x) \in C_1$, queremos ver si está en $C_2$. Entonces existe $q(x)$ tal que $p(x) = g(x) \cdot q(x)$, además:
+\[
+n > gr(p) = gr(g(x) \cdot q(x)) 
+\]
+Luego tomando modulo tenemos que 
+\begin{align*}
+    p(x) \mod (1 + x^n) &= g(x) \cdot q(x) \mod (1 + x^n) \\
+                        &= g(x) \odot q(x) \in C_2  
+\end{align*} 
+Por lo tanto $p(x) \in C_2$.\\ \\
+$\boldsymbol{C_2 \subseteq C}$\\ \\
+$\text{Sea } p(x) = v(x) \odot g(x) \in C_2, \text{ con } v(x) \text{ un polinomio cualquiera de la forma}$
+\[
+v(x) = v_0 + v_1 \cdot x + v_2 \cdot x^2 + \cdots + v_{gr(v)} \cdot x^{gr(v)}
+\]
+Queremos ver que $p(x) \in C$. Entonces:
+\begin{align*}
+    p(x) &= v(x) \odot g(x) \\
+    &= (v_0 + v_1 \cdot x + v_2 \cdot x^2 + \cdots + v_{gr(v)} \cdot x^{gr(v)}) \odot g(x) \\
+    &= v_0 \odot g(x) + v_1 \cdot (x \odot g(x)) + v_2 \cdot (x^2 \odot g(x)) + \cdots + v_{gr(v)} \cdot (x^{gr(v)} \odot g(x)) \\
+    &= v_0 \cdot g(x) + v_1 \cdot Rot(g(x)) + v_2 \cdot Rot^2(g(x)) + \cdots + v_{gr(v)} \cdot Rot^{gr(v)}(g(x)) \\
+    &\in C
+\end{align*}  
+Ya que todas las rotaciones de $g(x)$ están en $C$, entonces $p(x) \in C$.
+\newpage
+$\boldsymbol{C \subseteq C_1}$\\ \\
+Sea $p(x) \in C$, como las palabras de $C$ tienen longitud $n$, entonces $gr(p) < n$. Nos queda ver que $g(x)|p(x)$. Para ello dividamos $p$ por $g$:
+\[
+\exists q(x), r(x) : p(x) = g(x) \cdot q(x) + r(x) \quad \text{ con } gr(r) < gr(g)
+\]
+Ahora tomemos modulo:
+\begin{align*}
+    p(x) &= p(x) \mod (1 + x^n) \\
+         &= (g(x) \cdot q(x) + r(x)) \mod (1 + x^n) \\
+         &= g(x) \odot q(x) + (r(x) \mod (1 + x^n)) \\
+         &= g(x) \odot q(x) + r(x) \quad \text{pues } gr(r) < gr(g) < n
+\end{align*}
+Por lo tanto tenemos que:
+\[
+r(x) = p(x) + g(x) \odot q(x)
+\]
+Y como $p \in C$ y $g(x) \odot q(x) \in C_2$, entonces $r(x) \in C$.\\
+Pero como $g$ es el generador, este es el único polinomio no nulo de menor grado en $C$, y como $g(r) < gr(g)$, entonces $r(x) = 0$.\\
+Finalmente, como $g(x)|p(x)$, entonces $p(x) \in C_1$.
+\subsubsection*{Prueba de iii.}
+Sea \(p(x) \in C\), entonces existe \(q(x)\) tal que \({ p(x) = g(x) \cdot q(x) .}\)\\ 
+Además \({n > gr(p) = gr(g) + gr(q) }\), entonces \({ gr(q) < n - gr(g) .}\)\\
+Ahora, sea un \(q(x)\) tal que \(gr(q) < n - gr(g)\), tenemos que \({ g(x) \cdot q(x) \in C. }\)\\ \\
+Es decir, hay una biyección entre \(C\) y el conjunto de polinomios de grado menor a \({n - gr(g).}\) Entonces:
+\begin{align*}
+	|C| & = |\text{conjunto de polinomios de grado menor a } n - gr(g)| \\
+      \iff & \\
+  2^k & = 2^{n - gr(g)} \\
+      \iff & \\
+    k & = n - gr(g) \\
+      \iff & \\
+    gr(g) & = n - k \\
+\end{align*}
+
+\subsubsection*{Prueba de iv.}
+Dividimos \(1+x^n\) por \(g(x)\):
+\[ 
+\exists q(x), r(x) : 1 + x^n = g(x) \cdot q(x) + r(x) \quad \text{ con } gr(r) < gr(g)
+\]
+Ahora, si tomamos módulo:
+\begin{align*}
+	0 & = (1 + x^n) \text{ mod } (1 + x^n) \\
+    & = g(x) \cdot q(x) + r(x) \text{ mod } (1 + x^n) \\
+    & = g(x) \odot q(x) + (r(x) \text{ mod } (1 + x^n)) \\
+    & = g(x) \odot q(x) + r(x) \quad\text{pues } gr(r) < gr(g) < n \\
+    &\implies r(x) = g(x) \odot q(x) \in C
+\end{align*}
+Pero como $g$, es el polinomio de $C$ no nulo de menor grado y \({gr(r) < gr(g),}\) entonces \({r(x) = 0}\) y \({g(x) | (1 + x^n).}\)
+\end{document}
+
+
+
+\section{Probar que 3SAT es NP-completo}
+
+\section{Probar que 3COLOR es NP-completo}
+
+\section{Probar que Matrimonio 3D (“matrimonio trisexual”) es NP completo}
 
 \end{document}

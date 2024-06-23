@@ -14,3 +14,4 @@
 \contentsline {section}{\numberline {13}Probar la complejidad $O(n^4)$ del algoritmo Hungaro y dar una idea de como se la puede reducir a $O(n^3)$}{19}{section.13}%
 \contentsline {section}{\numberline {14}Enunciar y probar el teorema de la cota de Hamming}{20}{section.14}%
 \contentsline {section}{\numberline {15}Sea $C$ un código lineal con matriz de chequeo $H$. Entonces $\delta (C)$ es el mínimo número de columnas LD de $H$}{21}{section.15}%
+\contentsline {section}{\numberline {16}Sea $C$ un código cíclico de dimensión $k$ y longitud $n$ y sea $g(x)$ su polinomio generador. Probar i, ii, iii y iv}{22}{section.16}%
