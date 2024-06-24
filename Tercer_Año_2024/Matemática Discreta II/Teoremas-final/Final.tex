@@ -839,17 +839,163 @@ Ahora, si tomamos módulo:
     & = g(x) \cdot q(x) + r(x) \text{ mod } (1 + x^n) \\
     & = g(x) \odot q(x) + (r(x) \text{ mod } (1 + x^n)) \\
     & = g(x) \odot q(x) + r(x) \quad\text{pues } gr(r) < gr(g) < n \\
-    &\implies r(x) = g(x) \odot q(x) \in C
+    &\Rightarrow r(x) = g(x) \odot q(x) \in C
 \end{align*}
-Pero como $g$, es el polinomio de $C$ no nulo de menor grado y \({gr(r) < gr(g),}\) entonces \({r(x) = 0}\) y \({g(x) | (1 + x^n).}\)
-\end{document}
-
+Pero como $g$, es el polinomio de $C$ no nulo de menor grado y \({gr(r) < gr(g),}\) entonces \({r(x) = 0}\) y \({g(x) | (1 + x^n).}\). $\blacksquare$
 
 
 \section{Probar que 3SAT es NP-completo}
 
-\section{Probar que 3COLOR es NP-completo}
 
+
+\section{Probar que 3COLOR es NP-completo}
+Para probar esto, sabiendo que 3SAT es NP completo, demostraremos que 3SAT se reduce polinomialmente a 3COLOR.\\
+Es decir, debemos, dada una instancia de 3SAT, es decir, una expresion booleana $B$ en CNF con exactamente 3 literales
+por disjuncion, crear polinomialmente una instancia de 3COLOR, es decir, un grafo $G$, tal que $B$ es satisfacible si y solo si $G$
+se puede colorear con 3 colores.\\ \\
+Sean $x_1 \ldots x_n$ las variables de $B$ y $D_j$ disjunciones cada una con tres literales tales que:
+\[
+B = D_1 \land D_2 \land \ldots \land D_m
+\]
+Como cada $D_j$ tiene 3 literales, sean $\ell_{jr}$, $r = 1, 2, 3$ los 3 literales de $D_j$. Es decir, $D_j = \ell_{j1} \vee \ell_{j2} \vee \ell_{j3}$.\\ \\
+Construiremos ahora $G$.\\
+Primero daremos los vertices de $G$:
+\begin{itemize}
+    \item Tendremos para cada $i = 1, 2, \ldots, n$ dos vértices $u_i$, $w_i$.
+    \item Además, para cada $j = 1, \ldots, m$ tendremos 6 vértices $a_{j1}$, $a_{j2}$, $a_{j3}$, $e_{j1}$, $e_{j2}$, $e_{j3}$.
+    \item Finalmente, dos vértices especiales, que llamaremos el CAPITAN y el AVISPON.
+\end{itemize}
+Observemos que la construcción de los vértices es directa a partir de solamente saber $n$ y $m$ y es polinomial.
+\newpage
+Ahora daremos los lados\\
+Para poder definir los lados, debemos definir una función $v$ del conjunto de literales $\{x_1, .., x_n, \neg x_1, ..., \neg x_n\}$ en el conjunto
+$\{u_1, w_1, ..., u_n, w_n\}$ de la siguiente forma:
+\[
+v(x_i) = u_i \quad v(\neg x_i) = w_i
+\]
+Es decir, $v$ de un literal es $u_i$ si el literal es la $i$-ésima variable, y $w_i$ si el literal es la $i$-ésima negación de una variable.\\
+Entonces definimos los siguientes lados:
+\begin{itemize}
+    \item Triángulos $\{a_{j1}a_{j2}, a_{j2}a_{j3}, a_{j1}a_{j3}\}$, $j = 1, .., m$.
+    \item Unir bases con extremos: $a_{jr}e_{jr}$, $j = 1, .., m$, $r = 1, 2, 3$. (Nota: los triángulos anteriores más estos últimos lados se
+    llaman las “garras” porque al dibujarlos parecen unas garras).
+    \item Unir extremos con el CAPITAN: $CAPITAN e_{jr}$, $j = 1, .., m$, $r = 1, 2, 3$.
+    \item Triángulos basados en el avispon: $AVISPON u_i$, $AVISPON w_i$, $u_i w_i$, $i = 1, \ldots, n$.
+    \item $(CAPITAN)(AVISPON)$ es otro lado.
+    \item Lados $e_{jr}v(\ell_{jr})$, $j = 1, .., m$, $r = 1, 2, 3$.
+\end{itemize}
+Los primeros 4 tipos de lados dependen solo de $n$ y $m$, son los últimos lados los que capturan la “estructura” de $B$.\\
+Está claro que la construcción es polinomial, porque solo leemos quiénes son $n$, $m$ y los literales $\ell_{jr}$ para construir $G$ y el
+número de vértices y lados es lineal en estos números.\\ \\
+Como $G$ tiene triángulos, sabemos que $\chi(G) \geq 3$. Demostremos entonces que $B$ es satisfacible si y solo si $\chi(G) = 3$.
+\subsubsection*{$B$ es satisfacible $\Rightarrow \chi(G) = 3$}
+Como $B$ es satisfacible, existe $\vec{b}$ un vector de bits tal que $B(\vec{b}) = 1$.\\
+Colorearemos $G$ a partir de $\vec{b}$, y cada vez que coloreemos un vértice o conjunto de vértices debemos asegurarnos que el
+coloreo sigue siendo propio.\\
+Para empezar definimos:
+\begin{itemize}
+    \item Color del CAPITAN: ESCARLATA
+    \item Color del AVISPON: VERDE
+    \item Entonces el lado $(CAPITAN)(AVISPON)$ no crea problemas porque sus extremos tienen colores distintos.
+\end{itemize}
+Luego definimos:
+\begin{itemize}
+    \item Color de $u_i$ = ESCARLATA si $b_i = 1$ y NEGRO si $b_i = 0$.
+    \item Color de $w_i$ = ESCARLATA si $b_i = 0$ y NEGRO si $b_i = 1$.
+\end{itemize}
+Entonces cada triángulo $AVISPON u_i$, $AVISPON w_i$, $u_i w_i$ tienen los colores VERDE, ESCARLATA y NEGRO en algún
+orden, así que no crea problemas.\\ \\
+Todavía no usamos que $B(\vec{b}) = 1$. Esa propiedad implica que $D_j(\vec{b}) = 1$ para todo $j$, y como $D_j$ es una disyunción eso
+implica que:
+\[
+\forall j \in \{1, \ldots, m\} \exists r_j \in \{1, 2, 3\} : \ell_{jr_j}(\vec{b}) = 1
+\]
+(Si hay más de un “$r_j$“ elegimos uno solo)\\
+Entonces coloreamos, para cada $j = 1, \ldots, m$:
+\begin{itemize}
+    \item Color de $a_{jr_j}$: VERDE
+    \item Color de $a_{jk}$ para $k \neq r_j$: Uno NEGRO y el otro ESCARLATA.
+\end{itemize}
+De esta forma los triángulos $a_{j1}a_{j2}$, $a_{j2}a_{j3}$, $a_{j1}a_{j3}$ no crean problemas porque sus vértices tienen los tres colores distintos.\\
+Luego coloreamos los extremos:
+\begin{itemize}
+    \item Color de $e_{jr_j}$: NEGRO
+    \item Color de $e_{jk}$ para $k \neq r_j$: VERDE
+\end{itemize}
+Entonces:
+\begin{itemize}
+    \item Los lados $a_{jr_j}e_{jr_j}$ no crean problemas porque uno de sus extremos es VERDE y el otro NEGRO.
+    \item Y para $k \neq r_j$, los lados $a_{jk}e_{jk}$ no crean problemas porque uno de sus extremos es NEGRO o ESCARLATA y el otro VERDE.
+    \item Además los lados $CAPITAN e_{jk}$ ($k = 1, 2, 3$) no crean problemas porque el color del CAPITAN es ESCARLATA y el de los $e_{jk}$ es NEGRO o VERDE.
+    \item Los lados $e_{jk}v(\ell_{jk})$ para $k \neq r_j$ no crean problemas porque el color de $e_{jk}$ es VERDE para esos $k$, mientras que el color
+    de $v(\ell_{jk})$, que será un $u_i$ o $w_i$, va a ser NEGRO o ESCARLATA.
+    \item Finalmente, quedan los lados $e_{jr_j}v(\ell_{jr_j})$. El color de $e_{jr_j}$ es NEGRO así que acá podría haber algún problema. Lo que
+    debemos probar para evitar el problema es que el color de $v(\ell_{jr_j})$ es ESCARLATA.
+\end{itemize}
+Para probar esto, debemos analizar qué tipo de literal es $\ell_{jr_j}$:
+\begin{enumerate}
+    \item Si $\ell_{jr_j}$ es una variable:\\
+    \begin{itemize}
+        \item Entonces existe $i$ tal que $\ell_{jr_j} = x_i$.
+        \item $\ell_{jr_j} = x_i$ implica por definición de $v$ que $v(\ell_{jr_j}) = u_i$ (*)
+        \item Pero también, $\ell_{jr_j} = x_i$ implica que: $\ell_{jr_j}(\vec{b}) = x_i(\vec{b}) = b_i$.
+        \item Como $1 = \ell_{jr_j}(\vec{b})$, concluimos que $b_i = 1$.
+        \item Esto implica que el Color de $u_i$ es ESCARLATA. (**)
+        \item Por lo tanto (*) y (**) nos dicen que, efectivamente, el color de $v(\ell_{jr_j})$ es ESCARLATA como queríamos.
+    \end{itemize}
+    \item Si $\ell_{jr_j}$ es la negación de una variable:
+    \begin{itemize}
+        \item Entonces existe $i$ tal que $\ell_{jr_j} = \neg x_i$.
+        \item Por lo tanto $v(\ell_{jr_j}) = w_i$, así que queremos probar que el color de $w_i$ es ESCARLATA.
+        \item  Tenemos: $1 = \ell_{jr_j}(\vec{b}) = (\neg x_i)(\vec{b}) = 1 - b_i$.
+        \item  De lo cual concluimos que $b_i = 0$. Esto, por definición del coloreo, implica que el color de $w_i$ es ESCARLATA, como
+        queríamos.
+    \end{itemize}
+\end{enumerate}
+Fin $\Rightarrow$.
+\subsubsection*{$B$ es satisfacible $\Leftarrow \chi(G) = 3$}
+Sea $c$ un coloreo propio con 3 colores de $G$.\\
+Definimos un vector de bits $\vec{b}$ como:\\
+$b_i = 1$ si $c(u_i) = c(CAPITAN)$ y $b_i = 0$ si no.\\
+Para demostrar que $B(\vec{b})$ es necesario y suficiente ver que $D_j(b) = 1$ para todo $j$.\\
+Fijemos entonces un $j$ en $\{1, 2, .., m\}$
+\begin{enumerate}
+    \item  Como tenemos el triángulo $\{a_{j1}a_{j2}, a_{j2}a_{j3}, a_{j1}a_{j3}\}$, y $c$ es un coloreo propio con 3 colores, entonces los 3 colores deben
+    aparecer en los vértices de ese triángulo.\\
+    Por lo tanto, existe $r \in \{1, 2, 3\}$ tal que $c(a_{jr}) = c(AVISPON)$.
+    \item Como $a_{jr}e_{jr}$ es un lado, $c(e_{jr}) \neq c(a_{jr})$, por lo tanto por [1], concluimos que $c(e_{jr}) \neq c(AVISPON)$.
+    \item Como $CAPITAN e_{jr}$ es un lado, concluimos que $c(e_{jr}) \neq c(CAPITAN)$.
+    \item Los items [2] y [3] nos dicen que el color de $e_{jr}$ debe ser igual al "tercer" color, es decir, el color que no es igual ni al
+    color del AVISPON ni al color del CAPITAN. (Y, como $(CAPITAN)(AVISPON)$ es un lado, sabemos que el color del
+    CAPITAN y el color del AVISPON son distintos, así que efectivamente, $e_{jr}$ debe tener el tercer color.
+    \item Como $e_{jr}v(\ell_{jr})$ es un lado, entonces $c(v(\ell_{jr})) \neq c(e_{jr})$. Es decir, por el item [4], el color de $v(\ell_{jr})$ NO ES el tercer color.
+    \item Como $AVISPON v(\ell_{jr})$ es un lado, entonces $c(v(\ell_{jr})) \neq c(AVISPON)$.
+    \item Items [5] y [6] implican que $c(v(\ell_{jr})) = c(CAPITAN)$.
+\end{enumerate}
+A partir del item [7] veamos de probar que $D_j(\vec{b}) = 1$. \\
+Para ello, otra vez, tenemos que analizar qué clase de literal es $\ell_{jr}$.
+\begin{enumerate}[label=\roman*.]
+    \item Si $\ell_{jr}$ es una variable:
+    \begin{itemize}
+        \item Entonces existe $i$ con $\ell_{jr} = x_i$. Por lo tanto $v(\ell_{jr}) = u_i$.
+        \item Entonces [7] implica que $c(u_i) = c(CAPITAN)$, y esto, por definición de $\vec{b}$ implica que $b_i = 1$.
+        \item Entonces $\ell_{jr}(\vec{b}) = x_i(\vec{b}) = b_i = 1$ lo cual implica $D_j(\vec{b}) = 1$ como queríamos.
+    \end{itemize}
+    \item Si $\ell_{jr}$ es la negación de una variable:
+    \begin{itemize}
+        \item Entonces existe $i$ con $\ell_{jr} = \neg x_i$. Por lo tanto $v(\ell_{jr}) = w_i$.
+        \item Entonces [7] implica que $c(w_i) = c(CAPITAN)$.
+        \item Como $u_i w_i$ es un lado, el color de $u_i$ debe ser distinto del color de $w_i$.
+        \item Por lo tanto lo anterior implica que: $c(u_i) \neq c(CAPITAN)$.
+        \item Esto, por definición de $\vec{b}$ implica que $b_i = 0$.
+        \item Entonces: 
+                        \[
+                            \ell_{jr}(\vec{b}) = \neg x_i(\vec{b}) = 1 - b_i = 1 - 0 = 1
+                        \]
+            Lo cual otra vez implica que $D_j(\vec{b}) = 1$ como queríamos.
+    \end{itemize}
+\end{enumerate}
+\(\blacksquare\)
 \section{Probar que Matrimonio 3D (“matrimonio trisexual”) es NP completo}
 
 \end{document}

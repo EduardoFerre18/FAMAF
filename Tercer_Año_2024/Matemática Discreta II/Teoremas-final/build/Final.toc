@@ -15,3 +15,6 @@
 \contentsline {section}{\numberline {14}Enunciar y probar el teorema de la cota de Hamming}{20}{section.14}%
 \contentsline {section}{\numberline {15}Sea $C$ un código lineal con matriz de chequeo $H$. Entonces $\delta (C)$ es el mínimo número de columnas LD de $H$}{21}{section.15}%
 \contentsline {section}{\numberline {16}Sea $C$ un código cíclico de dimensión $k$ y longitud $n$ y sea $g(x)$ su polinomio generador. Probar i, ii, iii y iv}{22}{section.16}%
+\contentsline {section}{\numberline {17}Probar que 3SAT es NP-completo}{25}{section.17}%
+\contentsline {section}{\numberline {18}Probar que 3COLOR es NP-completo}{25}{section.18}%
+\contentsline {section}{\numberline {19}Probar que Matrimonio 3D (“matrimonio trisexual”) es NP completo}{29}{section.19}%
