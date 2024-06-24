@@ -167,12 +167,21 @@ La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$
         lo cual implica que $f_{k+1}(\overrightarrow{zx}) < c(\overrightarrow{zx})$ en el paso $k + 1$. 
         Luego, para pasar de $f_k$ a $f_{k+1}$, se usó el lado $\overrightarrow{xz}$ y se usó backwards en el camino
         
-        \[ \tilde{p}_k : s \ldots \tilde{z} \ldots t \]
+        \[ 
+        \tilde{p}_k : s \ldots \tilde{z} \ldots t 
+        \]
         
         Como este camino se usa en Edmonds-Karp, es de longitud mínima. Por lo tanto,
         
-        \[ d_k(z) = d_k(x) + 1 \]
-        \textbf{Completar, falta determinar el absurdo.}
+        \[ d_k(z) = d_k(x) + 1 \]Luego,
+        \begin{align*}
+            d_k(z) & = d_k(x) + 1 \\
+                   & > d_{k+1}(x) + 1 \\
+                   & = d_{k+1}(z) + 2 \\
+                   & \geq d_k(z) + 2
+        \end{align*}
+        Absurdo pues, $0 < 2$.
+        
 
 
         \item \textbf{Caso 2.} Si $\overrightarrow{zx}$ es un lado, tenemos que $p_{k+1}$ es de la forma $s \ldots zx$. Como antes, 
@@ -190,9 +199,16 @@ La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$
         \end{center}
         Y luego como usamos Edmonds-Karp, este camino aumentante es de longitud mínima.\\
         Luego $d_k(z) = d_k(x) + 1$.\\
-        \textbf{Completar, falta determinar el absurdo.}
+        \begin{align*}
+            d_k(z) & = d_k(x) + 1 \\
+                   & > d_{k+1}(x) + 1 \\
+                   & = d_{k+1}(z) + 2 \\
+                   & \geq d_k(z) + 2
+        \end{align*}
+        Absurdo pues, $0 < 2$. 
     \end{itemize}
-    Finalmente concluimos $A=\emptyset$, es decir, que $d_k(x) \leq d_{k+1}(x)$. $\blacksquare$
+    Finalmente concluimos que en ambos casos llegamos a un absurdo, y este absurdo viene de suponer que \({A \ne \emptyset}\), entonces A es vacío y finalmente 
+    \[ d_k(x) \leq d_{k+1}(x) \]
 \end{demostracion}
 
 \section{Probar que, si dados vértices $x,z$ y flujo $f$ definimos la distancia entre $x$ y $z$ relativa a $f$ como la longitud del menor
@@ -845,6 +861,131 @@ Pero como $g$, es el polinomio de $C$ no nulo de menor grado y \({gr(r) < gr(g),
 
 
 \section{Probar que 3SAT es NP-completo}
+Vamos a demostrar que 3-Color es NP-COMPLETO, para ello usaremos
+\begin{itemize}
+    \item SAT $\rightarrow$ 3-SAT $\rightarrow$ 3-Color
+    \item Para el salto de 3-SAT a 3-Color usaremos un grafo bastante complejo que se puede colorear con 3 colores
+    \item Cabe resaltar que el salto de 3 a 2 es NP-COMPLETO por esto.
+\end{itemize}
+Veamos que que SAT $\leq_p$ 3-SAT.\\ \\
+Entonces, sea B en forma conjuntiva normal (CNF) tal que $B = D_1 \wedge \ldots \wedge D_r$ con
+$D_j = l_{1,j} \vee l_{2,j} \vee \ldots \vee l_{i,j}$ con $l_{r_j,j}$ literales.\\ \\
+Queremos construir $\tilde{B}$ polinomialmente tal que $\tilde{B}$ esté en CNF con 3 literales por
+disyunción tal que B sea satisfacible si y solo si $\tilde{B}$ es satisfacible.\\ \\
+Definimos unos $E_j$ y $\tilde{B} = E_1 \wedge \ldots \wedge E_n$.\\ \\
+Cada $E_j$ lo definimos a partir de $D_j$, y procedemos de diferente manera según la
+cantidad de literales $r_j$ presentes en $D_j$, entonces:
+\begin{quote}
+    Si $r_j = 3$ tenemos que $E_j = D_j$, por lo que no hacemos nada.\\
+    Si $r_j < 3$ agregamos variables mudas que no afectan el resultado, vemos los casos:
+        \begin{itemize}
+            \item $r_j = 2 \rightarrow D_j = l_{1,j} \vee l_{2,j}$\\
+                  $E_j = (l_{1,j} \vee l_{2,j} \vee y_j) \wedge (l_{1,j} \vee l_{2,j} \vee \bar{y}_j)$
+            \item $r = 1 \rightarrow D_j = l_{1,j}$\\
+                  $E_j = (l_{1,j} \vee y_{1,j} \vee y_{2.j}) \wedge (l_{1,j} \vee \bar{y}_{1,j} \vee y_{2,j}) \wedge (l_{1,j} \vee y_{1,j} \vee \bar{y}_{2,j}) \wedge (l_{1,j} \vee \bar{y}_{1,j} \vee \bar{y}_{2,j})$
+            \end{itemize}
+    Si $r_j > 3$ es el problema más grande:
+    \[
+        D_j = l_{1,j} \vee l_{2,j} \vee \ldots \vee l_{r_j,j}
+    \]
+    entonces:
+    \begin{align*}
+        E_j = &(l_{1,j} \vee l_{2,j} \vee y_{1,j}) \wedge (l_{3,j} \vee y_{2,j} \vee \bar{y}_{1,j}) \\
+              &\wedge (l_{4,j} \vee y_{3,j} \vee \bar{y}_{2,j}) \wedge \ldots \wedge (l_{r_j-2,j} \vee y_{r_j-3,j} \vee \bar{y}_{r_j-4,j}) \\
+              &\wedge (l_{r_j-1,j} \vee l_{r_j,j} \vee \bar{y}_{r_j-3,j})
+    \end{align*}
+    Son variables booleanas para evaluarlas tengo que elegir un vector de 0's y 1's.\\ \\
+    \textbf{Ejemplo:} Supongamos $\tilde{B}$ satisfacible, $\tilde{B}$ es suma de función de variables $x_1,\ldots x_{algo}$ y
+    variables extra $y_{i,j}$. Podríamos denotarlo con $\tilde{B}(\vec{x}, \vec{y})$ mientras que B depende solo de
+    las $\vec{x}$, es decir, $B(\vec{x})$.\\
+    Es decir:
+    \[
+        \underbrace{B = D_1 \wedge \ldots \wedge D_n}_{\vec{x}}
+        \rightarrow 
+        \underbrace{\tilde{B} = E_1 \wedge \ldots \wedge E_n}_{\vec{x},\vec{y}}
+    \]
+    Vamos a demostrar que si $\exists \vec{a} : B(\vec{a}) = 1 \Leftrightarrow \exists \vec{c}, \vec{b} : \tilde{B}(\vec{c}, \vec{b}) = 1$. (la idea es ver
+    que $\vec{a} = \vec{c}$)\\ \\
+    ($\Leftarrow$) Supongamos que $\tilde{B}(\vec{c}, \vec{b}) = 1$ queremos probar $B(\vec{a}) = 1$. Supongamos que
+    no se cumple y llegaremos a un absurdo, entonces se da $B(\vec{a}) = 0$.\\ \\
+    Como $B = D_1 \wedge \ldots \wedge D_n$ entonces $\exists j : D_j(\vec{a}) = 0$, pero $D_j = l_{1,j} \vee l_{2,j} \vee \ldots \vee l_{r_j,j}$
+    donde todos los términos tienen que ser cero.\\ \\
+    Entonces, $l_{i,j}(\vec{a}) = 0 \quad \forall i$ (y ese j). Por otro lado $\tilde{B}(\vec{a}, \vec{b}) = 1 \Rightarrow \exists E_j(\vec{a}, \vec{b}) = 1 \quad \forall j$
+    en particular para ese j que mencionamos antes.\\
+    Ahora tenemos que ver los casos:
+
+    \begin{itemize}
+        \item Si $r_j = 3$ tenemos que $E_j = D_j$ así que esto es imposible. $D_j(\vec{a}) = 0 \Rightarrow E_j = 0 \Rightarrow
+        \tilde{B}(\vec{a}, \vec{b}) = 0$ Absurdo.
+        
+        \item Si $r_j = 2$ tenemos que $E_j = (l_{1,j} \vee l_{2,j} \vee y_j) \wedge (l_{1,j} \vee l_{2,j} \vee \bar{y}_j)$ pero $l_{i,j}(\vec{a}) = 0$ entonces:
+        \begin{align*}
+        1 &= E_j(\vec{a}, \vec{b}) \\
+        &= (0 \vee 0 \vee y_j(\vec{b})) \wedge (0 \vee 0 \vee \bar{y}_j(\vec{b})) \\
+        &= y_j(\vec{b}) \wedge \bar{y}_j(\vec{b}) \\
+        1 &= 0
+        \end{align*}
+        Absurdo.
+        
+        \item $r_j = 1$
+        \begin{align*}
+        1 &= E_j(\vec{a}, \vec{b}) \\
+        &= (l_{1,j} \vee y_{1,j} \vee y_{2,j}) \wedge (l_{1,j} \vee y_{1,j} \vee \bar{y}_{2,j}) \wedge (l_{1,j} \vee \bar{y}_{1,j} \vee y_{2,j}) \\
+        &\wedge (l_{1,j} \vee \bar{y}_{1,j} \vee \bar{y}_{2,j})[\vec{a}, \vec{b}] \\
+        &= (p \vee q) \wedge \underbrace {(\bar{p} \vee q) \wedge (p \vee \bar{q})}_{sii} \wedge(\bar{p} \vee \bar{q}) \\
+        &= 0
+        \end{align*}
+        Absurdo.
+        
+        \item $r_j > 4$
+        \begin{align*}
+        1 &= E_j(\vec{a}, \vec{b}) \\
+        &= (l_{1,j} \vee l_{2,j} \vee y_{1,j}) \wedge (l_{3,j} \vee \bar{y}_{1,j} \vee y_{2,j}) \wedge (l_{4,j} \vee \bar{y}_{2,j} \vee y_{3,j}) \wedge \ldots \\
+        &\wedge (l_{r_j-2,j} \vee \bar{y}_{r_j-4,j} \vee y_{r_j-3,j}) \wedge (\bar{y}_{r_j-3,j} \vee l_{r_j-1,j} \vee l_{r_j,j})[\vec{a}, \vec{b}]
+        \end{align*}
+        sabemos que: $l_{i,j}(\vec{a}) = 0$\\
+        si $p_i = y_{i,j}(\vec{b}) = p_1 \wedge (\bar{p}_1 \vee p_2) \wedge (\bar{p}_2 \vee p_3) \wedge \ldots \wedge (\bar{p}_{r_j-4} \vee p_{r_j-3}) \wedge \bar{p}_{r_j-3}$
+        
+        $p_1 \wedge (p_1 \Rightarrow p_2) \wedge (p_2 \Rightarrow p_3) \wedge \ldots \wedge (p_{r_j-4} \Rightarrow p_{r_j-3}) \wedge \bar{p}_{r_j-3} = 0$
+        
+        Todos tienen que ser 1 y el último 0, es un absurdo.
+        \end{itemize}
+    ($\Rightarrow$) Si $\exists \vec{a} : B(\vec{a}) = 1 \Rightarrow \exists \vec{b} : \tilde{B}(\vec{a}, \vec{b}) = 1$\\ \\
+    Para $r_j \leq 3$ se le puede dar cualquier valor a los $y_{i,j}$ por ejemplo 0 y es trivial ver los
+    casos $r_j = 1$ y $r_j = 2$. \\ \\
+    El único problema grande es $r_j > 3$\\ \\
+    Como $B(\vec{a}) = 1$ entonces $D_j(\vec{a}) = 1 \quad \forall j$ (y al menos un término de $D_j$ es 1). Entonces,
+    $\exists i_j : l_{i_j,j}(\vec{a}) = 1$. Si hay más de uno tomo cualquiera, por ejemplo el primero.\\ \\
+    Evaluamos los $y_{i,j}$ de forma tal que:
+    \[
+        y_{i,j}(\vec{b}) = 
+        \begin{cases}
+        1 & \text{si } i = 1, \ldots i_j - 2 \\
+        0 & \text{si } i \geq i_j - 1
+        \end{cases}
+    \]
+    Entonces, si evaluamos tenemos:
+    \begin{align*}
+        E_j(\vec{a}, \vec{b}) &= (l_{1,j} \vee l_{2,j} \vee \underbrace{y_{1,j}}_{=1}) \wedge
+        (l_{3,j} \vee \bar{y}_{1,j} \vee \underbrace{y_{2,j}}_{=1}) \wedge \ldots \wedge
+        (l_{i_j-1,j} \vee \bar{y}_{i_j-3,j} \vee \underbrace{y_{i_j-2,j}}_{=1}) \wedge \\
+        &(\underbrace{l_{i_j,j}}_{=1(t)} \vee \bar{y}_{i_j-2,j} \vee y_{i_j-1,j}) \wedge
+        (l_{i_j+1,j} \vee \underbrace{\bar{y}_{i_j-1,j}}_{=1} \vee y_{i_j,j}) \wedge \ldots \\
+        &= 1
+        \end{align*}
+    $\blacksquare$
+
+\end{quote}
+
+
+
+
+
+
+
+
+
+
 
 
 
