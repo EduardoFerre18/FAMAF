@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1719201042.35839 "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" "build/Final.pdf" "Final" 1719201044.44377 0
+["pdflatex"] 1719360827.70425 "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" "build/Final.pdf" "Final" 1719360829.72257 0
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/tcrm1095.tfm" 993062508 1460 8005ce585ff351dff78998923504da5e ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1233951848 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm" 1233951848 1120 200be8b775682cdf80acad4be5ef57e4 ""
@@ -199,11 +199,11 @@
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/zref/zref-abspage.sty" 1695383086 2269 4fe6fb3396214c91f164d45faf9bec45 ""
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/zref/zref-base.sty" 1695383086 20785 f7d1133a287929598a897c93f8f4c44b ""
-  "Final.tex" 1719201041 64592 165cee7550e18c3d85ae14308db38603 ""
-  "build/Final.aux" 1719201044 4666 6f4a1f10af8272da51745dbeecdd413e "pdflatex"
-  "build/Final.out" 1719201044 12540 8b38db1620d96be346447a7c60251a1f "pdflatex"
-  "build/Final.toc" 1719201044 3428 00bf9d79fd1db036d0d1ff6c87c93ac9 "pdflatex"
-  "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" 1719201041 64592 165cee7550e18c3d85ae14308db38603 ""
+  "Final.tex" 1719360824 64417 a1aa25bc56e65d4faa76515f3210cf9f ""
+  "build/Final.aux" 1719360829 4666 6f4a1f10af8272da51745dbeecdd413e "pdflatex"
+  "build/Final.out" 1719360829 12540 8b38db1620d96be346447a7c60251a1f "pdflatex"
+  "build/Final.toc" 1719360829 3428 00bf9d79fd1db036d0d1ff6c87c93ac9 "pdflatex"
+  "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" 1719360824 64417 a1aa25bc56e65d4faa76515f3210cf9f ""
   "images/Figura 2 2-color.png" 1719028171 28145 a19c572c53e3e31c0ee39b2b8d8c1fc5 ""
   "images/Figure 1 2-color.png" 1719028171 9413 604e2e6b415c036f8941e12ff3ee9a6b ""
   (generated)

@@ -46,48 +46,46 @@ Matemática Discreta II
 
 \section{¿Cuál es la complejidad de Edmons-Karp?}
 
-La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$
-
-\begin{demostracion}
+La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$\\
+\textbf{Demostración}
+    \begin{itemize}
+        \item E-K construye una sucesión de caminos aumentantes, cada uno de ellos se encuentra utilizando BFS, que es $O(m)$.
+        \item Por lo tanto la complejidad de E-K es $O(m)$ por $\#$caminos aumentantes.
+        \item Entonces si demostramos que en E-K, $\#$caminos aumentantes  $= O(nm)$, tenemos el teorema.
+        \item Para probar esto tenemos que ver cuantas veces un lado puede volverse crítico, teniendo en cuenta que un lado se vuelve crítico en el paso $k$ cuando al pasar al paso $k+1$ este se satura o se vacía.
+        \item Esto es porque por cada camino aumentante que encontremos, cuando aumentemos el flujo, vamos a saturar o llenar al menos un lado en ese camino.
+        \item Entonces si acotamos la cantidad de veces que un lado que un lado se vuelve crítico, habremos acotado la cantidad de caminos aumentantes
+    \end{itemize}
+    Supongamos que un lado $\overrightarrow{xy}$ se vuelve crítico en el paso $k$, y luego en el paso $j$, con $k<j$. Entonces hay dos casos para analizar
+    \begin{itemize}
+        \item \textbf{Caso 1.} Se vuelve crítico en el paso $k$ porque se saturó.
+        \item \textbf{Caso 2.} Se vuelve crítico en el paso $k$ porque se vació.
+    \end{itemize}
     
-    Para facilitar la prueba, supondremos que sí en el network está el lado $\overrightarrow{xy}$, 
-    entonces no está el lado $\overrightarrow{yx}$.\\ \\
-    Si $f_0, f_1, f_2, \ldots$ son los flujos parciales producidos al correr EK, entonces queremos ver que hay una cantidad finita de ellos y dar
-    una cota para ese número. Como la búsqueda y construcción de cada camino aumentante se hace con \textbf{BFS}, cada incremento del flujo tiene 
-    complejidad $O(m)$. \\ \\
-    Así, que si probamos que sólo puede haber $O(nm)$ flujos aumentantes, tendremos la prueba de que la complejidad de EK es $O(nm^2)$.\\ \\
-    Primero, decimos que un lado se vuelve crítico al pasar de $f_k$ a $f_{k+1}$ si se \textbf{satura} o \textbf{vacía}.\\ \\
-    En cada construcción de un camino aumentante al menos un lado se vuelve crítico, el problema es que un lado puede volverse crítico muchas veces.
-    Veamos cuantas veces puede pasar.\\ \\
-    Supongamos que $\overrightarrow{xy}$ se vuelve crítico en el paso $k$, y luego en el paso $r$, con $r>k$. Tenemos que analizar dos casos:
-    se vuelve crítico en el paso $k$ porque se saturó (llamemosle \textbf{Caso 1}), 
-    o se vuelve crítico en el paso $k$ porque se vació, (a este caso lo llamamos \textbf{Caso 2}).\\ \\
     \begin{itemize}
         \item \textbf{Caso 1. En el que se satura (forward)}: Como se saturó en el paso $k$ entonces:
             \begin{itemize}
                 \item Para construir $f_{k+1}$ se debe usar un $f_k$ camino aumentante de la forma $s \ldots \overrightarrow{xy} \ldots t$.
                 \item Como estamos usando EK ese camino es de longitud mínima, por lo tanto: 
             \end{itemize}
-                \begin{center}
-                    $d_k(y)=d_k(x)+1$. \textbf{(1)}
-                \end{center}
-            Para que se vuelva crítico en el paso $r$, debe pasar una de estas dos cosas:
+                \[
+                    d_k(y)=d_k(x)+1 \tag{1}
+                \]
+            Para que se vuelva crítico en el paso $j$, debe pasar una de estas dos cosas:
             \begin{itemize}
-                \item Se vuelve crítico en el paso $r$ porque se vacía.
-                \item Se vuelve crítico en el paso $r$ porque vuelve a saturarse.
+                \item Se vació, es decir usamos $\overrightarrow{xy}$ backward en el paso $j$.
+                \item Se saturó, como luego del paso $k$ ya se saturó, para saturarse de nuevo debemos haberle el flujo en un paso $i$, con $k<i<j$.
             \end{itemize}
-            Para que ocurra lo segundo, debe haberse vaciado antes aunque sea un poco, sino es imposible que vuelva a saturarse.\\ \\
-            Entonces en cualquiera de estos dos casos, deducimos que existe $l$ tal que $k<l\leq r$ tal que el flujo en $\overrightarrow{xy}$ 
-            disminuye al pasar de $f_l$ a $f_{l+1}$ ya sea vaciándose completamente o un poco.\\ \\
-            Esto implica que para construir $f_{l+1}$ se usa un $f_l-$camino aumentante de la forma $s \ldots \overleftarrow{yx} \ldots t$.
+            Entonces en cualquiera de estos dos casos, deducimos que existe $i$ tal que $k < i < j$ tal $\overrightarrow{xy}$ se usa en backward.\\ \\ 
+            Esto implica que para construir $f_{i+1}$ se usa un $f_i-$camino aumentante de la forma $s \ldots \overleftarrow{yx} \ldots t$.
             Como estamos usando EK, ese camino es de longitud mínima, por lo tanto:
-                \begin{center}
-                    $d_l(x)=d_l(y)+1$. \textbf{(2)}
-                \end{center}
+                \[
+                    d_i(x)=d_i(y)+1 \tag{2}
+                \]
             Entonces:
             \begin{align*}
-                d_l(t) &= d_l(x) + b_l(x). \\[6pt]
-                &= d_l(y) + 1 + b_l(x) \quad \text{Por \textbf{(2)}} \\[6pt]
+                d_j(t) \geq d_i(t) &= d_i(x) + b_i(x). \\[6pt]
+                &= d_i(y) + 1 + b_i(x) \quad \text{Por \textbf{(2)}} \\[6pt]
                 &\geq d_k(y) + 1 + b_k(x) \quad \text{Porque las distancias no disminuyen} \\[6pt]
                 &= d_k(x) + 1 + 1 + b_k(x) \quad \text{Por \textbf{(1)}} \\[6pt]
                 &= d_k(t) + 2
@@ -98,33 +96,42 @@ La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$
             
         \item \textbf{Caso 2. En el que se vacía (backward)}: Como se vacía, existe un camino (de longitud mínima) de la forma 
                 $s \ldots \overleftarrow{yx} \ldots t$ que se usa para pasar de $f_k$ a $f_{k+1}$. Por lo tanto:
-                \begin{center}
-                    $d_k(x)=d_k(y)+1$. \textbf{(3)}
-                \end{center}
-                Para que se vuelva crítico en el paso $r$, debe o bien volverse a vaciar, o bien saturarse, en el segundo de esos casos estamos 
-                obviamente mandando más flujo en el paso $r$, pero en el primero si estamos diciendo que debe vaciarse de vuelta, entonces antes 
+                \[
+                    d_k(x)=d_k(y)+1 \tag{3}
+                \]
+                Para que se vuelva crítico en el paso $j$, debe o bien volverse a vaciar, o bien saturarse, en el segundo de esos casos estamos 
+                obviamente mandando más flujo en el paso $j$, pero en el primero si estamos diciendo que debe vaciarse de vuelta, entonces antes 
                 debe haberse llenado aunque sea un poco. \\ \\ 
-                Así que en cualquier caso debe haber un $l$ tal que $k<l\leq r$ para el cual se manda flujo a través de él. Entonces, existe un camino 
-                (de longitud mínima) de la forma $s \ldots \overrightarrow{xy} \ldots t$ que se usa para pasar de $f_l$ a $f_{l+1}$. Por lo tanto:
-                \begin{center}
-                    $d_l(y)=d_l(x)+1$. \textbf{(4)}
-                \end{center}
-                Notemos que \textbf{(3)} y \textbf{(4)} son análogos a \textbf{(1)} y \textbf{(2)}, solo que con $x$ e $y$ intercambiados. 
-                Entonces podemos deducir que $d_l(t) \geq d_k(t) + 2$ de la misma forma que en el \textbf{Caso 1}, simplemente intercambiando $x$ e $y$
-                en la prueba. Así que también en este caso deducimos que $d_r \geq d_l(t) \geq d_k(t)+2$.\\ \\
-                Entonces tanto como para el \textbf{Caso 1} como para el \textbf{Caso 2}, luego de que un lado se vuelva crítico, para que se vuelva 
-                crítico otra vez, la distancia entre $s$ y $t$ debe aumentar al menos en 2. 
-                
+                Así que en cualquier caso debe haber un $i$ tal que $k<i<j$ para el cual se manda flujo a través de él. Entonces, existe un camino 
+                (de longitud mínima) de la forma $s \ldots \overrightarrow{xy} \ldots t$ que se usa para pasar de $f_i$ a $f_{i+1}$. Por lo tanto:
+                \[
+                    d_l(y)=d_l(x)+1 \tag{4}
+                \]
+                Entonces:
+                \begin{align*}
+                    d_j(t) \geq d_i(t) &= d_i(y) + b_i(y). \\[6pt]
+                    &= d_i(x) + 1 + b_i(y) \quad \text{Por \textbf{(4)}} \\[6pt]
+                    &\geq d_k(x) + 1 + b_k(y) \quad \text{Porque las distancias no disminuyen} \\[6pt]
+                    &= d_k(y) + 1 + 1 + b_k(x) \quad \text{Por \textbf{(3)}} \\[6pt]
+                    &= d_k(t) + 2
+                    \end{align*}
+                Entonces tanto como para el \textbf{Caso 1} como para el \textbf{Caso 2}, $d_j(t) \geq d_k(t)+2$.\\
+                Es decir, una vez un lado se vuelve lado crítico, para que se vuelva 
+                crítico otra vez, la distancia entre $s$ y $t$ debe aumentar al menos en 2.\\ \\
                 Como la distancia entre $s$ y $t$ puede ir desde mínimo de $1$ hasta un máximo de $n-1$, entonces un lado puede volverse crítico 
                 un máximo de \textbf{$O(\frac{n}{2}) = O(n)$ veces}.\\ \\
-                Como cada camino aumentante que se usa en EK tiene al menos un lado que se vuelve crítico, entonces el total de flujos intermedios está
-                acotado por $O(nm)$, puesto que hay $m$ lados y cada uno se puede volver crítico a lo sumo $O(n)$ veces.\\ \\
-                Finalmente como cada construcción de un flujo tiene complejidad $O(m)$, entonces concluimos que la complejidad total de EK es 
-                \begin{center}
-                    $O(m)*O(nm) = O(nm^2)$ $\blacksquare$
-                \end{center}     
+                Entonces finalmente:
+                \begin{itemize}
+                    \item Como cada camino aumentante que se usa en EK tiene al menos un lado que se vuelve crítico
+                    \item Cada lado se puede volver crítico a lo sumo $O(n)$ veces
+                    \item Hay $m$ lados
+                    \item $\Rightarrow$ hay $O(nm)$ caminos aumentantes.
+                \end{itemize}
+                Finalmente concluimos que la complejidad total de EK es 
+                \[
+                O(m)*O(nm) = O(nm^2) \blacksquare
+                \]   
     \end{itemize}
-\end{demostracion}
 \section{Probar que, si dados vértices $x,z$ y flujo $f$ definimos la distancia entre $x$ y $z$ relativa a $f$ como la longitud del menor
         $f$-camino aumentante entre $x$ y $z$, si es que existe tal camino, o infinito si no existe o 0 si $x=z$, denotándola por $d_f(x,z)$,
         y definimos $d_k(x)=d_{f_k}(s,x)$, donde $f_k$ es el $k$-ésimo flujo en una corrida de Edmonds-Karp, entonces $d_k(x)$ $\leq$ $d_{k+1}(x)$.}
