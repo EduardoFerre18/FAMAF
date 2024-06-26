@@ -54,7 +54,7 @@ La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$\\
         \item Entonces si demostramos que en E-K, $\#$caminos aumentantes  $= O(nm)$, tenemos el teorema.
         \item Para probar esto tenemos que ver cuantas veces un lado puede volverse crítico, teniendo en cuenta que un lado se vuelve crítico en el paso $k$ cuando al pasar al paso $k+1$ este se satura o se vacía.
         \item Esto es porque por cada camino aumentante que encontremos, cuando aumentemos el flujo, vamos a saturar o llenar al menos un lado en ese camino.
-        \item Entonces si acotamos la cantidad de veces que un lado que un lado se vuelve crítico, habremos acotado la cantidad de caminos aumentantes
+        \item Entonces si acotamos la cantidad de veces que un lado se vuelve crítico, habremos acotado la cantidad de caminos aumentantes
     \end{itemize}
     Supongamos que un lado $\overrightarrow{xy}$ se vuelve crítico en el paso $k$, y luego en el paso $j$, con $k<j$. Entonces hay dos casos para analizar
     \begin{itemize}
@@ -74,7 +74,7 @@ La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$\\
             Para que se vuelva crítico en el paso $j$, debe pasar una de estas dos cosas:
             \begin{itemize}
                 \item Se vació, es decir usamos $\overrightarrow{xy}$ backward en el paso $j$.
-                \item Se saturó, como luego del paso $k$ ya se saturó, para saturarse de nuevo debemos haberle el flujo en un paso $i$, con $k<i<j$.
+                \item Se saturó, como luego del paso $k$ ya se saturó, para saturarse de nuevo debemos haberle devuelto el flujo en un paso $i$, con $k<i<j$.
             \end{itemize}
             Entonces en cualquiera de estos dos casos, deducimos que existe $i$ tal que $k < i < j$ tal $\overrightarrow{xy}$ se usa en backward.\\ \\ 
             Esto implica que para construir $f_{i+1}$ se usa un $f_i-$camino aumentante de la forma $s \ldots \overleftarrow{yx} \ldots t$.
