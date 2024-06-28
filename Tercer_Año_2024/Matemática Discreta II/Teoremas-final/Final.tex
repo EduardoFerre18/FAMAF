@@ -172,7 +172,7 @@ La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$\\
         Entonces, o bien el lado $\overrightarrow{zx}$ está saturado en el paso $k$, o bien $f_k(\overrightarrow{zx}) = c(\overrightarrow{zx})$. 
         Pero $p_{k+1}$ era aumentante; es decir, sus lados no pueden estar saturados; 
         lo cual implica que $f_{k+1}(\overrightarrow{zx}) < c(\overrightarrow{zx})$ en el paso $k + 1$. 
-        Luego, para pasar de $f_k$ a $f_{k+1}$, se usó el lado $\overrightarrow{xz}$ y se usó backwards en el camino
+        Luego, para pasar de $f_k$ a $f_{k+1}$, se usó el lado $\overrightarrow{zx}$ y se usó backwards en el camino
         
         \[ 
         \tilde{p}_k : s \ldots \overleftarrow{xz} \ldots t 
@@ -473,7 +473,7 @@ maximal si y solo si existe un corte $S$ tal que $v(f )=cap(S)$. (y en este caso
 
             \[ f(\overline{S}, S) = \sum_{\substack{w \notin S \\ x \in S \\ \overrightarrow{wx} \in E}} f(\overrightarrow{wx}) \]
 
-            Sea \(\overrightarrow{wx}\) un par arbitrario en el rango de la suma. Como antes, \( x \in S \Rightarrow \) que hay un camino aumentante de \( s \) a \( x \); pero no existe camino aumentante entre \( s \) y \( w \); pero \(\overrightarrow{wx}\) es un lado. Es decir, \( s \ldots \overleftarrow{wx} \) podría ser un \( f\text{-camino aumentante}\); y como no lo es sucede que \( f(\overrightarrow{wx}) = 0 \). Luego
+            Sea \(\overrightarrow{wx}\) un par arbitrario en el rango de la suma. Como antes, \( x \in S \Rightarrow \) que hay un camino aumentante de \( s \) a \( x \); pero no existe camino aumentante entre \( s \) y \( w \); pero \(\overrightarrow{wx}\) es un lado. Es decir, \( s \ldots \overleftarrow{xw} \) podría ser un \( f\text{-camino aumentante}\); y como no lo es sucede que \( f(\overrightarrow{wx}) = 0 \). Luego
 
             \[ f(\overline{S}, S) = \sum_{\substack{w \notin S \\ x \in S \\ \overrightarrow{wx} \in E}} f(\overrightarrow{wx}) = 0 \]
 
