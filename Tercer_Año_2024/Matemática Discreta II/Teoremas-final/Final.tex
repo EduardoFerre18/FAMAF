@@ -485,21 +485,29 @@ maximal si y solo si existe un corte $S$ tal que $v(f )=cap(S)$. (y en este caso
 
 \section{Probar que si $G$ es conexo no regular, entonces $\chi(G)\leq \Delta(G)$.}
 
-Sea \( x \) tal que \( d(x) = \delta(G) \). Corro BFS empezando por \( x \) y guardo el orden inverso en que los vértices se visitaron. Ahora voy a correr greedy en este orden que acabo de guardar. Notar que en BFS todo vértice es incluido por un vértice que ya ha sido visitado, entonces en el orden inverso todo vértice tiene al menos un vecino por delante (excepto el \( x \)). Esto significa que para cada vértice \( y \), en el peor caso va a tener \( d(y) - 1 < \Delta \) vecinos coloreados todos con un color distinto, entonces voy a poder elegir un color en \(\{1, \cdots, \Delta\}\). Finalmente, cuando llego a \( x \), como \( d(x) = \delta < \Delta \), podré elegir algún color de \(\{1, \cdots, \Delta\}\) que no está usado por ningún vecino de \( x \) para colorearlo. De esta forma tengo un coloreo propio de \( G \) que usa (a lo sumo) \(\Delta\) colores, entonces \(\chi(G) \leq \Delta(G)\).
+Sea $x$ tal que $d(x)=\delta(G)$. Corramos BFS empezando por $x$ y guardamos el orden inverso en el que se visitaron los vértices.
+Ahora corramos Greedy en el orden que acabamos de guardar. Notemos que en BFS todo vertice es incluido por un vertice que ya ha sido visitado, entonces en el orden 
+inverso todo vertice tiene al menos un vecino por delante, excepto $x$. Entonces para cada vertice $y$, en el peor caso va a tener $d(y)-1 < \Delta$ vecinos coloreados,
+todos con un color distinto. Por lo tanto podemos elegir un color entre $1 \ldots \Delta$.\\ \\ 
+Finalmente, cuando llegamos a $x$, como $d(x)=\delta$, podemos elegir algún color 
+entre $1 \ldots \Delta$ que no haya sido usado por sus vecinos para colorearlo. Por lo tanto encontramos un coloreo propio para $G$ que usa (a lo sumo) $\Delta$ colores.\\ \\
+Por lo tanto:
+\[
+\chi(G) \leq \Delta(G) \blacksquare
+\]
 
 \section{Probar que 2-COLOR es polinomial}
 
 \begin{demostracion}
-    
-    \textbf{Problema: "k-color":} 
-    
-    Dado $G$ ¿Es $\chi(G) \leq k$?, en particular $k=2$. 
-    
-    \begin{itemize}
-        \item 1-color es trivial (no es polinomial).
-        \item 2-color es polinomial (hay algún algoritmo que corre en tiempo polinomial en un rango de la entrada). 
-        \item Entonces la idea de la demostración es correr un algoritmo en tiempo polinomial, en particular solo nos basta con correrlo en grafos conexos
-    \end{itemize}
+
+Para esta demostración vamos a dar un algoritmo polinomial que colorea un grafo con dos
+colores.\\ 
+Luego probaremos que si el coloreo que da nuestro algoritmo no es propio
+es porque en el grafo hay algún ciclo impar, lo que implicaría $\chi(G) \geq 3$.\\
+Notar que vamos a asumir que el grafo es conexo, sin embargo si no lo es,
+simplemente hay que correr el algoritmo en todas sus componentes conexas
+y ver que todas sean bipartitas.\\ \\
+\textbf{Algoritmo}\\ \\
     Tomamos un $x \in V$, corremos BFS empezando en $x$. Si:
     \begin{align*}
         N(z) &= \text{nivel } z \text{ en el árbol BFS} \\[6pt]
@@ -512,24 +520,19 @@ Sea \( x \) tal que \( d(x) = \delta(G) \). Corro BFS empezando por \( x \) y gu
         \item \textbf{If} ($C$ es propio, return si, es 2-colorable).
         \item \textbf{Else} (return no, no es 2-colorable).
     \end{itemize}
-    El algoritmo es polinomial porque BFS es $O(m)$ y chequear que es propio es $O(m)$, lo que hay que probar es si es correcto. Entonces supongamos que la respuesta es \textbf{"no es 2-colorable"}.    
+    El algoritmo es polinomial porque BFS es $O(m)$ y chequear que es propio es $O(m)$, ahora veamos que pasa si nuestro coloreo no es propio .\\
+    Entonces tenemos que:     
     \[
-    \Rightarrow \exists v, z : c(v) = c(z) \land vz \in E
+    \exists v, z : c(v) = c(z) \land vz \in E
     \]
-
     Entonces $d(x, v) = d(x, z) \mod 2$\\
-    Tomamos un camino entre $x$ y $v$ en BFS y un camino entre $x$ y $z$ en BFS y sea $w$ el único vértice en común (como lo muestra la siguiente figura).
-    \begin{figure}[!ht]
+    Tomamos un camino entre $x$ y $v$ en BFS y un camino entre $x$ y $z$ en BFS y sea $w$ el único vértice en común, como en la siguiente figura:
+    \begin{figure}[!h]
         \centering 
-        \includegraphics[height=6cm]{Figure 1 2-color.png} 
+        \includegraphics[height=4cm]{Figure 1 2-color.png} 
     \end{figure}
-
-    Miramos el ciclo en $G$: $w \ldots \underset{\text{cruzo a }z}{\underbrace{vz}} \ldots \underset{\text{vuelvo a }x}{\underbrace{w}}$ (como lo muestra la siguiente imagen).
-
-    \begin{figure}[!ht]
-        \centering 
-        \includegraphics[height=6cm]{Figura 2 2-color.png} 
-    \end{figure}
+    
+    Miramos el ciclo en $G$: $w \ldots \underset{\text{cruzo a }z}{\underbrace{vz}} \ldots \underset{\text{vuelvo a }x}{\underbrace{w}}$.\\ \\
     Calculamos la longitud de este ciclo:
     \begin{align*}
     \text{longitud} &= 1 + d(v, w) + d(z, w) \\

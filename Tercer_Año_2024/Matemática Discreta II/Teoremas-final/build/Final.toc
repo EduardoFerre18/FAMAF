@@ -12,8 +12,8 @@
 \contentsline {section}{\numberline {11}Enunciar y probar el teorema del matrimonio de Koenig}{19}{section.11}%
 \contentsline {section}{\numberline {12}Probar que si $G$ es bipartito entonces $\chi '(G) = \Delta (G)$.}{20}{section.12}%
 \contentsline {section}{\numberline {13}Probar la complejidad $O(n^4)$ del algoritmo Hungaro y dar una idea de como se la puede reducir a $O(n^3)$}{20}{section.13}%
-\contentsline {section}{\numberline {14}Enunciar y probar el teorema de la cota de Hamming}{21}{section.14}%
-\contentsline {section}{\numberline {15}Sea $C$ un código lineal con matriz de chequeo $H$. Entonces $\delta (C)$ es el mínimo número de columnas LD de $H$}{22}{section.15}%
+\contentsline {section}{\numberline {14}Enunciar y probar el teorema de la cota de Hamming}{20}{section.14}%
+\contentsline {section}{\numberline {15}Sea $C$ un código lineal con matriz de chequeo $H$. Entonces $\delta (C)$ es el mínimo número de columnas LD de $H$}{21}{section.15}%
 \contentsline {section}{\numberline {16}Sea $C$ un código cíclico de dimensión $k$ y longitud $n$ y sea $g(x)$ su polinomio generador. Probar i, ii, iii y iv}{23}{section.16}%
 \contentsline {section}{\numberline {17}Probar que 3SAT es NP-completo}{26}{section.17}%
 \contentsline {section}{\numberline {18}Probar que 3COLOR es NP-completo}{29}{section.18}%
