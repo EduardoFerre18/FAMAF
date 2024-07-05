@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1719778789.08643 "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" "build/Final.pdf" "Final" 1719778795.30749 0
+["pdflatex"] 1720140416.65366 "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" "build/Final.pdf" "Final" 1720140418.67505 0
   "C:/Program Files/MiKTeX/fonts/tfm/jknappen/ec/tcrm1095.tfm" 993062508 1460 8005ce585ff351dff78998923504da5e ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy6.tfm" 1233951848 1124 14ccf5552bc7f77ca02a8a402bea8bfb ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/amsfonts/cmextra/cmbsy8.tfm" 1233951848 1120 200be8b775682cdf80acad4be5ef57e4 ""
@@ -32,6 +32,7 @@
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmsy6.tfm" 1136765053 1116 933a60c408fc0a863a92debe84b2d294 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmsy8.tfm" 1136765053 1120 8b7d695260f3cff42e636090a8002094 ""
   "C:/Program Files/MiKTeX/fonts/tfm/public/cm/cmti10.tfm" 1136765053 1480 aa8e34af0eb6a2941b776984cf1dfdc4 ""
+  "C:/Program Files/MiKTeX/fonts/tfm/public/latex-fonts/lasy6.tfm" 1136765053 520 4889cce2180234b97cad636b6039c722 ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbsy10.pfb" 1247596666 34793 ae7a3e2775dc0ce90475eeabcb46f9f1 ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx10.pfb" 1247596666 34811 78b52f49e893bcba91bd7581cdc144c0 ""
   "C:/Program Files/MiKTeX/fonts/type1/public/amsfonts/cm/cmbx12.pfb" 1247596666 32080 340ef9bf63678554ee606688e7b5339d ""
@@ -167,7 +168,7 @@
   "C:/Program Files/MiKTeX/tex/latex/pgf/utilities/pgfrcs.sty" 1673775190 325 f9f16d12354225b7dd52a3321f085955 ""
   "C:/Program Files/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Program Files/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "C:/Users/Freddy/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1719068540 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
+  "C:/Users/Freddy/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1720140414 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/Freddy/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm1095.pk" 1713239676 12668 d04c4d1605c6f0b6cb5da5a3a7c5bdbe ""
   "C:/Users/Freddy/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1715627334 24226194 e3b8be8c4d02a4367d6cb87b5d754c58 ""
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/generic/bigintcalc/bigintcalc.sty" 1576433602 40635 c40361e206be584d448876bba8a64a3b ""
@@ -197,13 +198,14 @@
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/placeins/placeins.sty" 1113865200 4087 636308456f60d2b31cbf97867db5708d ""
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/refcount/refcount.sty" 1576433952 9878 9e94e8fa600d95f9c7731bb21dfb67a4 ""
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/rerunfilecheck/rerunfilecheck.sty" 1657800696 9714 ba3194bd52c8499b3f1e3eb91d409670 ""
+  "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/ulem/ulem.sty" 1578651445 15682 94f55b803e160cf7fb6e4d77d07cfe1d ""
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/zref/zref-abspage.sty" 1695383086 2269 4fe6fb3396214c91f164d45faf9bec45 ""
   "C:/Users/Freddy/AppData/Roaming/MiKTeX/tex/latex/zref/zref-base.sty" 1695383086 20785 f7d1133a287929598a897c93f8f4c44b ""
-  "Final.tex" 1719778785 64206 7ff43978001266cf6a4b351dcef47b28 ""
-  "build/Final.aux" 1719778794 4666 f4330c2c7cb74a09e97c04982a362843 "pdflatex"
-  "build/Final.out" 1719778794 12540 8b38db1620d96be346447a7c60251a1f "pdflatex"
-  "build/Final.toc" 1719778794 3428 923e55beca9c056851cca07b2879b6f1 "pdflatex"
-  "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" 1719778785 64206 7ff43978001266cf6a4b351dcef47b28 ""
+  "Final.tex" 1720140408 71306 31be9f587ddf099e80363ecfd754d499 ""
+  "build/Final.aux" 1720140418 4666 d55cb9246db25a62f2f69933f14c0f50 "pdflatex"
+  "build/Final.out" 1720140418 12540 8b38db1620d96be346447a7c60251a1f "pdflatex"
+  "build/Final.toc" 1720140418 3428 923e55beca9c056851cca07b2879b6f1 "pdflatex"
+  "c:/Users/Freddy/Desktop/GitHub UNC/FAMAF/Tercer_Año_2024/Matemática Discreta II/Teoremas-final/Final.tex" 1720140408 71306 31be9f587ddf099e80363ecfd754d499 ""
   "images/Figure 1 2-color.png" 1719028171 9413 604e2e6b415c036f8941e12ff3ee9a6b ""
   (generated)
   "build/Final.aux"

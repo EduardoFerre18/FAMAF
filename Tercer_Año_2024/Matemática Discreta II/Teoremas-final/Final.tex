@@ -4,6 +4,7 @@
 \usepackage{graphicx}
 \usepackage{mdframed}
 \usepackage{enumitem}
+\usepackage{ulem}
 \usepackage{xcolor}
 \usepackage{hyperref}
 \usepackage{amsmath, amssymb, amsfonts}
@@ -49,7 +50,7 @@ Matemática Discreta II
 La complejidad del algoritmo de Edmons-Karp es $O(nm^2)$\\
 \textbf{Demostración}
     \begin{itemize}
-        \item E-K construye una sucesión de caminos aumentantes, cada uno de ellos se encuentra utilizando BFS, que es $O(m)$.
+        \item E-K encuentra una sucesión de caminos aumentantes, cada uno de ellos se encuentra utilizando BFS, que es $O(m)$.
         \item Por lo tanto la complejidad de E-K es $O(m)$ por $\#$caminos aumentantes.
         \item Entonces si demostramos que en E-K, $\#$caminos aumentantes  $= O(nm)$, tenemos el teorema.
         \item Para probar esto tenemos que ver cuantas veces un lado puede volverse crítico, teniendo en cuenta que un lado se vuelve crítico en el paso $k$ cuando al pasar al paso $k+1$ este se satura o se vacía.
@@ -904,7 +905,7 @@ cantidad de literales $r_j$ presentes en $D_j$, entonces:
               &\wedge (l_{4,j} \vee y_{3,j} \vee \bar{y}_{2,j}) \wedge \ldots \wedge (l_{r_j-2,j} \vee y_{r_j-3,j} \vee \bar{y}_{r_j-4,j}) \\
               &\wedge (l_{r_j-1,j} \vee l_{r_j,j} \vee \bar{y}_{r_j-3,j})
     \end{align*}
-    Son variables booleanas para evaluarlas tengo que elegir un vector de 0's y 1's.\\ \\
+    Son variables booleanas para evaluarlas tenemos que elegir un vector de 0's y 1's.\\ \\
     \textbf{Ejemplo:} Supongamos $\tilde{B}$ satisfacible, $\tilde{B}$ es suma de función de variables $x_1,\ldots x_{algo}$ y
     variables extra $y_{i,j}$. Podríamos denotarlo con $\tilde{B}(\vec{x}, \vec{y})$ mientras que B depende solo de
     las $\vec{x}$, es decir, $B(\vec{x})$.\\
@@ -1148,5 +1149,124 @@ Para ello, otra vez, tenemos que analizar qué clase de literal es $\ell_{jr}$.
 \end{enumerate}
 \(\blacksquare\)
 \section{Probar que Matrimonio 3D (“matrimonio trisexual”) es NP completo}
+Como sabemos que 3SAT es NP completo, demostraremos que 3SAT se reduce polinomialmente a Matrimonio 3D. Primero daremos un algoritmo polinomial que transforma instancias
+de 3SAT en instancias de Matrimonio 3D.
+
+\subsection*{Algoritmo}
+Sea B una instancia de 3SAT con variables \(x_1, \cdots, x_n\) tal que \({B = D_1 \land \cdots \land D_m}\) con \(D_j = l_{j1} \lor l_{j2} \lor l_{j3}\). Vamos a construir un 3-hipergrafo \(H\) con partes \(X\), \(Y\) y \(Z\). Para simplificar la notación usaremos:
+\begin{align*}
+i & \in \{1, \cdots, n\} \\
+j & \in \{1, \cdots, m\} \\
+r & \in \{1, 2, 3\} \\
+k & \in \{1, \cdots, m(n-1)\} \\
+\end{align*}
+
+\subsubsection*{Vértices}
+\begin{align*}
+	X & = \{a_{ij}\}_{i,j} \cup \{s_j\}_j \cup \{h_k\}_k \\
+	Y & = \{b_{ij}\}_{i,j} \cup \{t_j\}_j \cup \{g_k\}_k \\
+	Z & = \{u_{ij}, w_{ij}\}_{i,j}
+\end{align*}
+
+Un requisito para que haya matching perfecto es que \(|X| = |Y| = |Z|\), lo cual se cumple pues
+\begin{align*}
+	|X| & = nm + m + m(n-1) = 2nm \\
+	|Y| & = nm + m + m(n-1) = 2nm \\
+	|Z| & = nm + nm = 2nm
+\end{align*}
+
+\subsubsection*{Lados}
+Primero, definimos
+\[
+v_{jr} = \begin{cases}
+          u_{ij} & \quad\text{si } \exists i : l_{jr} = x_i \\	
+          w_{ij} & \quad\text{si } \exists i : l_{jr} = \overline{x_i}
+\end{cases}
+\]
+Luego, los lados del hipergrafo H serán \(E_0 \cup E_1 \cup E_2 \cup E_3\):
+\begin{align*}
+	E_0 & = \{\{a_{ij}, b_{ij}, u_{ij}\}\}_{i,j} \\
+	E_1 & = \{\{a_{i(j+1)}, b_{ij}, w_{ij}\}\}_{i,j} \quad(\text{notar que si } j = m \text{, entonces } j+1 = 1) \\
+	E_2 & = \{\{h_k, g_k, u_{ij}\}\}_{i,j,k} \cup \{\{h_k, g_k, w_{ij}\}\}_{i,j,k}\\
+  E_3 & = \{\{s_j, t_j, v_{jr}\}\}_{j,r} \\
+\end{align*}
+
+\subsection*{Hay matching perfecto en H sii B es satisfacible}
+\subsubsection*{\underline{\(\implies\) ida}}
+Supongamos que existe \(M\) matching perfecto en \(H\). Ahora, sea un i cualquiera, si existe un j tal que
+      \[\exists L \in E(M) \cap E_0 : a_{ij} \in L, \]
+entonces la única forma que pase esto es si \({ L = \{a_{ij}, b_{ij}, u_{ij}\}. }\) Luego, como \(M\) es matching y sus lados son disjuntos, tenemos que \(b_{ij}\) no puede aparecer en otro lado de \(M\). Pero como \(M\) es completo, \(a_{i(j+1)}\) tiene que estar en algún lado, entonces llegamos a que \({ \{a_{i(j+1)}, b_{i(j+1)}, u_{i(j+1)} \} \in E(M) .}\) De la misma forma llegamos a que \({ \{a_{i(j+2)}, b_{i(j+2)}, u_{i(j+2)} \} \in E(M) ,}\) y así sucesivamente hasta llegar a
+      \[ \{a_{ij}, b_{ij}, u_{ij}\} \in E(M), \forall j \]
+lo cual llamaremos 'CASO 0' para i.
+
+Con un análisis análogo pero suponiendo que existe un j tal que
+      \[\exists L \in E(M) \cap E_1 : a_{ij} \in L, \]
+llegamos a 
+      \[ \{a_{i(j+1)}, b_{ij}, w_{ij}\} \in E(M), \forall j \]
+lo cual llamaremos 'CASO 1' para i.
+
+Notar que los vértices \(a_{ij}\) solo aparecen en \(E_0 \cup E_1\), lo que implica que si no se cumple 'CASO 1' para i, es porque se cumple 'CASO 0' para i.
+
+Con esto en mente vamos a definir \(\overrightarrow{b}\):
+\[
+b_i = \begin{cases}
+	1  \quad\text{si 'CASO 1' para } i \\
+	0  \quad\text{si 'CASO 0' para } i
+\end{cases}
+\]
+
+Ahora, para probar \(B(\overrightarrow{b}) = 1\), tenemos que probar que \(\forall j, \exists r : l_{jr}(\overrightarrow{b}) = 1\). Entonces sea un j fijo, como \(M\) es perfecto, los vértices \(t_j\) y \(s_j\) deben estar en algún lado de \(M\). Entonces existe r tal que \(\{s_j, t_j, v_{jr}\} \in E(M)\).
+
+\begin{itemize}
+\item \uline{Si \(l_{jr}\) es una variable \(x_i\)}:
+
+Entonces \(v_{jr} = u_{ij}\) y \(\{s_j, t_j, u_{ij}\} \in E(M)\). Entonces \(\{a_{ij}, b_{ij}, u_{ij}\} \not\in E(M)\), por lo que estamos en 'CASO 1' para i. Finalmente:
+      \[ l_{jr}(\overrightarrow{b}) = x_i(\overrightarrow{b}) = b_i = 1 \]
+
+\item \uline{Si \(l_{jr}\) es una negación de variable \(\overline{x_i}\)}:
+
+Entonces \(v_{jr} = w_{ij}\) y \(\{s_j, t_j, w_{ij}\} \in E(M)\). Entonces \(\{a_{i(j+1)}, b_{ij}, w_{ij}\} \not\in E(M)\), por lo que estamos en 'CASO 0' para i. Finalmente:
+      \[ l_{jr}(\overrightarrow{b}) = \overline{x_i}(\overrightarrow{b}) = 1 - b_i = 1 \]
+\end{itemize}
+
+\subsubsection*{\underline{\(\impliedby\) vuelta}}
+Sea \(\overrightarrow{b}\) tal que \(B(\overrightarrow{b}) = 1\). Vamos a construir un matching completo \(M\) con lados \(F_0 \cup F_1 \cup F_2 \cup F_3\) tales que \(F_n \subseteq E_n\) para \(n = 0, 1, 2, 3\).
+
+      \[ F_0 = \{ \{a_{ij}, b_{ij}, u_{ij}\} : j = 1, \cdots, m \land b_i = 0 \} \]
+      \[ F_1 = \{ \{a_{i(j+1)}, b_{ij}, w_{ij}\} : j = 1, \cdots, m \land b_i = 1 \} \]
+Es claro que estos lados son disjuntos.
+
+Para definir \(F_3\) vamos a usar el hecho de que \(B(\overrightarrow{b}) = 1\), lo que significa que \({ \forall j, \exists r_j : l_{jr_j}(\overrightarrow{b}) = 1 .}\) Si en algún \(j\) hay más de un \(r_j\) que cumpla eso, tomamos uno. De esta forma:
+      \[ F_3 = \{ \{ s_j, t_j, v_{jr_j} \} \}_j \]
+Es claro que los lados de \(F_3\) son disjuntos entre sí, pues elegimos uno solo \(r_j\).
+
+\begin{itemize}
+\item \textbf{¿Qué pasa si hay un vértice que esté en un lado de \(F_0\) y en un lado de \(F_3\)?}
+
+Esto tiene que ser porque \(v_{jr_j} = u_{ij}\) y \(\{a_{ij}, b_{ij}, u_{ij}\} \in F_0\). Estas dos cosas implican que \(l_{jr_j} = x_i\) y \(b_i = 0\). Luego
+	  \[ 1 = l_{jr_j}(\overrightarrow{b}) = x_i(\overrightarrow{b}) = b_i = 0 \]
+es un absurdo, entonces los lados de \(F_3\) son disjuntos con los de \(F_0\).
+
+\item \textbf{¿Qué pasa si hay un vértice que esté en un lado de \(F_1\) y en un lado de \(F_3\)?}
+
+Esto tiene que ser porque \(v_{jr_j} = w_{ij}\) y \(\{a_{i(j+1)}, b_{ij}, w_{ij}\} \in F_1\). Estas dos cosas implican que \(l_{jr_j} = \overline{x_i}\) y \(b_i = 1\). Luego
+	  \[ 1 = l_{jr_j}(\overrightarrow{b}) = \overline{x_i}(\overrightarrow{b}) = 1 - b_i = 0 \]
+es un absurdo, entonces los lados de \(F_3\) son disjuntos con los de \(F_1\).
+\end{itemize}
+
+Por ahora \(M\) es matching, pero falta ver que sea perfecto. Para esto definimos
+      \[ N = \{z \in Z : z \text{ no está cubierto por un lado de } F_0 \cup F_1 \cup F_3 \} \]
+y calcularemos \(|N|\). Primero, es claro que \(|F_3|=m\). Luego, sea \(p = |\{i : b_i = 0\}|\) y \(q = |\{i : b_i = 1\}|\), es claro que \(p+q = n\) y que \(|F_0| = mp\) y \(|F_1| = mq\). Con todo esto podemos calcular
+      \[ |Z - N| = |F_0| + |F_1| + |F_3| = mp + mq + m = m(p+q+1) = m(n+1) \]
+y finalmente
+      \[ |N| = |Z| - |Z-N| = 2mn - m(n+1) = m(n-1) \]
+
+Entonces, existe una biyección \(f: \{1, \cdots, m(n-1)\} \rightarrow N\), por lo que definimos
+      \[ F_2 = \{\{g_k, h_k, f(k)\} : k \in \{1, \cdots, m(n-1)\} \} \]
+que tiene lados disjuntos porque f es inyectiva y además cubre todos los \(z \in Z\) que no tenía cubiertos porque f es suryectiva. Además, es claro que sus lados son disjuntos con los de \(F_0 \cup F_1 \cup F_3\) por cómo definimos \(f\).
+
+Finalmente, como cubrimos todos los lados de \(Z\), \(M\) es matching y \(|X| = |Y| = |Z|\), tenemos que \(M\) es matching perfecto en H.
+
+
 
 \end{document}
