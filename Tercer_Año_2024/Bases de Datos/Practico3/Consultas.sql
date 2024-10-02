@@ -3,49 +3,33 @@ USE world;
 -- Parte I - Consultas
 
 -- 1.
-SELECT 
-	city.Name,
-    country.Name,
-    country.Region,
-    country.GovernmentForm
+SELECT city.Name, country.Name, country.Region, country.GovernmentForm
 FROM city
 JOIN country ON city.CountryCode = country.Code
 ORDER BY city.Population DESC
 LIMIT 10;
 
 -- 2.
-SELECT 
-	country.Name,
-    city.Name,
-    country.Population
+SELECT country.Name, city.Name, country.Population
 FROM country
 LEFT JOIN city ON country.Capital = city.ID
 ORDER BY country.Population ASC
 LIMIT 10; 
 
 -- 3.
-SELECT 
-	country.Name,
-    country.Continent,
-    countrylanguage.Language
+SELECT  country.Name, country.Continent, countrylanguage.Language
 FROM country
 JOIN countrylanguage ON country.Code = countrylanguage.CountryCode;
 
 -- 4.
-SELECT 
-	country.Name,
-    city.Name,
-    country.SurfaceArea
+SELECT  country.Name, city.Name, country.SurfaceArea
 FROM country
 LEFT JOIN city ON country.Capital = city.ID
 ORDER BY country.SurfaceArea DESC
 LIMIT 20;
 
 -- 5.
-SELECT 
-	city.Name,
-    countrylanguage.Language,
-    countrylanguage.Percentage
+SELECT city.Name, countrylanguage.Language, countrylanguage.Percentage
 FROM city
 JOIN countrylanguage ON (countrylanguage.CountryCode = city.CountryCode AND countrylanguage.IsOfficial = 'T')
 ORDER BY city.Population ASC; 
