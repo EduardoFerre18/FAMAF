@@ -202,9 +202,6 @@ ON `rental`
 from `employee`;
 
 CREATE ROLE 'administrator';
-GRANT ALL PRIVILEGES
-ON 'sakila'.*
-TO `administrator`;
 GRANT ALL PRIVILEGES ON `sakila`.* TO `administrator`;
 -- sakila.* todas las tablas, sakila.rental seria solo a la tabla rental.
 --Ejercicio 15
