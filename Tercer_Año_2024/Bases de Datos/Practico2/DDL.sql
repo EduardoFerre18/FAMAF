@@ -29,7 +29,7 @@ CREATE TABLE `city` (
   `ID` int NOT NULL AUTO_INCREMENT,
   `Name` varchar(50),
   `CountryCode` varchar(10),
-  `District` varchar(20),
+  `District` varchar(25),
   `Population` int,
   PRIMARY KEY (`ID`),
   FOREIGN KEY (`CountryCode`) REFERENCES `country` (`Code`)
