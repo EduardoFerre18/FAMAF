@@ -1,0 +1,1299 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-lcroman]{babel} 
+\usepackage{graphicx}
+\usepackage{mdframed}
+\usepackage{enumitem}
+\usepackage{ulem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsmath, amssymb, amsfonts}
+\usepackage{amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{textcomp}
+\usepackage{placeins}
+\usepackage{etoolbox}
+\usepackage{tikz}
+\usepackage{geometry}
+
+
+\usetikzlibrary{decorations.pathreplacing}
+
+\spanishdecimal{.}
+\graphicspath{{images/}}
+%COMILLAS “”
+\title{Modelos y Simulación: Parcial 1}
+\author{Ferré Valderrama, Eduardo}
+\date{\today}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definición}
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem*{demostracion}{Demostración}
+\newtheorem{corollary}{Corolario}
+\newtheorem{proposition}{Proposición}
+\newtheorem{example}{Ejemplo}
+\newtheorem{exercise}{Ejercicio}
+\newtheorem*{remark}{Observación}
+\newtheorem{notation}{Notación}
+
+%\qed(cuadradito vacio de que termino la demostración%
+%\blacksquare(cuadradito lleno de que termino la demostración%
+
+\begin{document}
+\maketitle
+Modelos y Simulación
+\tableofcontents
+
+\newpage
+
+\section{Probabilidad}
+
+\subsection{Espacio de probabilidad}
+
+Un espacio de probabilidad se define como una terna $(S, \mathcal{F}, \mathbb{P} )$ donde:
+\begin{itemize}
+    \item $S$ es el espacio muestral, que es el conjunto de todos los resultados posibles de un experimento aleatorio.
+    \item $\mathcal{F}$ es el conjunto de eventos.
+    \item $P$ es una función de probabilidad
+\end{itemize}
+
+En el presente texto omitiremos a $\mathcal{F}$ en la notación y solo denotaremos $(S, \mathbb{P})$.
+
+\subsubsection{Axiomas de probabilidad}
+
+Consideramos un espacio muestral $S$, y suponemos que que existe una función $P$ definida sobre el conjunto de eventos $S$ que satisface los 
+s siguientes axiomas:
+\begin{itemize}
+    \item $0 \leq P(A) \leq 1$ para todo evento $A$.
+    \item $P(S) = 1$.
+    \item Si $A_1, A_2, ...$ son eventos mutuamente excluyentes dos a dos, entonces
+        \[
+        P\left( \bigcup_{i=1}^{n} A_i \right) = \sum_{i=1}^{n} P(A_i), \quad n = 1, 2, \ldots
+        \]
+\end{itemize}
+
+Una función $P$ se la denomina \textbf{probabilidad}, y $P(A)$ es la probabilidad del evento $A$.
+
+De los axiomas podemos concluir además que:
+\begin{itemize}
+    \item $P(A^c) = 1 - P(A)$, para todo evento $A$.
+    \item $P(\emptyset) = 0$.
+    \item $P(A \cup B) = P(A) + P(B) - P(AB)$, para cualquier par de eventos $A$ y $B$.
+  \end{itemize}
+
+Un \textbf{espacio de probabilidad} es un par $(S, P)$ donde $S$ es un espacio muestral y $P$ es una probabilidad sobre $S$. Si es necesario especificar la
+familia $\mathcal{F}$ de eventos, se utiliza la notación $(S, \mathcal{F}, P)$.
+
+\subsubsection{Probabilidad condicional}
+
+Dados dos eventos $A$ y $F$, y una probabilidad $P$, la \textbf{probabilidad condicional} de que ocura $A$ dado $F$ se define como:
+
+\[
+P(A|F) = \frac{P(AF)}{P(F)}, \quad P(F) > 0
+\]
+
+Dos eventos $A$ y $B$ son \textbf{independientes} si $P(A|B) = P(A)$. En este caso se cumple:
+
+\[
+P(AB)=P(A)\cdot P(B)
+\]
+
+Notemos que para cualquier par de eventos $A$ y $F$, se tiene que $A = AF \cup AF^c$. 
+Dado que $F$ y $F^c$ son mutuamente excluyentes, entonces también lo son $AF$ y $AF^c$. Por lo tanto
+
+\[
+P(A) = P(AF) + P(AF^c).
+\]
+
+Esto nos permite calcular la probabilidad de $A$ como una suma ponderada de probabilidades condicionales:
+
+\begin{align*}
+P(A) &= P(A \mid F)P(F) + P(A \mid F^c)P(F^c) \\
+     &= P(A \mid F)P(F) + P(A \mid F^c)(1 - P(F)). \tag{1.1}
+\end{align*}
+
+En particular, también tenemos que $P(AF) = P(A \mid F)P(F)$ y $P(AF) = P(F \mid A)P(A)$. Entonces:
+
+\[
+P(F \mid A) = \frac{P(AF)}{P(A)} = \frac{P(A \mid F)P(F)}{P(A)}. \tag{1.2}
+\]
+
+La igualdad (1.2) se conoce como \textbf{Fórmula de Bayes}, y permite calcular la probabilidad condicional $P(F \mid A)$ (a posteriori) en términos de $P(F)$ (a priori). Puede generalizarse a un número finito de eventos. Esto es: si $F_1, F_2, \dots, F_n$ son eventos mutuamente excluyentes tales que $F_1 \cup F_2 \cup \dots \cup F_n = S$, entonces para cualquier evento $A$ se tiene que:
+
+\begin{align*}
+P(A) &= P(AF_1) + P(AF_2) + \cdots + P(AF_n) \\
+     &= P(A \mid F_1)P(F_1) + P(A \mid F_2)P(F_2) + \cdots + P(A \mid F_n)P(F_n) \\
+     &= \sum_{i=1}^{n} P(A \mid F_i)P(F_i)
+\end{align*}
+
+Luego, la probabilidad condicional de que ocurra el evento $F_j$ dado $A$ es igual a:
+
+\[
+P(F_j \mid A) = \frac{P(A \mid F_j)P(F_j)}{P(A)} = \frac{P(A \mid F_j)P(F_j)}{\sum_{i=1}^{n} P(A \mid F_i)P(F_i)}. \tag{1.3}
+\]
+
+\subsection{Variables aleatorias}
+
+Dado un espacio muestral $(S, P)$, una \textbf{variable aleatoria} es una función $X: S \to \mathbb{R}$ tal que
+el conjunto $\{s \in S \mid X(s) \leq x\}$ es un evento sobre el que está definido $P$, para todo $x \in \mathbb{R}$. 
+
+
+Dada una variable aleatoria $X$ en un espacio de probabilidad $S$, se define la \textbf{función de distribución acumulada} como: 
+\[
+F(X) = P(X \leq x) = P(\{s \in S \mid X(s) \leq x\}), \tag{1.4}.
+\]
+
+La función $F$ tiene dominio en los números reales y toma valores en el intervalo $[0, 1]$. En particular cumple las siguientes propiedades:
+
+\begin{itemize}
+    \item $F$ es no decreciente.
+    \item para todo $x \in \mathbb{R}$, se cumple que $0 \leq F(x) \leq 1$.
+    \item $F$ es continua a derecha. 
+\end{itemize}
+
+\subsubsection*{Variable aleatoria discreta}
+Diremos que una variable aleatoria es \textbf{discreta} si toma sólo un número finito o numerable de valores.
+En este caso, se define la \textbf{función de probabilidad de masa} como:
+
+\[
+p_X(x) = P(X = x).
+\]
+
+Si la variable $X$ toma valores en un conjunto finito $\{x_1, x_2, \ldots, x_n\}$, entonces se cumple que:
+\[
+\sum_{i=1}^{n} p_X(x_i) = 1.
+\]
+
+y si toma una cantidad infinita numerable de valores $\{x_1, x_2, \ldots\}$, entonces se cumple que:
+\[
+\sum_{i=1}^{\infty} p_X(x_i) = 1.
+\]
+
+\subsubsection*{Variable aleatoria continua}
+
+Una variable aleatoria se dice que es una varialbe \textbf{absolutamente} continua si existe una función $f$ tal que para todo subconjunto 
+$C \subseteq \mathbb{R}$ se cumple que:
+\[
+P(X \in C) = \int_C f(x) dx.
+\]
+
+La función se denomina \textbf{función de densidad de probabilidad} de la variable aleatoria $X$.
+\\ \\
+Notemos además que si $X$ es continua, entonces $P(X = a) = \int_a^a f(t) dt$, y por lo tanto $P(X=a)=0$.
+En particular, $f$ y la función de distribución acumulada $F$ están relacionadas por la siguiente expresión:
+\[
+F(a)=P(X \leq a) = \int_{-\infty}^a f(t) dt.
+\]
+Derivando con respecto a $a$ tenemos que $F'(a) = f(a)$, para todo $a \in \mathbb{R}$ tal que $F$ es derivable en $a$.
+
+\subsubsection{Distribución conjunta}
+
+Si \(X\) e \(Y\) son variables aleatorias sobre un espacio de probabilidad \((S,P)\), se llama \textbf{función de distribución acumulada conjunta} de \(X\) e \(Y\) a la función \(F:\mathbb{R}\times\mathbb{R}\mapsto[0,1]\) dada por
+
+\[F(a,b)=P(X\leq a,\ Y\leq b).\]
+
+En particular, si \(X\) e \(Y\) son variables aleatorias discretas se define la \textbf{función de masa de probabilidad conjunta} de \(X\) e \(Y\) como:
+
+\[p(a,b)=P(X=a,\ Y=b).\]
+
+Dos variables aleatorias \(X\) e \(Y\) se dicen \textbf{conjuntamente continuas} si existe una función \(f\) llamada \textbf{función de densidad conjunta} tal que
+
+\[P(X\in C,\ Y\in D)=\int\int_{x\in C,y\in D}f(x,y)\,dx\,dy.\]
+
+Si \(F\) es función de distribución conjunta de \(X\) e \(Y\), entonces pueden calcularse las distribuciones de probabilidad de \(X\) e \(Y\) a partir de \(F\), también llamadas \textbf{distribuciones marginales} \(F_{X}\) y \(F_{Y}\). Esto es:
+
+\[F_{X}(a)=P(X\leq a)=F(a,\infty), \quad F_{Y}(b)=P(Y\leq b)=F(\infty,b).\]
+
+Si \(X\) e \(Y\) son variables aleatorias discretas con función de masa conjunta \(p\), entonces las funciones de probabilidad de masa marginales de \(X\) e \(Y\) están dadas respectivamente por:
+
+\[p_{X}(a)=\sum_{b}p(a,b), \quad p_{Y}(b)=\sum_{a}p(a,b).\]
+
+Aquí los subíndices de la sumatoria \(b\) y \(a\) toman todos los valores posibles en el rango de \(Y\) y \(X\), respectivamente.
+
+Si \(X\) e \(Y\) son conjuntamente continuas con función de densidad conjunta \(f\), las distribuciones marginales están dadas por:
+
+\[F_{X}(a)=\int_{-\infty}^{a}\int_{-\infty}^{\infty}f(x,y)\,dy\,dx=\int_{-\infty}^ {a}f_{X}(x)\,dx.\]
+
+\[F_{Y}(b)=\int_{-\infty}^{\infty}\int_{-\infty}^{b}f(x,y)\,dx\,dy=\int_{-\infty} ^{b}f_{Y}(y)\,dy.\]
+
+Notemos que las correspondientes densidades marginales \(f_{X}\) y \(f_{Y}\) están dadas por:
+
+\[f_{X}(x)=\int_{-\infty}^{\infty}f(x,y)\,dy\qquad\text{y }f_{Y}(y)=\int_{-\infty}^ {\infty}f(x,y)\,dx.\]
+
+Así, a partir de la función de distribución conjunta es posible obtener las distribuciones marginales de \(X\) e \(Y\). La recíproca no es cierta en general.
+
+\subsubsection{Distribución condicional}
+Si \(X\) e \(Y\) son variables aleatorias discretas, entonces la \textbf{probabilidad de masa condicional} \(p_{X|Y}\) se define como
+
+\[p_{X|Y}(x\mid y)=P(X=x\mid Y=y).\]
+
+En particular, tenemos que:
+
+\[p_{X|Y}(x\mid y)=\frac{P(X=x,\,Y=y)}{P(Y=y)}=\frac{p(x,y)}{p_{Y}(y)}.\]
+
+Si \(X\) e \(Y\) son conjuntamente continuas, se define la \textbf{función de densidad condicional} como:
+
+\[f_{X|Y}(x\mid y)=\frac{f(x,y)}{f_{Y}(y)}.\]
+
+En particular, la probabilidad condicional \(P(X\leq x\mid Y=y)\) está dada por
+
+\[P(X\leq a\mid Y=y)=\int_{-\infty}^{a}\frac{f(x,y)}{f_{Y}(y)}\,dx=\int_{-\infty}^{a}\frac{f(x,y)}{\int_{-\infty}^{\infty}f(s,y)\,ds}\,dx.\]
+
+Tenemos además una versión de la fórmula de Bayes que relaciona las distribuciones condicionales y marginales para dos variables aleatorias \(X\) e \(Y\):
+
+\[p_{X|Y}(x\mid y)=\frac{p_{Y|X}(y\mid x)p_{X}(x)}{p_{Y}(y)},\qquad\qquad f_{X|Y}(x\mid y)=\frac{f_{Y|X}(y\mid x)f_{X}(x)}{f_{Y}(y)}.\]
+
+\subsubsection{Convolucion de distribuciones }
+
+Dadas dos variables aleatorias \(X\) e \(Y\) sobre un espacio de probabilidad \((S,P)\), consideremos la distribución de la suma de estas variables, \(X+Y\). Así, si \(X\) e \(Y\) son variables discretas, entonces \(X+Y\) también es discreta y se tiene que \(X+Y\) toma un valor \(a\) cada vez que \(X\) e \(Y\) toman valores \(x\) y \(a-x\), y recíprocamente. Por lo tanto:
+
+\[P(X+Y=a)=\sum_{x}P(X=x,\ Y=a-x)=\sum_{x}p(x,\ a-x),\]
+
+donde \(p(x,y)\) denota la probabilidad conjunta de \(X\) e \(Y\). Si \(X\) e \(Y\) son conjuntamente continuas, entonces \(X+Y\leq a\) cada vez que \(X\) toma un valor \(x\) e \(Y\) es menor o igual a \(a-x\). Luego,
+
+\[P(X+Y\leq a)=\int_{-\infty}^{\infty}\int_{-\infty}^{a-x}f_{X,Y}(x,y)\,dy\,dx=\int_{-\infty}^{\infty}\int_{-\infty}^{a}f_{X,Y}(x,y-x)\,dy\,dx,\]
+
+con \(f_{X,Y}\) la densidad conjunta de \(X\) e \(Y\).
+
+Si las variables son independientes, entonces para el caso discreto resulta que la probabilidad de masa de la variable aleatoria \(X+Y\) está dada por:
+
+\[P(X+Y=a)=\sum_{x}p_{X}(x)p_{Y}(a-x).\]
+
+Para el caso continuo tenemos que
+
+\[P(X+Y\leq a)=\int_{-\infty}^{\infty}\int_{-\infty}^{a}f_{X}(x)f_{Y}(y-x)\,dy\,dx=\int_{-\infty}^{a}\int_{-\infty}^{\infty}f_{X}(x)f_{Y}(y-x)\,dx\,dy,\]
+
+de donde vemos que la densidad de \(X+Y\) está dada por \(\int_{-\infty}^{\infty}f_{X}(x)f_{Y}(y-x)\,dx\). Aquí \(p_{X}\), \(p_{Y}\), \(f_{X}\) y \(f_{Y}\) son las probabilidades de masa y densidades marginales respectivamente.
+
+Esto da lugar al concepto de \textbf{convolución} de funciones de probabilidad. En particular, para las probabilidades de masa la convolución \(p_{X}*p_{Y}(a)\) se define por:
+
+\[p_{X}*p_{Y}(a)=\sum_{x}p_{X}(x)\,p_{Y}(a-x).\]
+
+Para las funciones de densidad, la convolución \(f_{X}*f_{Y}(a)\) se define por:
+
+\[f_{X}*f_{Y}(a)=\int_{-\infty}^{\infty}f_{X}(x)f_{Y}(a-x)\,dx.\]
+
+Así, si \(X\) e \(Y\) son variables aleatorias discretas independientes, entonces la probabilidad de masa de \(X+Y\) está dada por la convolución \(p_{X}*p_{Y}\). Si son continuas e independientes, la densidad de \(X+Y\) está dada por la convolución de las densidades marginales, \(f_{X}*f_{Y}\).
+
+\subsubsection{Valor esperado}
+Dada una variable aleatoria discreta \(X\) que toma valores \(x_{i}\), \(i=1,2,\ldots,n\), \(\ldots\), se llama \textbf{valor esperado o esperanza matemática} a la cantidad (si existe)
+
+\[E[X]=\sum_{i}x_{i}\,P(X=x_{i}).\]
+
+Si \(X\) es una variable aleatoria continua, su valor esperado se define por el valor de la integral (si existe):
+
+\[E[X]=\int_{-\infty}^{\infty}x\,f(x)\,dx.\]
+
+Es importante notar que el valor esperado no es necesariamente un valor posible de \(X\).
+\\ \\
+
+Sean \(X\) e \(Y\) dos variables aleatorias sobre un mismo espacio de probabilidad \(S\). Entonces se cumplen las siguientes propiedades:
+
+\noindent
+\textbf{a)} Si \(g:\mathbb{R}\mapsto\mathbb{R}\), entonces \(g(X)\) es una variable aleatoria y
+
+\[E[g(X)] = \sum_{i}g(x_{i})\,p(x_{i}), \quad \text{(si $X$ es discreta)},\]
+\[E[g(X)] = \int_{-\infty}^{\infty}g(x)\,f(x)\,dx, \quad \text{(si $X$ es continua)}.\]
+
+En particular, tomando \(g(x)=ax+b\) se deduce que
+
+\[E[aX+b]=aE[X]+b.\]
+
+\noindent
+\textbf{b)} El valor esperado es un operador lineal. Esto es,
+\[
+E[X+Y] = E[X] + E[Y]
+\]
+
+\subsubsection{Varianza}
+La \textbf{varianza} es una medida de la dispersión de \( X \) en torno a su valor esperado \( E[X] = \mu \), y está definida por:
+
+\[\text{Var}(X) = E[(X - \mu)^2].\]
+
+Notemos que
+
+\[\text{Var}(X) = E[(X^2 - 2X\mu + \mu^2)] = E[X^2] - 2\mu E[X] + \mu^2 = E[X^2] - \mu^2.\]
+
+La varianza es siempre un número positivo a menos que la variable aleatoria sea siempre constante. Es importante notar que si \(a\) y \(b\) son números reales, entonces
+
+\[\text{Var}(aX+b)=a^{2}\text{Var}(X).\]
+
+La varianza no verifica la condición de linealidad. En efecto, si \(E[X]=\mu\), \(E[Y]=\theta\), entonces
+
+\begin{align*}
+\text{Var}(X+Y) &= E[((X+Y)-(\mu+\theta))^{2}] \\
+&= E[(X-\mu)^{2}+(Y-\theta)^{2}+2(X-\mu)(Y-\theta)] \\
+&= E[(X-\mu)^{2}] + E[(Y-\theta)^{2}] + 2E[(X-\mu)(Y-\theta)] \\
+&= \text{Var}(X) + \text{Var}(Y) + 2\,\text{cov}(X,Y).
+\end{align*}
+
+Si \(X\) e \(Y\) son variables aleatorias, se define la \textbf{covarianza} de \(X\) e \(Y\) por:
+
+\[\text{cov}(X,Y)=E[(X-\mu_{X})(Y-\mu_{Y})].\]
+
+De esta manera,
+
+\[\text{Var}(X+Y)=\text{Var}(X)+\text{Var}(Y)+2\,\text{cov}(X,Y).\]
+
+Si \(X\) e \(Y\) son independientes entonces \(\text{cov}(X,Y)=0\) (la recíproca en general no es cierta). Esto puede verse observando que \(\text{cov}(X,Y)=E[XY]-E[X]E[Y]\). Luego, si \(X\) e \(Y\) son independientes y conjuntamente continuas con densidad conjunta \(f\), entonces \(f(x,y)=f_{X}(x)f_{Y}(y)\) y por lo tanto:
+
+\[E[XY]=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}xy\,f(x,y)\,dx\,dy=\int_{-\infty}^{\infty}\int_{-\infty}^{\infty}xf_{X}(x)\,yf_{Y}(y)\,dx\,dy=E[X]E[Y].\]
+
+Si \(X\) e \(Y\) son discretas con probabilidad de masa conjunta \(p\), entonces \(p(x,y)=p_{X}(x)p_{Y}(y)\) y
+
+\[E[XY]=\sum_{i}\sum_{j}x_{i}y_{j}\,p(x_{i},y_{j})=\sum_{i}\sum_{j}x_{i}p_{X}(x_{i})\,y_{j}p_{Y}(y_{j})=E[X]E[Y].\]
+
+Otra medida de dispersión de una variable aleatoria es la \textbf{desviación estándar} \(\sigma(X)\), definida por
+
+\[\sigma(X)=\sqrt{\text{Var}(X)}.\]
+
+Tiene la ventaja de mantener las mismas unidades (distancia, longitud, tiempo, etc.) que \(X\) y \(E[X]\). A su vez, se define la \textbf{correlación} de dos variables aleatorias \(X\) e \(Y\) por:
+
+\[\rho(X,Y)=\frac{\text{cov}(X,Y)}{\sigma(X)\cdot\sigma(Y)}.\]
+
+Se cumple que \(\rho(X,Y)\) es un número entre \(-1\) y \(1\), y da una medida normalizada de la covarianza entre dos variables aleatorias.
+
+\subsubsection{Desigualdad de Chebyshev}
+Si \( X \) toma sólo valores no negativos y \( a > 0 \), entonces se cumple la desigualdad
+
+\[P(X \geq a) \leq \frac{E[X]}{a}. \tag{1.5}\]
+
+\begin{theorem}[Desigualdad de Chebyshev]
+Si \(X\) es una variable aleatoria con media \(\mu\) y varianza \(\sigma^{2}\), entonces para \(k>0\) se cumple:
+
+\[P(|X-\mu|\geq k\sigma)\leq\frac{1}{k^{2}}.\]
+\end{theorem}
+
+
+
+
+\subsubsection{Leyes de los grandes números}
+Dos variables aleatorias se dicen \textbf{idénticamente distribuidas} si tienen una misma función de distribución acumulada. 
+
+Si \(X_{1}, X_{2}, \ldots, X_{n}\) son variables aleatorias independientes e idénticamente distribuidas, con media $\mu$, se cumplen las siguientes propiedades:
+
+\begin{itemize}
+    \item \textbf{Ley débil de los grandes números}:
+    
+    \[P\left(\left|\frac{X_1 + X_2 + \cdots + X_n}{n} - \mu\right| > \epsilon\right) \to 0 \quad \text{cuando } n \to \infty.\]
+
+    \item \textbf{Ley fuerte de los grandes números}:
+    
+    Con probabilidad 1 se cumple que:
+    
+    \[\lim_{n \to \infty} \frac{X_1 + X_2 + \cdots + X_n}{n} = \mu.\]
+\end{itemize}
+
+\subsection{Distribuciones de probabilidad}
+
+\subsubsection{Variables aleatorias discretas}
+
+\section*{Distribuciones Discretas}
+
+\subsection*{Distribución Uniforme Discreta: $U\{1,n\}$}
+Se dice que una variable aleatoria tiene \textbf{distribución uniforme} si todos sus valores son equiprobables. Con $U\{1,n\}$ denotaremos a la variable aleatoria que toma valores en el conjunto $\{1,2,\ldots,n\}$, todos con la misma probabilidad $\frac{1}{n}$.
+
+\[p(i)=\frac{1}{n},\qquad i=1,2,\ldots,n.\]
+
+El valor esperado y la varianza están dados por:
+
+\[E[X]=\frac{n+1}{2},\qquad \text{Var}(X)=\frac{n^{2}-1}{12}.\]
+
+\subsection*{Distribución de Bernoulli: $B(p)$}
+Una variable aleatoria que toma dos valores con probabilidad $p$ (éxito) y $1-p$ (fracaso), se dice de \textbf{Bernoulli}. La distribución de Bernoulli teórica se corresponde con la variable aleatoria que toma los valores 1 y 0:
+
+\[X=\begin{cases}
+1 & \text{con prob. } p \\
+0 & \text{con prob. } 1-p
+\end{cases}\]
+
+Su valor esperado y varianza están dados por:
+
+\[E[X]=p,\qquad \text{Var}(X)=p(1-p).\]
+
+\subsection*{Distribución Binomial: $B(n,p)$}
+Si consideramos un experimento que consiste en $n$ ensayos independientes, cada uno con probabilidad $p$ de éxito, entonces el número de éxitos tiene una distribución binomial de parámetros $n$ y $p$. El rango de la variable aleatoria es el conjunto $\{0,1,2,\ldots,n\}$, y la función de masa de probabilidad está dada por:
+
+\[p(i)=P(X=i)=\binom{n}{i}p^{i}(1-p)^{n-i},\qquad 0\leq i\leq n.\]
+
+Más adelante resultará útil la siguiente fórmula recursiva para las probabilidades de masa:
+
+\[p(0)=(1-p)^{n},\qquad p(i+1)=\frac{n-i}{i+1}\frac{p}{1-p}p(i),\quad 0\leq i \leq n-1.\]
+
+El valor esperado y la varianza están dados por:
+
+\[E[X]=np,\qquad \text{Var}(X)=np(1-p).\]
+
+\subsection*{Distribución de Poisson: $\mathcal{P}(\lambda)$}
+Una variable aleatoria se dice que es de \textbf{Poisson con parámetro} $\lambda$ si toma valores en $\mathbb{N}\cup \{0\}$ con probabilidad de masa
+
+\[p(i)=P(X=i)=e^{-\lambda}\frac{\lambda^{i}}{i!},\qquad i\geq 0.\]
+
+Una fórmula recursiva para estas probabilidades está dada por:
+
+\[p(0)=e^{-\lambda},\qquad p(i+1)=\frac{\lambda}{i+1}p(i),\quad i\geq 0.\]
+
+El valor esperado y la varianza están dados por:
+
+\[E[X]=\lambda,\qquad \text{Var}(X)=\lambda.\]
+
+\subsection*{Distribución Geométrica: $\text{Geom}(p)$}
+Dada una sucesión de ensayos independientes con probabilidad $p$ de éxito, la variable aleatoria geométrica cuenta el número de ensayos independientes hasta obtener el primer éxito. Su rango es el conjunto de números naturales, $\mathbb{N}$.
+
+La función de probabilidad de masa está dada por:
+
+\[p(n)=P(X=n)=p(1-p)^{n-1},\qquad n\geq 1.\]
+
+El valor esperado y la varianza están dados por:
+
+\[E[X]=\frac{1}{p},\qquad \text{Var}(X)=\frac{1-p}{p^{2}}.\]
+
+\subsection*{Distribución Binomial Negativa o Pascal: $\mathbf{Bn}(r,p)$}
+Esta distribución se corresponde con la variable aleatoria que mide el número de ensayos independientes con probabilidad de éxito $p$, hasta obtener $r$ éxitos. La variable toma valores en el intervalo $\{r,r+1,r+2,\ldots\} = \{n\in\mathbb{N}\mid n\geq r\}$. La función de probabilidad de masa está dada por:
+
+\[P(X=n)=\binom{n-1}{r-1}p^{r}(1-p)^{n-r},\qquad n\geq r.\]
+
+El valor esperado y la varianza están dados por:
+
+\[E[X]=\frac{r}{p},\qquad \text{Var}(X)=\frac{r(1-p)}{p^{2}}.\]
+
+\subsection*{Distribución Hipergeométrica: $H(n,N,M)$}
+Esta distribución se corresponde con la variable aleatoria que mide el número de éxitos en una muestra de tamaño $n$ extraída de un conjunto de $N+M$ elementos, donde un éxito equivale a extraer un elemento del subconjunto de cardinal $N$.
+
+El rango de esta distribución es $\{0,1,2,\ldots,\min(n,N)\}$. La función de probabilidad de masa está dada por:
+
+\[p(i)=P(X=i)=\frac{\binom{N}{i}\binom{M}{n-i}}{\binom{N+M}{n}}.\]
+
+La probabilidad $p(i)$ es $0$ si $i>N$ o $n-i>M$. El valor esperado y la varianza están dados por:
+
+\[E[X]=\frac{nN}{N+M},\qquad \text{Var}(X)=\frac{nNM}{(N+M)^{2}}\left(1-\frac{n-1}{N+M-1}\right).\]
+
+\subsubsection{Variables aleatorias continuas}
+
+\subsection*{Función Indicadora}
+Denotaremos con $I_{A}$ a la \textbf{función indicadora del conjunto} $A$, dada por
+
+\[I_{A}(x)=\begin{cases} 
+1 & x\in A \\ 
+0 & x\not\in A 
+\end{cases}.\]
+
+\subsection*{Distribución Uniforme Continua: $U(a,b)$}
+Una variable aleatoria continua $X$ se dice uniformemente distribuida en $(a,b)$ si su función de densidad está dada por
+
+\[f(x)=\frac{1}{b-a}\mathbb{I}_{(a,b)}(x)=\begin{cases}
+\frac{1}{b-a} & a<x<b \\
+0 & \text{c.c.}
+\end{cases}\]
+
+Su función de distribución acumulada está dada por:
+
+\[F(x)=\begin{cases}
+0 & x\leq a \\
+\frac{x-a}{b-a} & a<x<b \\
+1 & x\geq b
+\end{cases}\]
+
+y la varianza y su valor esperado son:
+
+\[E[X]=\frac{a+b}{2},\qquad \text{Var}(X)=\frac{1}{12}(b-a)^{2}.\]
+
+\subsection*{Distribución Normal: $N(\mu,\sigma^2)$}
+Una variable aleatoria continua $X$ se dice normalmente distribuida con media $\mu$ y varianza $\sigma^{2}$ si su función de densidad de probabilidad está dada por
+
+\[f_{X}(x)=\frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(x-\mu)^{2}}{2\sigma^{2}}},\qquad x \in\mathbb{R}.\]
+
+En tal caso usamos la notación $X\sim N(\mu,\sigma^2)$. Si $Z\sim N(0,1)$ se dice que su distribución es \textbf{normal estándar}. La función de densidad es entonces:
+
+\[f_Z(z)=\frac{1}{\sqrt{2\pi}}e^{-\frac{z^2}{2}}.\]
+
+Si $X\sim N(\mu,\sigma^2)$, entonces $\frac{X-\mu}{\sigma}$ tiene distribución normal estándar. Denotemos con $\Phi$ a la función de distribución acumulada de una variable aleatoria normal estándar, $Z\sim N(0,1)$:
+
+\[\Phi(x)=P(Z\leq x)=\frac{1}{\sqrt{2\pi}}\int_{-\infty}^{x}e^{-\frac{t^{2}}{2}}\,dt.\tag{1.6} \] 
+
+La integral $\Phi(x)$ no tiene una fórmula cerrada, por lo cual es usual utilizar valores tabulados para el cálculo o interpolación de valores de $\Phi$. De la expresión para la función de densidad, se observa que es una función par, esto es, $f(x)=f(-x)$. Luego se cumple que
+
+\[\Phi(x)=1-\Phi(-x),\qquad\text{para todo }x\in\mathbb{R}.\]
+
+Si $X$ es normal con media $\mu$ y varianza $\sigma^{2}$, entonces su función de distribución acumulada puede expresarse en términos de $\Phi$:
+
+\[F(x)=P(X\leq x)=P\left(\frac{X-\mu}{\sigma}\leq\frac{x-\mu}{\sigma}\right)=\Phi\left(\frac{x-\mu}{\sigma}\right).\]
+
+Algunos valores importantes a recordar son las probabilidades de que los valores de una variable aleatoria normal se distribuyan alrededor de la media, a una distancia menor de $k\sigma$, para ciertos valores de $k$. Para $k=1,2,3$ tenemos:
+
+\begin{align*}
+P(|X-\mu|<\sigma) &\approx 68\%, \\
+P(|X-\mu|<2\sigma) &\approx 95\%, \\
+P(|X-\mu|<3\sigma) &\approx 99.7\%.
+\end{align*}
+
+Si $Z\sim N(0,1)$ y $\alpha$ es un número entre $0$ y $1$, se suele denotar $z_{\alpha}$ al número real tal que
+
+\begin{theorem}[Teorema Central del Límite]
+    Sean $X_1, X_2, \ldots, X_n$ variables aleatorias independientes e idénticamente distribuidas con media $\mu$ y varianza $\sigma^2$.
+    Entonces
+    \[
+    \lim_{n \to \infty} P\left( \frac{X_1 + X_2 + \cdots + X_n - n\mu}{\sigma\sqrt{n}} < x \right) = \Phi(x).
+    \]
+
+    Este teorema resulta útil para estimaciones estadísticas de intervalos de confianza a partir de una muestra de tamaño $n$.
+    
+
+\end{theorem}
+
+
+\subsection*{Distribución Exponencial: $\mathcal{E}(\lambda)$}
+Una variable aleatoria $X$ tiene distribución exponencial con parámetro $\lambda$, $\lambda>0$, si su función de densidad está dada por:
+
+\[f_{\lambda}(x)=\lambda\,e^{-\lambda x}\,\mathbb{I}_{(0,\infty)}(x).\]
+
+Su valor esperado y varianza están dados por:
+
+\[E[X]=\frac{1}{\lambda},\qquad \text{Var}(X)=\frac{1}{\lambda^{2}}.\]
+
+Si $X\sim\mathcal{E}(\lambda)$, entonces $c\,X\sim\mathcal{E}\left(\frac{\lambda}{c}\right)$.
+
+Se dice que una variable aleatoria $X$ tiene \textbf{falta de memoria} si:
+
+\[P(X>s+t\mid X>s)=P(X>t).\]
+
+\subsection*{Distribución Lognormal: $LN(\mu,\sigma)$}
+Una variable aleatoria continua $X$ se dice \textbf{lognormal} si su logaritmo $\ln(X)$ tiene distribución normal. Denotaremos $X\sim LN(\mu,\sigma)$ si el logaritmo de $X$ tiene media $\mu$ y desviación estándar $\sigma$. En tal caso su función de densidad está dada por:
+
+\[f(x)=\frac{1}{x\sqrt{2\pi\sigma^{2}}}e^{-(\ln(x)-\mu)^{2}/(2\sigma^{2})}\cdot \mathbb{I}_{(0,\infty)}(x).\]
+
+Su valor esperado y varianza están dados por:
+
+\[E[X]=e^{\mu+\sigma^{2}/2},\qquad \text{Var}(X)=e^{2\mu+\sigma^{2}}(e^{\sigma^{2}}-1).\]
+
+\subsection*{Distribución Gamma: $\Gamma(\alpha,\beta)$}
+Una variable aleatoria Gamma con parámetros $\alpha$ y $\beta$ tiene una función de densidad dada por:
+
+\[f(x)=\frac{1}{\Gamma(\alpha)}\;\beta^{-\alpha}x^{\alpha-1}e^{-\frac{x}{\beta}}, \qquad x>0.\]
+
+Su valor esperado y varianza están dados por:
+
+\[E[X]=\alpha\beta,\qquad \text{Var}(X)=\alpha\beta^{2}.\]
+
+\subsection*{Distribución Weibull: $W(\alpha,\beta)$}
+Una variable aleatoria continua Weibull con parámetros $\alpha$ y $\beta$, con $\alpha>0$ y $\beta>0$, tiene función de densidad dada por:
+
+\[f(x) = \alpha\beta^{-\alpha}x^{\alpha-1}\,e^{-(x/\beta)^{\alpha}}\mathbb{I}_{(0,\infty)}(x).\]
+
+Su valor esperado y varianza son:
+
+\[E[X] = \beta\,\Gamma\left(1+\frac{1}{\alpha}\right)\]
+
+\[\text{Var}(X) = \beta^2\left[\Gamma\left(1+\frac{2}{\alpha}\right) - \left(\Gamma\left(1+\frac{1}{\alpha}\right)\right)^2\right]\]
+
+\newpage
+
+\section{Procesos de Poisson}
+
+Un proceso de Poisson puede pensarse como el proceso de contar el numero de arribos o
+llegadas ocurridos hasta el tiempo t, sabiendo que la tasa de llegada por unidad de tiempo es $\lambda$. 
+
+\subsection{El proceso de poisson homogéneo}
+
+Entonces por lo mencionado anteriormente:
+
+\begin{enumerate}[label=\alph*)]
+    \item Al momento $t=0$ no se contabiliza ningún arribo.
+    
+    \item \textbf{Incrementos independientes}: Si se consideran dos o más intervalos de tiempo no solapados entre sí, el número de arribos que ocurre en uno y otro intervalo son variables aleatorias independientes.
+    
+    \item \textbf{Incrementos estacionarios}: La distribución del número de llegadas que ocurre en un período de tiempo depende sólo del tiempo transcurrido y no de la ubicación en el tiempo de este período. Esta propiedad es la que determina que el proceso sea homogéneo.
+    
+    \item En un intervalo pequeño de tiempo:
+    \begin{itemize}
+        \item La probabilidad de que ocurra una llegada es proporcional a la longitud del intervalo, con constante de \textbf{intensidad} igual a la tasa de arribos $\lambda$.
+        \item La probabilidad de que lleguen dos o más eventos simultáneamente tiende a ser nula cuando el intervalo de tiempo es reducido.
+    \end{itemize}
+\end{enumerate}
+
+
+\subsubsection{Distribución del número de llegadas $N(t)$}
+
+    \[
+    P(N(t)=k)=\frac{(\lambda t)^{k} e^{-\lambda t}}{k!}
+    \]  
+
+Donde $k$ la cantidad de llegadas (o eventos) que ocurren en el intervalo de tiempo $t$.
+
+Entonces $N(t)$ tiene una distribución de Poisson con parámetro $\lambda t$.
+\[
+N(t)\sim\mathcal{P}(\lambda t).
+\]
+\subsubsection{Distribución del tiempo entre arribos}
+
+\begin{itemize}
+    \item $N(t$), tasa $\lambda$
+    \item $X_{1}:$ Tiempo hasta el primer evento
+    \item $X_k:$ Tiempo transcurrido desde el evento $k-1$ hasta el evento $k$.
+\end{itemize}
+
+$X_k$ tiene una distribución exponencial con parámetro $\lambda$.
+\[
+X_k\sim\mathcal{E}(\lambda).\]
+
+\subsubsection{Distribución del tiempo de arribo}
+
+\begin{itemize}
+    \item $N(t)$, tasa $\lambda$
+    \item $X_1, X_2, \ldots, X_n:$ Tiempo hasta el evento $n$.
+\end{itemize}
+
+Llamemos $S_n$ el tiempo en el que ocurre el $n$-ésimo evento.
+\[
+S_n = X_1 + X_2 + \ldots + X_n.\]
+
+Entonces $S_n$ tiene una distribución gamma con parámetros $n$ y $\frac{1}{\lambda}$.
+
+\[
+S_n\sim\Gamma(n,\frac{1}{\lambda}).\]
+
+
+\subsubsection{Superposición de procesos de Poisson homogéneos}
+
+\begin{itemize}
+    \item $N_1(t)$, tasa $\lambda_1$
+    \item $N_2(t)$, tasa $\lambda_2$
+    \item $t \geq 0$
+    \item $N_1(t)$ y $N_2(t)$ independientes entre sí.
+\end{itemize}
+\[
+M(t) = N_1(t) + N_2(t).\]
+\[
+M(t) \sim\mathcal{P}(\lambda_1 t + \lambda_2 t).\]
+$\{M(t), t \geq 0 \}$ es un proceso de Poisson homogéneo con tasa $\lambda_1 + \lambda_2$.
+
+Se obtiene que si sumamos:
+
+\[
+M(t) = N_1(t) + N_2(t) + \ldots + N_n(t).\]
+
+$N_1(t), N_2(t), \ldots, N_n(t)$ son independientes entre sí 
+y cada uno de ellos es un proceso de Poisson homogéneo con tasas $\lambda_1, \lambda_2, \ldots, \lambda_n$ respectivamente.
+\\ \\
+Entonces M(t) es un proceso de Poisson homogéneo con tasa $\lambda = \lambda_1 + \lambda_2 + \ldots + \lambda_n$.
+\\ \\
+
+\[
+P(\{\text{Primer evento sea del proceso }N_k \}) = \frac{\lambda_k}{\lambda_1 + \lambda_2 + \ldots + \lambda_n}.\]
+\subsubsection{Refinamiento de procesos de Poisson homogéneos}
+
+\begin{itemize}
+    \item $N(t)$, tasa $\lambda$
+    \item $t \geq 0$
+    \item $\lambda > 0$
+    \item En lugar de contar todos los eventos, vamos a contar los eventos y marcarlos con una cierta probabilidad $p$ de un determinado tipo $T$.
+\end{itemize}
+
+Entonces tenemos:
+
+\[
+\begin{aligned}
+0 < p_1, p_2, \ldots, p_n < 1 \\
+p_1 + p_2 + \cdots + p_n = 1
+\end{aligned}
+\]
+
+Esto produce:
+\[
+\begin{aligned}
+N_1(t) &: \text{Eventos de tipo } T_1 \\
+N_2(t) &: \text{Eventos de tipo } T_2 \\
+&\vdots \\
+N_n(t) &: \text{Eventos de tipo } T_n
+\end{aligned}
+\]
+
+Donde $N_1(t), N_2(t), \ldots, N_n(t)$ son procesos de Poisson homogéneos e independientes
+
+
+\begin{center}
+    $N_j(t)$ es un proceso de Poisson homogéneo con tasa $\lambda_j = \lambda p_j$. \\
+\end{center}
+
+
+\underline{Observación}: $\lambda p_1 + \lambda p_2 + \ldots \lambda p_n$
+
+
+\subsection{El proceso de poisson no homogéneo}
+
+En este caso la tasa de arribos $\lambda(t)$ no es constante, sino que depende del tiempo. En este caso, la función de intensidad $\lambda(t)$ es una función integrable en el intervalo $[0,t]$.
+\\
+
+La función \textbf{valor medio del proceso} mide la intensidad media del número de llegadas en un intervalo. Está dada por:
+
+\[m(t) = \int_{0}^{t} \lambda(s) \, ds\]
+
+Notemos que en este caso los incrementos son independientes pero no estacionarios, ya que la distribución de $N(t+s) - N(t)$ dependerá de la función de intensidad $\lambda$ en el período $(t,t+s]$. Por otra parte si $\lambda(t) = \lambda$, constante, entonces $m(t) = \lambda \cdot t$ y es el caso del proceso de Poisson homogéneo.
+\\ \\
+En particular, se tiene que para cada $t\geq 0$ y $s>0$, el número de llegadas en el intervalo $(t,t+s]$ es una variable aleatoria Poisson con media $m(t,t+s)=m(t+s)-m(t)$:
+
+\[m(t,t+s)=m(t+s)-m(t)=\int_{t}^{t+s}\lambda(x)\,dx.\]
+
+Es decir:
+
+\[P(N(t+s)-N(t)=j)=e^{-m(t,t+s)}\cdot\frac{(m(t,t+s))^{j}}{j!}.\]
+
+\begin{proposition}
+Sea $N(t)$ el número de eventos ocurridos hasta el tiempo $t$ en un proceso de Poisson homogéneo con intensidad $\lambda$. Supongamos que en tiempo $t$ un evento es contado con probabilidad $p(t)$, independientemente de lo ocurrido hasta ese instante. Entonces el proceso de conteo de estos eventos $M(t)$ es un proceso de Poisson no homogéneo con intensidad $\lambda(t)=\lambda\cdot p(t)$.
+\end{proposition}
+
+En particular, si $N(t)$ es un proceso de Poisson no homogéneo con función de intensidad $\lambda(t)$ y $\lambda\in\mathbb{R}$ es una constante tal que
+
+\[\lambda(t)\leq\lambda,\]
+
+para todo $t$, entonces $N(t)$ puede verse como el proceso de contar eventos de un proceso de Poisson homogéneo con intensidad $\lambda$ donde los eventos son contados con probabilidad
+
+\[p(t)=\frac{\lambda(t)}{\lambda}.\]
+
+
+\section{Generación de Números Aleatorios}
+
+\subsection*{ Método del Cuadrado Medio de von Neumann}
+Uno de los primeros trabajos que sugieren un método bien definido de generación de una secuencia determinística intentando imitar una secuencia aleatoria, fue de von Neumann. Este método conocido como \textit{mid square} puede ser escrito de la siguiente manera:
+
+\begin{enumerate}
+    \item Sea $X_{0}$ un número entero de 4 dígitos decimales (puede ser que los dígitos más a la izquierda sean 0). Hacer $i=0$.
+    
+    \item Calcular $X_{i}^{2}$. El resultado es un número de 8 dígitos: $X_{i}^{2}=d_{8}d_{7}d_{6}d_{5}d_{4}d_{3}d_{2}d_{1}$, con $d_{j}$ en el conjunto $\{0,1,\ldots,9\}$, $0\leq j\leq 7$.
+    
+    \item Definir $X_{i+1}=d_{6}d_{5}d_{4}d_{3}$, esto es, los cuatro dígitos centrales o "middle".
+    
+    \item Hacer $i=i+1$ y seguir en el paso 2.
+\end{enumerate}
+
+\begin{verbatim}
+def vonNeumann(u):
+    u = (u**2 // 100) % 10000
+    return u
+\end{verbatim}
+
+Este método es un ejemplo de lo que llamaríamos un \textbf{mal generador de números aleatorios}. Veamos por qué.
+
+Aunque ciertas secuencias obtenidas sean bien aleatorias y se repitan solo después de un número grande de términos, sucede que no se conocen bien las propiedades del generador. En particular, pareciera que las secuencias que se obtienen dependen fuertemente del valor inicial $X_{0}$, o semilla. Los siguientes ejemplos muestran algunas secuencias obtenidas a partir de este algoritmo, donde el primer valor es la semilla dada:
+
+\begin{itemize}
+    \item[\textbf{a)}] \textbf{4010}: 801, 6416, 1650, 7225, 2006, 240, 576, 3317, 24, 5, 0, 0, \ldots
+    
+    \item[\textbf{b)}] \textbf{2100}: 4100, 8100, 6100, 2100, 4100, 8100, 6100, 2100, 4100, 8100, \ldots
+    
+    \item[\textbf{c)}] \textbf{3792}: 3792, 3792, 3792, 3792, 3792, 3792, \ldots
+    
+    \item[\textbf{d)}] \textbf{1234}: 5227, 3215, 3362, 3030, 1809, 2724, 4201, 6484, 422, 1780, \ldots
+\end{itemize}
+
+En (a) puede verse que la secuencia degenera en el valor 0 luego de algunas iteraciones, en (b) la secuencia alterna entre solo cuatro valores y en (c) los valores se repiten paso tras paso.
+
+\subsection{Generadores congruenciales}
+
+Es claro que con una computadora no es posible generar cualquier número real, en particular si posee infinitas cifras decimales. Los generadores que analizaremos a continuación producen en realidad una secuencia de números enteros:
+
+\[
+y_{1}, y_{2}, \ldots, y_{N}, \qquad y_{j} \in \{0, 1, \ldots, M-1\},
+\]
+
+para un cierto entero positivo $M$ "grande", y a partir de esta muestra se considera la sucesión de números en $[0,1)$ como:
+
+\[
+u_{1} = \frac{y_{1}}{M},\ u_{2} = \frac{y_{2}}{M},\ \ldots,\ u_{N} = \frac{y_{N}}{M},\ \ldots
+\]
+
+Nos ocuparemos entonces de generar secuencias de números enteros mediante la relación de recurrencia:
+
+\[
+y_{n} = f(y_{n-1}) \bmod M,
+\]
+
+para algún $M$ entero positivo, comenzando de un valor inicial (semilla) $y_{0}$.
+
+
+\subsubsection{Generadores congruenciales lineales}
+
+\begin{definition}[Generador Congruencial Lineal]
+    Sea $M$ un entero positivo, $M \geq 2$. Una sucesión $y_{1}, y_{2}, \ldots, y_{n}, \ldots$ con valores en $\{0,1,\ldots,M-1\}$ se dice \textbf{generada por el generador congruencial lineal} con parámetros $a$, $c$ y $M$ y semilla $y_{0}$ si
+    \[
+    y_{n} = (a y_{n-1} + c) \bmod M, \qquad n \geq 1,
+    \]
+    donde $a$, $c$ e $y_{0}$ son enteros del conjunto $\{0,\ldots,M-1\}$.
+    
+    En la terminología usual:
+    \begin{itemize}
+        \item $a$ se dice \textbf{multiplicador}
+        \item $c$ es el \textbf{incremento}
+        \item $M$ es el \textbf{módulo}
+    \end{itemize}
+    
+    Si $c \neq 0$ el generador se dice \textbf{mixto} y si $c = 0$ se dice \textbf{multiplicativo}.
+    \end{definition}
+
+\begin{verbatim}
+    def randMixto(a, c, M, u):
+        return (a * u + c) % M
+    
+    def randMulti(a, M, u):
+        return (a * u) % M
+    \end{verbatim}
+  
+    Una secuencia generada por un generador congruencial lineal puede tener a lo sumo $M$ números diferentes. Además, si un número de la secuencia se repite entonces también se repite la secuencia que sigue a ese número. Entonces, si $K$ es el menor número tal que
+    
+    \[
+    y_{n} = y_{n+K}, \qquad \text{para todo } n \geq N_{0},
+    \]
+    
+    para algún $N_{0}$, diremos que $K$ es el \textbf{período} de la secuencia $y_{0}, y_{1}, \ldots$.
+    
+    En principio podemos afirmar que $K \leq M$, es decir, el período no puede superar a la cantidad de números que es posible generar.
+
+
+\subsubsection{Generadores mixtos}
+\begin{theorem}[Condiciones para período máximo]
+    Consideremos una secuencia dada por el generador:
+    
+    \[
+    y_{i+1} = a y_{i} + c \bmod M, \qquad c \neq 0.
+    \]
+    
+    Entonces la secuencia tiene período $M$ si y sólo si se cumplen todas las siguientes condiciones:
+    
+    \begin{enumerate}
+        \item El máximo común divisor entre $c$ y $M$ es $1$: $(c,M)=1$.
+        
+        \item $a \equiv 1 \bmod p$, para cualquier factor primo $p$ de $M$.
+        
+        \item Si $4$ divide a $M$, entonces $a \equiv 1 \bmod 4$.
+    \end{enumerate}
+    \end{theorem}
+
+\begin{corollary}
+    Si $M$ es primo, el período máximo ocurre sólo si $a = 1$.
+\end{corollary}
+
+
+\subsubsection{Generadores multiplicativos}
+
+\begin{definition}[Raíz primitiva]
+    Sea $M$ un número natural. Se dice que $a$ es una \textbf{raíz primitiva} de $M$ si
+    \[
+    a^{(M-1)/p} \not\equiv 1 \pmod{M}
+    \]
+    para cualquier factor primo $p$ de $M-1$.
+    \end{definition}
+    
+    \begin{theorem}[Propiedades del período en generadores multiplicativos]
+    Para un generador multiplicativo
+    \[
+    y_{i+1} = a y_{i} \bmod M,
+    \]
+    el período $K$ de la secuencia verifica las siguientes tres propiedades:
+    \begin{enumerate}
+        \item Si $K = M-1$ entonces $M$ es primo.
+        
+        \item Si $M$ es primo, entonces $K$ divide a $M-1$.
+        
+        \item $K = M-1$ si y sólo si $a$ es raíz primitiva de $M$ y $M$ es primo.
+    \end{enumerate}
+    \end{theorem}
+
+\subsubsection{El problema de los hiperplanos}
+
+Para el caso de los generadores congruenciales lineales, ocurre lo siguiente. Si la secuencia producida es:
+\[
+y_{0},\ y_{1},\ y_{2},\ \ldots,\ y_{n},\ \ldots,
+\]
+está demostrado que los puntos $(y_{j}, y_{j+1}, \ldots, y_{j+k-1})$, $j=0,1,2,\ldots$ están ubicados en no más de
+\[
+(k!\,M)^{1/k} = (k!)^{1/k} \sqrt[k]{M}
+\]
+hiperplanos paralelos en $\mathbb{R}^{k}$. 
+¿Qué nos dice esto? Que los puntos determinados por estas $k$-uplas quedan ubicados en una cantidad finita de hiperplanos, y por lo tanto existen "franjas" 
+en las que no cae ninguna $k$-upla. 
+\\ \\
+Un mal generador y ejemplo de este problema es \textbf{RANDU}. Este es un generador del tipo congruencial lineal multiplicativo ($c=0$), con $M=2^{31}$ y $a=2^{16}+3$:
+\[
+y_{n} = 65539 \cdot y_{n-1} \mod 2147483648.
+\]
+El problema fundamental es que estos generadores exhiben un \textit{fenómeno de no-aleatoriedad}.
+
+\subsubsection{Generadores congruenciales lineales combinados}
+
+\begin{theorem}[Suma de variables uniformes discretas]
+    Sean $W_{1}, W_{2}, \ldots, W_{n}$ variables aleatorias discretas independientes, tales que $W_{1} \sim U(\{0,d-1\})$ para cierto $d \geq 1$. Entonces
+    
+    \[
+    W = \left(\sum_{j=1}^{n} W_{j}\right) \bmod d
+    \]
+    
+    es una variable aleatoria uniforme discreta en $\{0, d-1\}$.
+    \end{theorem}
+
+\section{Método de Monte Carlo}
+
+\subsection{Fundamentos del Método de Monte Carlo}
+El método de Monte Carlo se basa en dos resultados fundamentales de la Teoría de la Probabilidad:
+
+\subsubsection*{1. Ley Fuerte de los Grandes Números}
+Si $X_1, X_2, \ldots, X_n, \ldots$ son variables aleatorias independientes, idénticamente distribuidas, con media $\theta$, entonces:
+\[
+P\left(\lim_{n \to \infty} \frac{X_1 + X_2 + \cdots + X_n}{n} = \theta\right) = 1,
+\]
+o equivalentemente con probabilidad 1:
+\[
+\lim_{n \to \infty} \frac{X_1 + X_2 + \cdots + X_n}{n} = \theta.
+\]
+
+\subsubsection*{2. Valor Esperado de Funciones de Variables Aleatorias}
+Si $X$ es una variable aleatoria absolutamente continua, con función de densidad $f$, y $g : \mathbb{R} \mapsto \mathbb{R}$ es una función, entonces $g \circ X$ es una variable aleatoria y su valor esperado está dado por:
+\[
+E[g(X)] = \int_{-\infty}^{\infty} g(x)f(x) \, dx.
+\]
+
+\subsubsection*{El método de Monte Carlo}
+
+\begin{itemize}
+    \item Se desea calcular $\theta$.
+    \item $\theta = E[g(X)]$. Que es dificil de calcular.
+    \item Consideremos $X$ una variable aleatoria con distribución conocida.
+\end{itemize}
+
+Tomamos una muestra $X_1, X_2, \ldots, X_N$ de variables independientes e idénticamente distribuidas (i.i.d.) con la misma distribución que $X$.
+\\ \\
+Entonces:
+\[
+\frac{g(x_1) + g(x_2) + \ldots + g(X_N)}{N} \approx E[g(X_i)] = E[g(X)] = \theta. 
+\]
+$\theta$ se estima con \[ [g(x_1) + g(x_2) + \ldots + g(x_n)] \cdot \frac{1}{N} \] 
+\subsection{Estimación de integrales definidas}
+
+\subsubsection{Integración sobre $(0,1)$}
+
+Queremos estimar:
+\[
+\int_{0}^{1} g(x) \, dx = \theta
+\]
+
+\begin{align*}
+\theta &= \int_0^1 g(x) \cdot 
+\underset{\textcolor{blue}{\mathbb{I}_{(0,1)}(x)}}
+         {\underline{\textcolor{blue}{1}}} \, dx \\
+f(x) &= 
+\textcolor{blue}{
+\begin{cases} 
+1 & 0 < x < 1 \\ 
+0 & \text{c.c.}
+\end{cases}
+= \mathbb{I}_{[0,1]}(x)
+}
+\end{align*}
+
+\textcolor{blue}{$f$ es la función de densidad de $U \sim \mathcal{U}(0,1)$.}
+
+\[
+\theta = \int_{-\infty}^{\infty} g(x) \cdot f(x) \, dx = E[g(u)]
+\]
+
+Por Monte Carlo, tomamos una muestra $U_1, U_2, \ldots, U_N$ de variables aleatorias independientes, donde $U_i \sim \mathcal{U}(0,1)$ y entonces:
+
+\[
+\frac{1}{N} \sum_{i=1}^{N} g(u_i) = \frac{g(u_1) + g(u_2) + \ldots + g(u_N)}{N} \approx \theta = \int_{0}^{1} g(x) \, dx.
+\]
+
+\subsubsection{Integración sobre $[a,b]$}
+
+Queremos calcular:
+\[
+\theta = \int_{a}^{b} g(x) \, dx
+\]
+
+Hacemos el cambio de variable:
+\[
+y = \frac{x - a}{b - a} \quad \Rightarrow \quad x = y(b - a) + a
+\]
+\[
+dy = \frac{1}{b - a}dx \quad \Rightarrow \quad dx = (b - a)dy
+\]
+
+Transformando la integral:
+\[
+\int_{a}^{b} g(x) \, dx = \int_{0}^{1} \underbrace{g\big((b-a)y + a\big)(b-a)}_{h(y)} \, dy = \int_{0}^{1} h(y) \, dy
+\]
+
+Luego con Monte Carlo generamos $N$ variables aleatorias uniformes:
+\[
+U_1, U_2, \ldots, U_N \sim \mathcal{U}(0,1)
+\]
+
+Entonces tenemos:
+\begin{align*}
+    \frac{h(u_1) + h(u_2) + \ldots + h(u_N)}{N}
+    &= \frac{1}{N}\sum_{i=1}^N g\big((b-a)u_i + a\big)(b-a) \\ 
+    &= \frac{b-a}{N} \sum_{i=1}^N g\big((b-a)u_i + a\big) \\
+    &\approx \theta \\
+    &= \int_{a}^{b} g(x)\, dx
+\end{align*}
+
+\subsubsection{Integración sobre $(0, \infty)$}
+
+Consideremos la integral:
+\[
+\theta = \int_{0}^{\infty} g(x) \, dx
+\]
+
+Realizamos un cambio de variable biyectivo:
+\[
+(0, \infty) \xrightarrow{\text{biyectiva}} (0, 1)
+\]
+
+Definimos la transformación:
+\[
+y = \frac{1}{x+1} \quad \Rightarrow \quad x = \frac{1}{y} - 1
+\]
+
+El diferencial se transforma como:
+\[
+dy = -\frac{1}{(x+1)^2}dx \quad \Rightarrow \quad dx = -\frac{1}{y^2}dy
+\]
+
+
+Transformando la integral:
+\[
+\int_{0}^{\infty} g(x) \, dx = \int_{1}^{0} g\left(\frac{1}{y} - 1\right) \cdot -\frac{1}{y^2} \, dy = \int_{0}^{1} 
+\underbrace{g\left(\frac{1}{y} - 1\right) \cdot \frac{1}{y^2}}_{\text{h(y)}} \, dy = \theta
+\]
+
+
+Notar que usamos el hecho de que si $a < b$ y tenemos $\int_{b}^{a} f(x) \, dx$ entonces:
+\[
+\int_{b}^{a} f(x) \, dx = -\int_{a}^{b} f(x) \, dx
+\]
+
+Luego generamos $U_1, U_2, \ldots U_N$ variables aleatorias independientes, donde $U_i \sim \mathcal{U}(0,1)$ y entonces:
+
+\[
+    \frac{h(u_1) + h(u_2) + \ldots + h(u_N)}{N} = \frac{1}{N} \sum_{i=1}^{N} g(\frac{1}{u_i} - 1) \cdot \frac{1}{u_i^{2}}  \approx \theta = \int_{0}^{\infty} g(x) \, dx.
+\]
+
+\subsubsection{Integración sobre $-(\infty), 0 $}
+
+Queremos calcular la integral impropia:
+\[
+\theta = \int_{-\infty}^{0} g(x) \, dx
+\]
+
+Para ello hacemos un cambio de variable:
+\[
+y = -x \quad \Rightarrow \quad x = -y
+\]
+\[
+dy = -dx \quad \Rightarrow \quad dx = -dy
+\]
+
+Entonces transformamos la integral:
+\[
+\int_{-\infty}^{0} g(x) \, dx = \int_{\infty}^{0} g(-y) \cdot (-dy) = \int_{0}^{\infty} g(-y) \, dy = \theta
+\]
+
+Luego generamos $U_1, U_2, \ldots U_N$ variables aleatorias independientes, donde $U_i \sim \mathcal{U}(0,1)$ y entonces:
+\[
+\theta \approx \frac{1}{N} \sum_{i=1}^{N} g(-U_i) \cdot (-1) = -\frac{1}{N} \sum_{i=1}^{N} g(-U_i) \approx \int_{-\infty}^{0} g(x) \, dx
+\]
+
+\subsubsection{Integración sobre $(a, \infty)$ con transformación racional}
+
+Consideremos la integral impropia:
+\[
+\theta = \int_{a}^{\infty} g(x) \, dx \quad \text{con } a > 0
+\]
+
+Realizamos un cambio de variable racional:
+\[
+y = \frac{a}{x} \quad \Rightarrow \quad x = \frac{a}{y}
+\]
+
+El diferencial se transforma como:
+\[
+dy = -\frac{a}{x^2}dx \quad \Rightarrow \quad dx = -\frac{a}{y^2}dy
+\]
+
+Transformando la integral:
+\[
+\int_{a}^{\infty} g(x) \, dx = \int_{1}^{0} g\left(\frac{a}{y}\right) \cdot \left(-\frac{a}{y^2}\right) \, dy = \int_{0}^{1} \underbrace{g\left(\frac{a}{y}\right) \cdot \frac{a}{y^2}}_{\text{h(y)}} \, dy = \theta
+\]
+
+\noindent Donde usamos que:
+\[
+\int_{b}^{a} f(x)\,dx = -\int_{a}^{b} f(x)\,dx \quad \text{si } a < b
+\]
+
+\vspace{0.5em}
+\paragraph{Método de Monte Carlo.} Sea $U_i \sim \mathcal{U}(0,1)$ para $i = 1, \ldots, N$. Entonces, una estimación de $\theta$ es:
+\[
+\theta \approx \frac{1}{N} \sum_{i=1}^{N} g\left(\frac{a}{U_i}\right) \cdot \frac{a}{U_i^2}
+\]
+
+\vspace{1em}
+\noindent \textbf{Resumen de las Transformaciones Clave:}
+\[
+\begin{array}{|c|c|c|c|}
+\hline
+\textbf{Límite inferior} & \textbf{Cambio de variable} & \textbf{Jacobiano} & \textbf{Nuevos límites} \\
+\hline
+a = 1 & y = \frac{1}{x} & \frac{1}{y^2} & y \in (0,1] \\
+a > 0 \text{ (general)} & y = \frac{a}{x} & \frac{a}{y^2} & y \in (0,1] \\
+\hline
+\end{array}
+\]
+
+\subsubsection{Integración sobre $(-\infty, b]$}
+
+Queremos calcular la integral impropia:
+\[
+\theta = \int_{-\infty}^{b} g(x) \, dx
+\]
+
+Realizamos un cambio de variable racional:
+\[
+y = \frac{1}{b - x} \quad \Rightarrow \quad x = b - \frac{1}{y}
+\]
+
+El diferencial se transforma como:
+\[
+dy = \frac{1}{(b - x)^2}dx \quad \Rightarrow \quad dx = \frac{1}{y^2}dy
+\]
+
+Transformando la integral:
+\[
+\int_{-\infty}^{b} g(x) \, dx = \int_{0}^{1} g\left(b - \frac{1}{y}\right) \cdot \frac{1}{y^2} \, dy = \theta
+\]
+
+\paragraph{Método de Monte Carlo.} Sea $U_i \sim \mathcal{U}(0,1)$ para $i = 1, \ldots, N$. Entonces:
+\[
+\theta \approx \frac{1}{N} \sum_{i=1}^{N} g\left(b - \frac{1}{U_i}\right) \cdot \frac{1}{U_i^2}
+\]
+
+
+\subsubsection{Integración sobre $(-\infty, \infty)$}
+
+Queremos evaluar:
+\[
+\theta = \int_{-\infty}^{\infty} g(x) \, dx
+\]
+
+Dividimos la integral en dos partes:
+\[
+\theta = \int_{-\infty}^{0} g(x) \, dx + \int_{0}^{\infty} g(x) \, dx
+\]
+
+Para cada parte aplicamos un cambio de variable racional similar:
+
+\begin{itemize}
+\item Para $\displaystyle \int_{0}^{\infty} g(x)\, dx$: usamos $y = \frac{1}{x+1} \Rightarrow x = \frac{1}{y} - 1$, con $dx = -\frac{1}{y^2} dy$
+\[
+\int_{0}^{\infty} g(x)\, dx = \int_{0}^{1} g\left(\frac{1}{y} - 1\right)\cdot \frac{1}{y^2} \, dy
+\]
+
+\item Para $\displaystyle \int_{-\infty}^{0} g(x)\, dx$: usamos $y = \frac{1}{1 - x} \Rightarrow x = 1 - \frac{1}{y}$, con $dx = \frac{1}{y^2}dy$
+\[
+\int_{-\infty}^{0} g(x)\, dx = \int_{0}^{1} g\left(1 - \frac{1}{y} \right) \cdot \frac{1}{y^2} \, dy
+\]
+\end{itemize}
+
+Entonces:
+\[
+\theta = \int_{0}^{1} \left[ g\left(\frac{1}{y} - 1\right) + g\left(1 - \frac{1}{y}\right) \right] \cdot \frac{1}{y^2} \, dy
+\]
+
+\paragraph{Método de Monte Carlo.} Sea $U_i \sim \mathcal{U}(0,1)$ para $i = 1, \ldots, N$. Entonces:
+\[
+\theta \approx \frac{1}{N} \sum_{i=1}^{N} \left[ g\left(\frac{1}{U_i} - 1\right) + g\left(1 - \frac{1}{U_i} \right) \right] \cdot \frac{1}{U_i^2}
+\]
+
+\subsubsection*{Aclaración sobre el cambio de variables}
+
+Cuando realizamos un cambio de variable, la idea es buscar una función que mapee los limites de integración, a los 
+limites de integración $0$ y $1$.
+
+Es decir el $"y"$, tiene que tender a 0 y 1, cuando el $x$ tiende a los limites de integración.
+
+Por ejemplo:
+\[
+\int_{1}^{\infty} g(x) \, dx 
+\]
+
+Hacemos el cambio de variable:
+\[
+y = \frac{1}{x} \quad \Rightarrow \quad x = \frac{1}{y}
+\]
+
+\[
+dy = -\frac{1}{x^2}dx \quad \Rightarrow \quad dx = -\frac{1}{y^2}dy
+\]
+Entonces $y \to 0$ cuando $x \to \infty$ y $y \to 1$ cuando $x \to 1$. Luego tenemos:
+\[
+\int_{1}^{\infty} g(x) \, dx = \int_{1}^{0} g\left(\frac{1}{y}\right) \cdot \left(-\frac{1}{y^2}\right) \, dy = \int_{0}^{1} g\left(\frac{1}{y}\right) \cdot \frac{1}{y^2} \, dy
+\]
+
+Otro caso por ejemplo es si tenemos:
+
+\[
+\int_{-1}^{\infty} g(x) \, dx
+\]
+
+Aqui tenemos dos opciones, o bien hacemos el cambio de variable:
+\[
+y = x + 1 \quad \Rightarrow \quad x = y - 1
+\]
+\[
+dy = dx \quad \Rightarrow \quad dx = dy
+\]
+
+Entonces $y \to 0$ cuando $x \to -1$ y $y \to \infty$ cuando $x \to \infty$. Luego tenemos:
+\[
+\int_{-1}^{\infty} g(x) \, dx = \int_{0}^{\infty} g(y - 1) \, dy
+\]
+
+La otra opción es separar la integral en dos:
+\[
+\int_{-1}^{0} g(x) \, dx + \int_{0}^{\infty} g(x) \, dx
+\]
+Y estas integrales sabemos aproximarlas por Monte Carlo.
+
+\subsection{Estimación de integrales múltiples}
+Para calcular la cantidad:
+\[
+\theta = \int_{0}^{1} \cdots \int_{0}^{1} g(x_1, \ldots, x_l) \, dx_1 \ldots dx_l
+\]
+
+utilizamos el hecho que:
+\[
+\theta = E[g(U_1, \ldots, U_l)]
+\]
+con $U_1, \ldots, U_l$ independientes y uniformes en $(0, 1)$. Esto es así porque su distribución conjunta está dada por:
+\[
+f(x_1, x_2, \ldots, x_l) = \mathbb{I}_{(0, 1)^l}(x_1, x_2, \ldots, x_l),
+\]
+donde $\mathbb{I}_{(0, 1)^l}$ es la función indicadora del hipercubo unitario $l$-dimensional.
+
+Entonces:
+\[
+\theta = \int_{\mathbb{R}^l} g(x_1, \ldots, x_l) f(x_1, \ldots, x_l) \, dx_1 \ldots dx_l
+\]
+
+
+Si se tienen $N$ muestras independientes de estas $l$ variables:
+\[
+(U_1^{(1)}, \ldots, U_l^{(1)}), \quad (U_1^{(2)}, \ldots, U_l^{(2)}), \quad \ldots, \quad (U_1^{(N)}, \ldots, U_l^{(N)})
+\]
+
+podemos estimar el valor de $\theta$ como:
+\[
+\theta \approx \frac{1}{N} \sum_{i=1}^N g(U_1^{(i)}, \ldots, U_l^{(i)})
+\]
+
+\end{document}
