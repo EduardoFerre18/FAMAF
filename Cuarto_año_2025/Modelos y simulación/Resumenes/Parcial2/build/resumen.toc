@@ -1,0 +1,3 @@
+\babel@toc {spanish}{}\relax 
+\contentsline {section}{\numberline {1}Generación de Variables Aleatorias Discretas}{2}{section.1}%
+\contentsline {section}{\numberline {2}Generación de Variables Aleatorias Continuas}{2}{section.2}%
